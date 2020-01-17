@@ -1,0 +1,2 @@
+/run/wayland-0      /run/wayland-0
+/usr/share/X11/xkb  /usr/share/X11/xkb

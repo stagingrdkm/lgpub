@@ -1,0 +1,42 @@
+/usr/lib/libwayland-client.so.0   /usr/lib/libwayland-client.so.0 
+/usr/lib/libwayland-egl.so.1      /usr/lib/libwayland-egl.so.1                
+/usr/lib/libwayland-egl.so        /usr/lib/libwayland-egl.so.1                  
+/usr/lib/libGLESv2.so.2           /usr/lib/libv3ddriver.so                         
+/usr/lib/libEGL.so.1              /usr/lib/libEGL.so
+
+
+/usr/lib/libstdc++.so.6           /usr/lib/libstdc++.so.6      
+/usr/lib/libxkbcommon.so.0        /usr/lib/libxkbcommon.so.0
+
+/usr/lib/libnxclient.so           /usr/lib/libnxclient.so                          
+/usr/lib/libnxpl-weston.so.1      /usr/lib/libnxpl-weston.so.1                
+/usr/lib/libnexus.so              /usr/lib/libnexus.so                                
+/usr/lib/libffi.so.6              /usr/lib/libffi.so.6                                
+/usr/lib/libpwrstatewatcher.so.0.1.0    /usr/lib/libpwrstatewatcher.so.0.1.0
+/usr/lib/libodherr.so.0           /usr/lib/libodherr.so.0          
+/usr/lib/libv3dplatform.so        /usr/lib/libv3dplatform.so    
+/usr/lib/libIARMBus.so.0          /usr/lib/libIARMBus.so.0  
+/usr/lib/libglib-2.0.so.0         /usr/lib/libglib-2.0.so.0    
+/usr/lib/libgio-2.0.so.0          /usr/lib/libgio-2.0.so.0
+/usr/lib/libgobject-2.0.so.0      /usr/lib/libgobject-2.0.so.0
+/usr/lib/libjansson.so.4          /usr/lib/libjansson.so.4        
+/usr/lib/libdbus-1.so.3           /usr/lib/libdbus-1.so.3          
+/usr/lib/liblzma.so.5             /usr/lib/liblzma.so.5              
+/usr/lib/libgthread-2.0.so.0      /usr/lib/libgthread-2.0.so.0
+/usr/lib/libpcre.so.1             /usr/lib/libpcre.so.1              
+/usr/lib/libgmodule-2.0.so.0      /usr/lib/libgmodule-2.0.so.0
+                                                                                                                                                     
+/lib/libz.so.1                    /lib/libz.so.1                    
+/lib/libresolv.so.2               /lib/libresolv.so.2          
+/lib/libsystemd.so.0              /lib/libsystemd.so.0        
+/lib/libattr.so.1                 /lib/libattr.so.1              
+/lib/libcap.so.2                  /lib/libcap.so.2                
+/lib/libgcc_s.so.1                /lib/libgcc_s.so.1            
+/lib/libdl.so.2                   /lib/libdl.so.2                  
+/lib/libpthread.so.0              /lib/libpthread.so.0        
+/lib/libm.so.6                    /lib/libm.so.6                    
+/lib/librt.so.1                   /lib/librt.so.1                  
+/lib/libc.so.6                    /lib/libc.so.6                    
+                                                                                                                                                     
+/lib/ld-2.23.so                   /lib/ld-2.23.so                  
+/lib/ld-linux-armhf.so.3          /lib/ld-linux-armhf.so.3

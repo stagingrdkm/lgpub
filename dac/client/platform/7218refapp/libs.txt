@@ -1,0 +1,9 @@
+/usr/lib/libwayland-egl.so.0      /usr/lib/libwayland-egl.so.0
+/usr/lib/libwayland-server.so.0   /usr/lib/libwayland-server.so.0
+/usr/lib/libnxpl.so               /usr/lib/libnxpl.so
+/usr/lib/libGLESv2.so.2           /usr/lib/libv3ddriver.so                         
+/usr/lib/libEGL.so                /usr/lib/libv3ddriver.so
+/usr/lib/libEGL.so.1              /usr/lib/libEGL.so
+/usr/lib/libnxclient.so           /usr/lib/libnxclient.so                          
+/usr/lib/libnexus.so              /usr/lib/libnexus.so                                
+/usr/lib/libv3dplatform.so        /usr/lib/libv3dplatform.so    
