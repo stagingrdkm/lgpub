@@ -18,7 +18,7 @@ do
     echo $DELETE_LIST | grep '\.wh\.\.wh\.\.opq' | sed 's/\.wh\.\.wh\.\.opq//' | awk '{system("rm -rf rootfs/"$1"*")}'
     echo $DELETE_LIST | grep "\.wh\."            | sed 's/\.wh\.//'            | awk '{print("rm -rf rootfs/"$1)}'
     echo $DELETE_LIST | grep "\.wh\."            | sed 's/\.wh\.//'            | awk '{system("rm -rf rootfs/"$1)}'
-    tar xzvf download/blobs/sha256/$LAYER -C rootfs | grep -v '\.wh\.'
+    tar xzf download/blobs/sha256/$LAYER -C rootfs | grep -v '\.wh\.'
     find rootfs/ -name "\.wh\.*" -type f -exec rm {} \;
 done
 
@@ -55,8 +55,8 @@ TEMP=$(sed 's/#CONFIG_ARGS#/%s/' config.json.template)
 printf "$TEMP" "$FULL_CMD" > config.json.template
 
 CONFIG_ENV=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.config.Env[]' 2> /dev/null)
-if [ ! -z $CONFIG_ENV ]; then
-    FULL_ENV=$(generateList CONFIG_ENV $CONFIG_ENV)
+if [ ! -z "$CONFIG_ENV" ]; then
+    FULL_ENV=$(generateList CONFIG_ENV "$CONFIG_ENV")
     FULL_ENV="$FULL_ENV,"
 else
     FULL_ENV=""
@@ -66,7 +66,7 @@ TEMP=$(sed 's/#CONFIG_ENV#/%s/' config.json.template)
 printf "$TEMP" "$FULL_ENV" > config.json.template
 
 CONFIG_VOLUMES=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.config.Volumes[]' 2> /dev/null)
-if [ ! -z $CONFIG_VOLUMES ]; then
+if [ ! -z "$CONFIG_VOLUMES" ]; then
     CONFIG_MOUNTS=$(echo $CONFIG_VOLUMES | sed '/^\([^ ]*\)/  { "destination": "\1", "source": "\1", "type": "bind", "options": [ "rbind", "nosuid", "nodev", "rw" ] }, /')
     CONFIG_MOUNTS="$CONFIG_MOUNTS,"
 else
@@ -77,15 +77,15 @@ TEMP=$(sed 's/#CONFIG_MOUNTS#/%s/' config.json.template)
 printf "$TEMP" "$CONFIG_MOUNTS" > config.json.template
 
 CONFIG_CWD=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.config.WorkingDir' 2> /dev/null)
-if [ -z $CONFIG_CWD ]; then
+if [ -z "$CONFIG_CWD" ]; then
     CONFIG_CWD="/"
 fi
 echo "CONFIG_CWD $CONFIG_CWD"
 TEMP=$(sed 's/#CONFIG_CWD#/%s/' config.json.template)
-printf "$TEMP" "$CONFIG_CWD," > config.json.template
+printf "$TEMP" "$CONFIG_CWD" > config.json.template
 
 CONFIG_USERGROUP=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.config.User' | sed 's/\"//g' 2> /dev/null)
-if [ -z CONFIG_USERGROUP ]; then
+if [ -z "CONFIG_USERGROUP" ]; then
     CONFIG_USERGROUP="0:0"
 fi
 USER=$(echo $CONFIG_USERGROUP | cut -d ':' -f 0)

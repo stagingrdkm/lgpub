@@ -33,7 +33,7 @@ mkdir -p download/blobs/sha256
 echo "Doing docker auth"
 # get auth token
 token=$(curl -s "https://$USERNAME:$PASSWORD@$AUTHSERVER/token?account=$USERNAME&scope=repository:$PACKAGE:pull&service=registry.docker.io" | jq --raw-output '.token')
-echo token=$token
+#echo token=$token
 if [ -z $token ]; then
     echo "Unable to authenticate"
     exit 1

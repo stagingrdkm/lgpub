@@ -13,7 +13,7 @@
                         #EXTRA_ENV#
                         "DUMMY=placeholder"
 		],
-		"cwd": "/",
+		"cwd": #CONFIG_CWD#,
 		"capabilities": {
 			"bounding": [
 				"CAP_AUDIT_WRITE",
@@ -76,9 +76,6 @@
 		"namespaces": [
 			{
 				"type": "pid"
-			},
-			{
-				"type": "network"
 			},
 			{
 				"type": "ipc"
