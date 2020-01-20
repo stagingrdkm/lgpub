@@ -2,7 +2,16 @@
 
 # config data
 PACKAGE=appcontainerstagingrdk/demo
+
+# possible tags: wayland-egl-test, flutter, you.i
 TAG=flutter
+if [ -z $1 ]; then
+    TAG=flutter
+else
+    TAG=$1
+fi
+echo Downloading TAG: $TAG
+
 SERVER=https://registry-1.docker.io
 AUTHSERVER=auth.docker.io
  
