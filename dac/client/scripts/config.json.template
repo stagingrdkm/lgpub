@@ -60,6 +60,7 @@
 #CONFIG_MOUNTS#
 #EXTRA_FILES#
 #EXTRA_LIBS#
+#EXTRA_GENLIBS#
 #EXTRA_DEVS#
 
 { "destination": "/proc", "type": "proc", "source": "proc"}

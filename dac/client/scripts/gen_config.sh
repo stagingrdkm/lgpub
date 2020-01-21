@@ -16,6 +16,13 @@ TEMP=$(sed 's/#EXTRA_LIBS#/%s/' config.json)
 printf "$TEMP" "$EXTRA_LIBS" > config.json
 echo "generate extra libs: $(echo "$EXTRA_LIBS" | wc -l)"
 
+./scripts/gen_libs.sh platform/$PLATFORM/genlibs.txt platform/$PLATFORM/libs_deps.txt 2> .tmp.libs
+EXTRA_GENLIBS=$(cat .tmp.libs)
+rm -f .tmp.libs
+TEMP=$(sed 's/#EXTRA_GENLIBS#/%s/' config.json)
+printf "$TEMP" "$EXTRA_GENLIBS" > config.json
+echo "generate extra gen libs: $(echo "$EXTRA_GENLIBS" | wc -l)"
+
 EXTRA_FILES=$(sed '/^[[:space:]]*$/d s/\([^ ]*\)[[:space:]]*\([^ ]*\)/  { "destination": "\1", "source": "\2", "type": "bind", "options": [ "rbind", "nosuid", "nodev", "rw" ] }, /' platform/$PLATFORM/files.txt)
 TEMP=$(sed 's/#EXTRA_FILES#/%s/' config.json)
 printf "$TEMP" "$EXTRA_FILES" > config.json
