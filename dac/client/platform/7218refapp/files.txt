@@ -1,4 +1,5 @@
-/run/wayland-0        /run/wayland-0
-/tmp/nxserver_ipc   /tmp/nxserver_ipc
+/run/wayland-0                   /run/wayland-0
+/tmp/nxserver_ipc                /tmp/nxserver_ipc
 /var/run/dbus/system_bus_socket  /var/run/dbus/system_bus_socket
 /usr/share/X11/xkb               /usr/share/X11/xkb
+/etc/resolv.conf                 /etc/resolv.conf

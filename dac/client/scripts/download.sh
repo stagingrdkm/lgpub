@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# flush for simple support on EOS boxes
+iptables -F
+
 # config data
 PACKAGE=appcontainerstagingrdk/demo
 

@@ -2,3 +2,4 @@
 /var/run/nxserver/nxserver_ipc   /var/run/nxserver/nxserver_ipc
 /var/run/dbus/system_bus_socket  /var/run/dbus/system_bus_socket
 /usr/share/X11/xkb               /usr/share/X11/xkb
+/etc/resolv.conf                 /etc/resolv.conf
