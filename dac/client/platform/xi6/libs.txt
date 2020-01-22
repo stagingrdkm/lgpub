@@ -1,0 +1,12 @@
+/usr/lib/libEGL.so                 /usr/lib/libEGL.so
+/usr/lib/libEGL.so.1              /usr/lib/libEGL.so
+/usr/lib/libGLESv2.so              /usr/lib/libGLESv2.so
+/usr/lib/libGLESv2.so.2            /usr/lib/libGLESv2.so
+
+/usr/lib/libwayland-egl.so.0      /usr/lib/libwayland-egl.so.0
+/usr/lib/libwayland-egl.so.1      /usr/lib/libwayland-egl.so.0
+/usr/lib/libwayland-server.so.0    /usr/lib/libwayland-server.so.0
+
+/usr/lib/libnxclient.so           /usr/lib/libnxclient.so
+/usr/lib/libnexus.so              /usr/lib/libnexus.so
+/usr/lib/libnxpl.so               /usr/lib/libnxpl.so

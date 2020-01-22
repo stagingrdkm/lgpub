@@ -1,7 +1,8 @@
 #!/bin/sh
 
 # flush for simple support on EOS boxes
-iptables -F
+# iptables -F
+<<<<<<< HEAD
 
 # check if date is correctly set
 curl -s https://www.google.com >/dev/null
@@ -13,6 +14,8 @@ if [ $? -eq 60 ]; then
     exit 0
 fi
 
+=======
+>>>>>>> 19218d9... start work on Xi6
 
 # config data
 PACKAGE=appcontainerstagingrdk/demo
@@ -45,9 +48,9 @@ rm -rf download
 mkdir -p download/blobs/sha256
  
 echo "Doing docker auth"
-# get auth token
+# get auth token]
 token=$(curl -s "https://$USERNAME:$PASSWORD@$AUTHSERVER/token?account=$USERNAME&scope=repository:$PACKAGE:pull&service=registry.docker.io" | jq --raw-output '.token')
-#echo token=$token
+# echo token=$token
 if [ -z $token ]; then
     echo "Unable to authenticate"
     exit 1
