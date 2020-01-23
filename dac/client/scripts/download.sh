@@ -2,7 +2,6 @@
 
 # flush for simple support on EOS boxes
 # iptables -F
-<<<<<<< HEAD
 
 # check if date is correctly set
 curl -s https://www.google.com >/dev/null
@@ -14,8 +13,6 @@ if [ $? -eq 60 ]; then
     exit 0
 fi
 
-=======
->>>>>>> 19218d9... start work on Xi6
 
 # config data
 PACKAGE=appcontainerstagingrdk/demo
