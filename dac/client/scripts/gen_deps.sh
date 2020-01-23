@@ -17,4 +17,4 @@ done < $1
 
 grep "=>" .tmp.libs | sort -u | tr '(' ' ' | tr ')' ' ' | awk '{print($1" "$2)}'
 
-#rm -f .tmp.libs
+rm -f .tmp.libs
