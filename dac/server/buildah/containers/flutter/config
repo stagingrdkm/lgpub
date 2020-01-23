@@ -1,0 +1,9 @@
+cmd='["flutter-launcher-wayland", "/usr/share/flutter/horizon4/flutter_assets"]'
+cwd="/"
+env='PATH=/usr/sbin:/usr/bin:/sbin:/bin LD_PRELOAD=/usr/lib/libGLESv2.so.2'
+
+# flutter2.tgz : fileset delivered by dwrobel
+# flutter3.tgz : update flutter exec delivered by dwrobel
+# fonts.tgz : fonts and configs from onemw
+# basiclibs.tgz : the basic libs also used by wayland-egl-test
+files="files/flutter2.tgz#8 files/flutter3.tgz files/fonts.tgz files/basiclibs.tgz"
