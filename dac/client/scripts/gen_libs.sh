@@ -7,7 +7,7 @@ fi
 while read p; do
   libname_container=$(echo $p | cut -d' ' -f1)
   libname_container_basename=$(echo $libname_container | sed 's/.*\///')
-  libname_host=$(echo $p | cut -d' ' -f1)
+  libname_host=$(echo $p | cut -d' ' -f2)
   if [ ! -z "$libname_container" ]; then
       echo -e "\nchecking $libname_container: \t"
       if [ ! -e "rootfs/$libname_container" ]; then

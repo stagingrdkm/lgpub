@@ -54,6 +54,7 @@ echo "FULL_CMD $FULL_CMD"
 TEMP=$(sed 's/#CONFIG_ARGS#/%s/' config.json.template)
 printf "$TEMP" "$FULL_CMD" > config.json.template
 
+
 CONFIG_ENV=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.config.Env[]' 2> /dev/null)
 if [ ! -z "$CONFIG_ENV" ]; then
     FULL_ENV=$(generateList CONFIG_ENV "$CONFIG_ENV")
@@ -88,8 +89,8 @@ CONFIG_USERGROUP=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.config.User' 
 if [ -z "CONFIG_USERGROUP" ]; then
     CONFIG_USERGROUP="0:0"
 fi
-USER=$(echo $CONFIG_USERGROUP | cut -d ':' -f 0)
-GROUP=$(echo $CONFIG_USERGROUP | cut -d ':' -f 1)
+USER=$(echo $CONFIG_USERGROUP | cut -d ':' -f 1)
+GROUP=$(echo $CONFIG_USERGROUP | cut -d ':' -f 2)
 echo "CONFIG_USER $USER"
 echo "CONFIG_GROUP $GROUP"
 TEMP=$(sed 's/#CONFIG_USER#/%s/' config.json.template)
