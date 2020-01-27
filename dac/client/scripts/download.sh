@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # flush for simple support on EOS boxes (do not flush on Xi6)
-if [[ $(hostname -s) != *foobar* ]]; then
+if [[ $(hostname -s) != *xi6* ]]; then
     iptables -F
 fi
 
