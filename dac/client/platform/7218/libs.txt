@@ -1,3 +1,4 @@
+/usr/lib/libwayland-egl.so.0      /usr/lib/libwayland-egl.so.1
 /usr/lib/libwayland-egl.so.1      /usr/lib/libwayland-egl.so.1
 /usr/lib/libwayland-egl.so        /usr/lib/libwayland-egl.so.1
 /usr/lib/libwayland-client.so.0   /usr/lib/libwayland-client.so.0
