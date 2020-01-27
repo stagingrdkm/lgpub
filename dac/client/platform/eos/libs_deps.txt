@@ -17,9 +17,7 @@ libdbus-1.so.3 LIBDBUS_1_3
 libdl.so.2 GLIBC_2.4
 libgcc_s.so.1 GCC_3.0
 libgcc_s.so.1 GCC_3.3
-libgcc_s.so.1 GCC_3.4
 libgcc_s.so.1 GCC_3.5
-libgcc_s.so.1 GCC_4.3.0
 liblzma.so.5 XZ_5.0
 libm.so.6 GLIBC_2.4
 libpthread.so.0 GLIBC_2.4
@@ -29,7 +27,6 @@ librt.so.1 GLIBC_2.4
 libstdc++.so.6 CXXABI_1.3
 libstdc++.so.6 GLIBCXX_3.4
 libstdc++.so.6 GLIBCXX_3.4.11
-libstdc++.so.6 GLIBCXX_3.4.19
 libstdc++.so.6 GLIBCXX_3.4.20
 libstdc++.so.6 GLIBCXX_3.4.21
 libsystemd.so.0 LIBSYSTEMD_209

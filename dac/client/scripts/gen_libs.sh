@@ -23,7 +23,7 @@ while read p; do
               notfound=0
               while read dep; do
                   echo -n "$dep"
-                  grep $dep "rootfs/$libname_container" > /dev/null
+                  eu-readelf -V "rootfs/$libname_container" | sed -n '/Version definition section/,$p' | sed -n '/Version needs section/q;p' | grep "$dep$" > /dev/null
                   if [ "$?" = "0" ]; then
                       echo " FOUND"
                   else

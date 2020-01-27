@@ -1,3 +1,5 @@
 client/config.json.template
 client/download/
 client/rootfs/
+client/config.json
+server/buildah/containers/*/files/

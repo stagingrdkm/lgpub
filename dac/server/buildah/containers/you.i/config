@@ -1,0 +1,8 @@
+cmd='["/You.i/Auryn"]'
+cwd="/You.i"
+env='PATH=/usr/sbin:/usr/bin:/sbin:/bin LD_LIBRARY_PATH=/lib/:/usr/lib/:/You.i/libs/'
+
+# test.tgz : fileset delivered by bart
+# basiclibs.tgz : the basic libs also used by wayland-egl-test
+# extra_libs.tgz: extra libs needed by you.i
+files="files/test.tgz files/basiclibs.tgz files/extra_libs.tgz"
