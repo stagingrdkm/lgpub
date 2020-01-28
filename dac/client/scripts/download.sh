@@ -13,22 +13,26 @@ if [ $? -eq 60 ]; then
     exit 0
 fi
 
-
-# config data
-PACKAGE=appcontainerstagingrdk/demo
-
 # possible tags: wayland-egl-test, flutter, you.i
-TAG=flutter
+PACKAGE=flutter
 if [ -z $1 ]; then
-    TAG=flutter
+    PACKAGE=flutter
 else
-    TAG=$1
+    PACKAGE=$1
 fi
-echo Downloading TAG: $TAG
+echo "Downloading: $PACKAGE"
+if [ -z "$CONFIG" ]; then
+    CONFIG=docker
+fi
+echo Downloading from: $CONFIG
 
-SERVER=https://registry-1.docker.io
-AUTHSERVER=auth.docker.io
- 
+if [ ! -e ./scripts/$CONFIG.conf ]; then
+    echo "Unknown config: ./scripts/$CONFIG.conf"
+    exit 0
+fi
+
+. ./scripts/$CONFIG.conf
+
 if [ -z $PASSWORD ]; then
     echo "Please set PASSWORD env var"
     exit 1
@@ -44,17 +48,18 @@ fi
 rm -rf download
 mkdir -p download/blobs/sha256
  
-echo "Doing docker auth"
+echo "Doing auth"
 # get auth token
-token=$(curl -s "https://$USERNAME:$PASSWORD@$AUTHSERVER/token?account=$USERNAME&scope=repository:$PACKAGE:pull&service=registry.docker.io" | jq --raw-output '.token')
+token="null"
+token=$(curl -s "https://$USERNAME:$PASSWORD@$AUTHSERVER/token?account=$USERNAME&scope=repository:$NAMESPACE/$REPO:pull&service=$REGISTRY" | jq --raw-output '.token' 2> /dev/null)
 #echo token=$token
-if [ -z $token ]; then
+if [ "$token" = "null" ]; then
     echo "Unable to authenticate"
     exit 1
 fi
  
 # download the manifest and store the headers
-curl -sL -H "Accept: application/vnd.oci.image.manifest.v1+json" -H "Authorization: Bearer $token"  "$SERVER/v2/$PACKAGE/manifests/$TAG" -o download/manifest.json -D download/manifest.headers
+curl -sL -H "Accept: application/vnd.oci.image.manifest.v1+json" -H "Authorization: Bearer $token" "https://$SERVER/v2/$NAMESPACE/$REPO/manifests/$TAG" -o download/manifest.json -D download/manifest.headers
  
 # parse manifest and headers to know manifest/config/layer digests
 MANIFEST_DIGEST=$(cat download/manifest.headers | grep -i etag | head -n 1 | cut -d: -f3 | cut -d\" -f1)
@@ -74,10 +79,10 @@ echo '{"imageLayoutVersion": "1.0.0"}' > download/oci-layout
  
 # download and copy all other files
 cp download/manifest.json download/blobs/sha256/$MANIFEST_DIGEST
-curl -sL -H "Accept: application/vnd.oci.image.manifest.v1+json" -H "Authorization: Bearer $token" "$SERVER/v2/$PACKAGE/blobs/sha256:$CONFIG_DIGEST" -o download/blobs/sha256/$CONFIG_DIGEST
+curl -sL -H "Accept: application/vnd.oci.image.manifest.v1+json" -H "Authorization: Bearer $token" "https://$SERVER/v2/$NAMESPACE/$REPO/blobs/sha256:$CONFIG_DIGEST" -o download/blobs/sha256/$CONFIG_DIGEST
 for LAYER in $LAYER_DIGESTS
 do
-    curl -sL -H "Accept: application/vnd.oci.image.manifest.v1+json" -H "Authorization: Bearer $token" "$SERVER/v2/$PACKAGE/blobs/sha256:$LAYER" -o download/blobs/sha256/$LAYER
+    curl -sL -H "Accept: application/vnd.oci.image.manifest.v1+json" -H "Authorization: Bearer $token" "https://$SERVER/v2/$NAMESPACE/$REPO/blobs/sha256:$LAYER" -o download/blobs/sha256/$LAYER
 done
  
 # cleanup old info
