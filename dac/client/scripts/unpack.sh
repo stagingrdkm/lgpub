@@ -9,6 +9,10 @@ MANIFEST_DIGEST=$(cat download/index.json | jq '.manifests[0].digest' | sed 's/"
 LAYER_DIGESTS=$(cat download/blobs/sha256/$MANIFEST_DIGEST | jq '.layers[].digest' | sed 's/"sha256:\(.*\)"/\1/')
 CONFIG_DIGEST=$(cat download/blobs/sha256/$MANIFEST_DIGEST | jq '.config.digest' | sed 's/"sha256:\(.*\)"/\1/')
 
+echo manifest: $MANIFEST_DIGEST
+echo layers: $LAYER_DIGESTS
+echo config: $CONFIG_DIGEST
+
 # extra the layer tarballs and delete the .wh. files
 for LAYER in $LAYER_DIGESTS
 do
