@@ -3,6 +3,7 @@
 # cleanup old rootfs
 rm -rf rootfs 
 mkdir -p rootfs 
+rm -f rootfs.sqsh.verity* verity.conf
 
 # parse the config and layer digests
 MANIFEST_DIGEST=$(cat download/index.json | jq '.manifests[0].digest' | sed 's/"sha256:\(.*\)"/\1/')
@@ -17,13 +18,26 @@ echo config: $CONFIG_DIGEST
 for LAYER in $LAYER_DIGESTS
 do
     echo layer: $LAYER
-    DELETE_LIST=$(tar tzf download/blobs/sha256/$LAYER)
-    echo $DELETE_LIST | grep '\.wh\.\.wh\.\.opq' | sed 's/\.wh\.\.wh\.\.opq//' | awk '{print("rm -rf rootfs/"$1"*")}'
-    echo $DELETE_LIST | grep '\.wh\.\.wh\.\.opq' | sed 's/\.wh\.\.wh\.\.opq//' | awk '{system("rm -rf rootfs/"$1"*")}'
-    echo $DELETE_LIST | grep "\.wh\."            | sed 's/\.wh\.//'            | awk '{print("rm -rf rootfs/"$1)}'
-    echo $DELETE_LIST | grep "\.wh\."            | sed 's/\.wh\.//'            | awk '{system("rm -rf rootfs/"$1)}'
-    tar xzf download/blobs/sha256/$LAYER -C rootfs | grep -v '\.wh\.'
-    find rootfs/ -name "\.wh\.*" -type f -exec rm {} \;
+    tar -tzf download/blobs/sha256/$LAYER > /dev/null 2>&1
+    if [ $? == 0 ]; then
+        DELETE_LIST=$(tar tzf download/blobs/sha256/$LAYER)
+        echo $DELETE_LIST | grep '\.wh\.\.wh\.\.opq' | sed 's/\.wh\.\.wh\.\.opq//' | awk '{print("rm -rf rootfs/"$1"*")}'
+        echo $DELETE_LIST | grep '\.wh\.\.wh\.\.opq' | sed 's/\.wh\.\.wh\.\.opq//' | awk '{system("rm -rf rootfs/"$1"*")}'
+        echo $DELETE_LIST | grep "\.wh\."            | sed 's/\.wh\.//'            | awk '{print("rm -rf rootfs/"$1)}'
+        echo $DELETE_LIST | grep "\.wh\."            | sed 's/\.wh\.//'            | awk '{system("rm -rf rootfs/"$1)}'
+        tar xzf download/blobs/sha256/$LAYER -C rootfs | grep -v '\.wh\.'
+        find rootfs/ -name "\.wh\.*" -type f -exec rm {} \;
+    else
+        echo Detected verity image!
+        # not a tarball but gzipped encrypted verity image
+        cp download/blobs/sha256/$LAYER rootfs.sqsh.verity.gz
+        gunzip rootfs.sqsh.verity.gz
+        # create verity.conf from Labels annotations
+        root_hash=$(jq '.config.Labels["com.libertyglobal.dac.root_hash"]' download/blobs/sha256/$CONFIG_DIGEST)
+        hash_offset=$(jq '.config.Labels["com.libertyglobal.dac.hash_offset"]' download/blobs/sha256/$CONFIG_DIGEST)
+        echo root_hash=$root_hash > verity.conf
+        echo hash_offset=$hash_offset >> verity.conf
+    fi
 done
 
 # helper function
