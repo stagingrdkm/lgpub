@@ -1,7 +1,9 @@
 #!/bin/sh
 
-# flush for simple support on EOS boxes
-iptables -F
+# flush for simple support on EOS boxes (do not flush on Xi6)
+if [[ $(hostname -s) != *xi6* ]]; then
+    iptables -F
+fi
 
 # check if date is correctly set
 curl -s https://www.google.com >/dev/null
