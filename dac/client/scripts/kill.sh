@@ -7,3 +7,8 @@ runc kill -a test
 runc delete test
 crun kill -a test
 crun delete test
+
+if [ -f rootfs.sqsh.verity ]; then
+  echo Detected verity image!
+  ./scripts/verity_umount.sh
+fi

@@ -61,6 +61,7 @@
 #EXTRA_FILES#
 #EXTRA_LIBS#
 #EXTRA_GENLIBS#
+{ "destination": "/dev", "source": "tmpfs", "type": "tmpfs", "options": [  "nosuid", "noexec", "strictatime","mode=755", "size=65536k" ] },
 #EXTRA_DEVS#
 
 { "destination": "/proc", "type": "proc", "source": "proc"}

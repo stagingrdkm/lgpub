@@ -2,7 +2,6 @@
 /usr/lib/libwayland-egl.so.0      /usr/lib/libwayland-egl.so.0
 /usr/lib/libwayland-egl.so.1      /usr/lib/libwayland-egl.so.0
 /usr/lib/libwayland-server.so.0   /usr/lib/libwayland-server.so.0
-/usr/lib/libwayland-client.so.0   /usr/lib/libwayland-client.so.0
 /usr/lib/libnxpl.so               /usr/lib/libnxpl.so
 /usr/lib/libGLESv2.so.2           /usr/lib/libv3ddriver.so
 /usr/lib/libGLESv2.so             /usr/lib/libv3ddriver.so
