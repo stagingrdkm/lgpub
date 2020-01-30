@@ -34,7 +34,7 @@ fi
 # cleanup old download and prepare download dir
 rm -rf download
 mkdir -p download/blobs/sha256
- 
+
 echo "Doing auth"
 # get auth token
 token="null"
