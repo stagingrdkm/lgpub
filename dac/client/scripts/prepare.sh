@@ -10,6 +10,5 @@ if [ $? -eq 60 ]; then
     echo "If not, please run:"
     echo "killall -9 ntpd"
     echo "ntpd -n -d -q -g time.nrc.ca"
-    exit 0
+    exit 1
 fi
-
