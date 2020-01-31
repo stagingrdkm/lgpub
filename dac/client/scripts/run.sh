@@ -6,20 +6,18 @@ echo "Generate config"
 echo "Fix platform permissions"
 ./platform/$1/fix_platform.sh
 
-IS_VERITY_IMAGE=0
+RUN_ARGS=""
 if [ -f rootfs.sqsh.verity ]; then
-  echo Detected verity image!
-  IS_VERITY_IMAGE=1
+    echo Detected verity image!
+    ./scripts/verity_mount.sh
+else
+    # --no-pivot needed for rootfs on ramfs
+    RUN_ARGS="--no-pivot"
 fi
 
 echo "Starting container..."
-if [ -f /usr/bin/crun ] && [ $IS_VERITY_IMAGE == 0 ] ;then
-    /usr/bin/crun run --no-pivot test
+if [ -f /usr/bin/crun ]; then
+    /usr/bin/crun run $RUN_ARGS test
 else
-    if [ $IS_VERITY_IMAGE == 0 ]; then
-        /usr/bin/runc run --no-pivot test
-    else
-        ./scripts/verity_mount.sh
-        /usr/bin/runc run test
-    fi
+    /usr/bin/runc run $RUN_ARGS test
 fi
