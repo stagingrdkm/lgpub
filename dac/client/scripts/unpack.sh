@@ -58,6 +58,11 @@ generateList()
 # using cmd, entrypoint, env, volumes, workingdir, user information from OCI config file
 cp ./scripts/config.json.template config.json.template
 
+ARCH=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.architecture' 2> /dev/null)
+OS=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.os' 2> /dev/null)
+echo "Architecture: $ARCH"
+echo "OS: $OS"
+
 CONFIG_ENTRYPOINT=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.config.Entrypoint[]' 2> /dev/null)
 CONFIG_CMD=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.config.Cmd[]' 2> /dev/null)
 if [ ! -z "$CONFIG_ENTRYPOINT" ]; then

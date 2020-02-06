@@ -72,6 +72,9 @@ do
     buildah config --env $single_env $newcontainer
 done
 buildah config --workingdir ${cwd} $newcontainer
+#add arch+os https://golang.org/doc/install/source#environment
+buildah config --arch arm $newcontainer
+buildah config --os linux $newcontainer
 
 echo "Commit container ${container}_${to}"
 buildah commit $newcontainer ${container}:${to}
