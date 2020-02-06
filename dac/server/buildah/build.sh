@@ -2,6 +2,16 @@
 set -e
 
 container=$1
+if [ $# -eq 1 ]; then
+    from=scratch
+    to=latest
+elif [ $# -eq 2 ]; then
+    from=scratch
+    to=$2
+elif [ $# -eq 3 ]; then
+    from=$2
+    to=$3
+fi
 user=$(whoami)
 curdir=$(pwd)
 
@@ -11,11 +21,18 @@ if [[ ! -f "./containers/$container/config" || "$user" != "root" ]]; then
     exit 0
 fi
 
+echo "From ${from} to ${to}"
+
 . ./containers/$container/config
 
-echo "Creating new container $container"
+echo "Creating new container $container from $from"
 
+if [ "$from" = "scratch" ]; then
 newcontainer=$(buildah from scratch)
+else
+newcontainer=$(buildah from ${container}:${from})
+fi
+
 echo "Temp container: $newcontainer"
 
 scratchmnt=$(buildah mount $newcontainer)
@@ -41,6 +58,9 @@ do
     fi
 done
 
+echo "Write version file"
+echo "Version ${to}" > $scratchmnt/version.txt
+
 echo "Unmounting container"
 buildah umount $newcontainer
 
@@ -53,11 +73,20 @@ do
 done
 buildah config --workingdir ${cwd} $newcontainer
 
-echo "Commit container $container"
-buildah commit $newcontainer $container
+echo "Commit container ${container}_${to}"
+buildah commit $newcontainer ${container}:${to}
 
-echo "Pushing container to docker"
+echo "Pushing container to repo"
+#push to docker
 #buildah login docker.io
-buildah push localhost/$container docker://docker.io/appcontainerstagingrdk/demo:$container
+#buildah push localhost/${container}:${to} docker://docker.io/appcontainerstagingrdk/demo:$container
+
+# push to ibm
+#buildah login us.icr.io
+buildah push localhost/${container}:${to} docker://us.icr.io/appcontainerstagingrdk/$container:${to}
+
+# push to quay
+#buildah login quay.io
+#buildah push localhost/${container}:${to} docker://quay.io/appcontainerstagingrdk/$container:${to}
 
 echo "Done."

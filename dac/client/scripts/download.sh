@@ -20,6 +20,11 @@ fi
 
 . ./scripts/$CONFIG.conf
 
+if [ $# -eq 2 ]; then
+    TAG=$2
+fi
+echo "Downloading tag: $TAG"
+
 if [ -z $PASSWORD ]; then
     echo "Please set PASSWORD env var"
     exit 1
