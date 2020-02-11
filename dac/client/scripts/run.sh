@@ -15,9 +15,17 @@ else
     RUN_ARGS="--no-pivot"
 fi
 
+user=$(whoami)
+sudo=""
+if [ "$user" != "root" ]; then
+    sudo="sudo "
+fi
+
 echo "Starting container..."
 if [ -f /usr/bin/crun ]; then
-    /usr/bin/crun run $RUN_ARGS test
+    $sudo crun run $RUN_ARGS test
+elif [ -f /usr/local/bin/crun ]; then
+    $sudo crun run $RUN_ARGS test
 else
-    /usr/bin/runc run $RUN_ARGS test
+    $sudo runc run $RUN_ARGS test
 fi

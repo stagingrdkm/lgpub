@@ -9,3 +9,5 @@ buildah unshare ./build.sh flutter
 
  
 buildah unshare ./build.sh you.i 
+
+buildah unshare ./build.sh wayland-egl-test-multi

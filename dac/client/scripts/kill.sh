@@ -1,6 +1,6 @@
 #!/bin/sh
 
-killall -9 wayland-egl-test wayland-egl-test-input runc crun flutter-launcher-wayland Auryn
+sudo killall -9 wayland-egl-test wayland-egl-test-input runc crun flutter-launcher-wayland Auryn
 sleep 2
 
 runc kill -a test

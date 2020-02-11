@@ -1,0 +1,5 @@
+cmd='["/usr/bin/wayland-egl-test"]'
+cwd="/"
+env='PATH=/usr/sbin:/usr/bin:/sbin:/bin'
+
+files="files/wayland-egl-test_arm32.tar.gz"
