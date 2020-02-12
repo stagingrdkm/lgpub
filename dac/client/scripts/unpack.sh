@@ -1,12 +1,19 @@
 #!/bin/sh
 
+. ./scripts/functions.sh
+
 # cleanup old rootfs
 rm -rf rootfs 
 mkdir -p rootfs 
 rm -f rootfs.sqsh.verity* verity.conf
 
+# get the correct MANIFES_DIGEST
+arch=$(getOCIArch)
+echo arch=$arch
+MANIFEST_DIGEST=$(cat download/index.json  | jq ".manifests[] | select(.platform.architecture==\"$arch\") | .digest" | sed 's/^"//' | sed 's/"$//' | cut -d: -f 2)
+echo "manifest for ${arch} is ${MANIFEST_DIGEST}"
+
 # parse the config and layer digests
-MANIFEST_DIGEST=$(cat download/index.json | jq '.manifests[0].digest' | sed 's/"sha256:\(.*\)"/\1/')
 LAYER_DIGESTS=$(cat download/blobs/sha256/$MANIFEST_DIGEST | jq '.layers[].digest' | sed 's/"sha256:\(.*\)"/\1/')
 CONFIG_DIGEST=$(cat download/blobs/sha256/$MANIFEST_DIGEST | jq '.config.digest' | sed 's/"sha256:\(.*\)"/\1/')
 

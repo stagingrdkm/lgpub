@@ -1,0 +1,2 @@
+/tmp/wayland-1 /tmp/wayland-1
+/usr/share/X11/xkb /usr/share/X11/xkb

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. ./scripts/functions.sh
+
 # possible tags: wayland-egl-test, flutter, you.i
 PACKAGE=flutter
 if [ -z $1 ]; then
@@ -9,7 +11,7 @@ else
 fi
 echo "Downloading: $PACKAGE"
 if [ -z "$CONFIG" ]; then
-    CONFIG=docker
+    CONFIG=ibm
 fi
 echo Downloading from: $CONFIG
 
@@ -51,8 +53,23 @@ if [ "$token" = "null" ]; then
 fi
  
 # download the manifest and store the headers
-curl -sL -H "Accept: application/vnd.oci.image.manifest.v1+json" -H "Authorization: Bearer $token" "https://$SERVER/v2/$NAMESPACE/$REPO/manifests/$TAG" -o download/manifest.json -D download/manifest.headers
- 
+curl -sL -H "Accept: application/vnd.oci.image.manifest.v1+json" -H "Accept: application/vnd.oci.image.index.v1+json" -H "Authorization: Bearer $token" "https://$SERVER/v2/$NAMESPACE/$REPO/manifests/$TAG" -o download/index.json -D download/manifest.headers
+
+cat download/manifest.headers | grep Content-Type | grep application/vnd.oci.image.index.v1+json > /dev/null
+is_index=$?
+
+if [ $is_index -eq 0 ]; then
+    echo "We received an index so this is a multi-arch container"
+    arch=$(getOCIArch)
+    MANIFEST_DIGEST=$(cat download/index.json  | jq ".manifests[] | select(.platform.architecture==\"$arch\") | .digest" | sed 's/^"//' | sed 's/"$//' | cut -d: -f 2)
+    echo "manifest for ${arch} is ${MANIFEST_DIGEST}"
+    curl -sL -H "Accept: application/vnd.oci.image.manifest.v1+json" -H "Authorization: Bearer $token" "https://$SERVER/v2/$NAMESPACE/$REPO/manifests/sha256:$MANIFEST_DIGEST" -o download/manifest.json
+else
+    echo "We received a manifest"
+    cp download/index.json download/manifest.json
+    MANIFEST_DIGEST=$(cat download/manifest.headers | grep -i etag | head -n 1 | cut -d: -f3 | cut -d\" -f1)
+fi
+
 # parse manifest and headers to know manifest/config/layer digests
 if [ "$CONFIG" = "quay" ]; then
 
@@ -68,7 +85,6 @@ if [ "$CONFIG" = "quay" ]; then
 
 else
 
-    MANIFEST_DIGEST=$(cat download/manifest.headers | grep -i etag | head -n 1 | cut -d: -f3 | cut -d\" -f1)
     MANIFEST_SIZE=$(ls -la download/manifest.json  | awk '{print($5)}')
     CONFIG_DIGEST=$(cat download/manifest.json | jq '.config.digest' | sed 's/"sha256:\(.*\)"/\1/')
     LAYER_DIGESTS=$(cat download/manifest.json | jq '.layers[].digest' | sed 's/"sha256:\(.*\)"/\1/')
@@ -81,8 +97,11 @@ echo manifest size: $MANIFEST_SIZE
 echo config: $CONFIG_DIGEST
 echo layer: $LAYER_DIGESTS
 
-# create the default index.json and oci-layout file
-echo "{\"schemaVersion\":2,\"manifests\":[{\"mediaType\":\"application/vnd.oci.image.manifest.v1+json\",\"digest\":\"sha256:$MANIFEST_DIGEST\",\"size\":$MANIFEST_SIZE}]}" > download/index.json
+if [ ! $is_index -eq 0 ]; then
+    # create the default index.json and oci-layout file
+    arch=$(getOCIArch)
+    echo "{\"schemaVersion\":2,\"manifests\":[{\"mediaType\":\"application/vnd.oci.image.manifest.v1+json\",\"digest\":\"sha256:$MANIFEST_DIGEST\",\"size\":$MANIFEST_SIZE, \"platform\":{\"architecture\":\"$arch\",\"os\":\"linux\"}}]}" > download/index.json
+fi
 echo '{"imageLayoutVersion": "1.0.0"}' > download/oci-layout
  
 # download and copy all other files
