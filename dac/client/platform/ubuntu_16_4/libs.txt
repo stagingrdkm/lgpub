@@ -26,7 +26,6 @@
 /usr/lib/libprotobuf-lite.so.9  /usr/lib/x86_64-linux-gnu/libprotobuf-lite.so.9
 /usr/lib/libsensors.so.4  /usr/lib/x86_64-linux-gnu/libsensors.so.4
 /usr/lib/libstdc++.so.6   /usr/lib/x86_64-linux-gnu/libstdc++.so.6
-/usr/lib/liburcu-bp.so.4  /usr/lib/x86_64-linux-gnu/liburcu-bp.so.4
 /usr/lib/libwayland-server.so.0  /usr/lib/x86_64-linux-gnu/libwayland-server.so.0
 /usr/lib/libX11-xcb.so.1  /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1
 /usr/lib/libXau.so.6   /usr/lib/x86_64-linux-gnu/libXau.so.6
