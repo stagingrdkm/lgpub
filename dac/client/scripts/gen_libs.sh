@@ -4,15 +4,21 @@ if [ ! -e "$1" ]; then
     exit 0
 fi
 
+
+readelf="eu-readelf"
+if [ ! -e /usr/bin/eu-readelf ]; then
+    readelf="readelf"
+fi
+
 while read p; do
   libname_container=$(echo $p | cut -d' ' -f1)
   libname_container_basename=$(echo $libname_container | sed 's/.*\///')
   libname_host=$(echo $p | cut -d' ' -f2)
   if [ ! -z "$libname_container" ]; then
       echo -e "\nchecking $libname_container: \t"
-      if [ ! -e "rootfs/$libname_container" ]; then
+      if [ ! -s "rootfs/$libname_container" ]; then
           echo "File is NOT delivered in container, so bind mounting from host."
-          echo "$libname_container $libname_host" | sed '/^[[:space:]]*$/d s/\([^ ]*\)[[:space:]]*\([^ ]*\)/  { "destination": "\1", "source": "\2", "type": "bind", "options": [ "rbind", "nosuid", "nodev", "ro" ] }, /' >&2
+          echo "$libname_container $libname_host" | sed '/^[[:space:]]*$/d' | sed  's/\([^ ]*\)[[:space:]]*\([^ ]*\)/  { "destination": "\1", "source": "\2", "type": "bind", "options": [ "rbind", "nosuid", "nodev", "ro" ] }, /' >&2
       else
           echo "File IS delivered in container, so check if this is OK for our graph libs."
           deps=$(cat $2 | grep $libname_container_basename | cut -d ' ' -f 2)
@@ -23,12 +29,12 @@ while read p; do
               notfound=0
               while read dep; do
                   echo -n "$dep"
-                  eu-readelf -V "rootfs/$libname_container" | sed -n '/Version definition section/,$p' | sed -n '/Version needs section/q;p' | grep "$dep$" > /dev/null
+                  $readelf -V "rootfs/$libname_container" | sed -n '/Version definition section/,$p' | sed -n '/Version needs section/q;p' | grep "$dep$" > /dev/null 2>&1
                   if [ "$?" = "0" ]; then
                       echo " FOUND"
                   else
                       echo " NOT FOUND so linking in our lib!!!"
-                      echo "$libname_container $libname_host" | sed '/^[[:space:]]*$/d s/\([^ ]*\)[[:space:]]*\([^ ]*\)/  { "destination": "\1", "source": "\2", "type": "bind", "options": [ "rbind", "nosuid", "nodev", "ro" ] }, /' >&2
+                      echo "$libname_container $libname_host" | sed '/^[[:space:]]*$/d' | sed 's/\([^ ]*\)[[:space:]]*\([^ ]*\)/  { "destination": "\1", "source": "\2", "type": "bind", "options": [ "rbind", "nosuid", "nodev", "ro" ] }, /' >&2
                       notfound=1
                       break
                   fi

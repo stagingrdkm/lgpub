@@ -8,7 +8,7 @@ fi
 rm -f .tmp.libs
 
 while read p; do
-  libname=$(echo $p | cut -d' ' -f1) 
+  libname=$(echo $p | cut -d' ' -f2)
   if [ ! -z "$libname" ]; then
       #echo "$libname"
       ldd -v $libname 2> /dev/null | sed -n '/Version information/,$p' >> .tmp.libs

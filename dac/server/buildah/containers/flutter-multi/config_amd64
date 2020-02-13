@@ -1,0 +1,8 @@
+cmd='["/flutter-launcher-wayland", "flutter_assets"]'
+cwd="/"
+env='PATH=/usr/sbin:/usr/bin:/sbin:/bin'
+
+# horizon4.tar.gz : fileset delivered by dwrobel
+# fonts.tgz : fonts and configs from onemw
+# basiclibs_amd64.tar.gz : the basic libs
+files="files/horizon4.tar.gz files/fonts.tgz files/basiclibs_amd64.tar.gz"

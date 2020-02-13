@@ -1,6 +1,12 @@
 #!/bin/sh
 
-sudo killall -9 wayland-egl-test wayland-egl-test-input runc crun flutter-launcher-wayland Auryn
+user=$(whoami)
+sudo=""
+if [ "$user" != "root" ]; then
+    sudo="sudo "
+fi
+
+$sudo killall -9 wayland-egl-test wayland-egl-test-input runc crun flutter-launcher-wayland Auryn
 sleep 2
 
 runc kill -a test

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. ./scripts/functions.sh
+
 echo "Generate config"
 ./scripts/gen_config.sh $1
 
@@ -19,6 +21,7 @@ user=$(whoami)
 sudo=""
 if [ "$user" != "root" ]; then
     sudo="sudo "
+    prepareBindMountsAndRootfs
 fi
 
 echo "Starting container..."
