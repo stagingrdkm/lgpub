@@ -1,0 +1,12 @@
+cmd='["/app/bin/flutter-launcher-wayland", "flutter_assets"]'
+
+cwd="/app/bin/"
+env='PATH=/usr/sbin:/usr/bin:/sbin:/bin'
+
+files="flatpak_app#com.github.lesnitsky.horizon4#flutter-launcher-wayland \
+       flatpak_app#com.github.lesnitsky.horizon4#libflutter_engine.so \
+       flatpak_dir#com.github.lesnitsky.horizon4#/app/bin/data/icudtl.dat \
+       flatpak_dir#com.github.lesnitsky.horizon4#/lib64/ld-linux-x86-64.so.2 \
+       flatpak_dir#com.github.lesnitsky.horizon4#/etc/fonts \
+       flatpak_dir#com.github.lesnitsky.horizon4#/usr/share/fonts \
+       flatpak_dir#com.github.lesnitsky.horizon4#/app/bin/flutter_assets/"

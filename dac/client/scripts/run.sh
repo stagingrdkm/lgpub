@@ -2,6 +2,11 @@
 
 . ./scripts/functions.sh
 
+if [[ ! -d ./platform/$1 || ! $# -eq 1 ]]; then
+    echo "Usage: ./scripts/run.sh [platformname]"
+    exit 0
+fi
+
 echo "Generate config"
 ./scripts/gen_config.sh $1
 

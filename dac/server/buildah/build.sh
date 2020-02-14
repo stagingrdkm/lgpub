@@ -50,20 +50,33 @@ do
     echo "Unpacking files to temp mount"
     for file in $files
     do
+        echo "Processing $file"
         filename=$(echo "$file##" | cut -f1 -d#)
         striplevel=$(echo "$file##" | cut -f2 -d#)
 
-        if [ "$striplevel" = "" ]; then
-            striplevel=0
-        fi
-
-        echo "filename: $filename"
-        echo "striplevel: $striplevel"
-        if [ -e "$curdir/containers/$container/$filename" ]; then
-            echo Unpacking $curdir/containers/$container/$filename
-            (cd $scratchmnt && tar xzf $curdir/containers/$container/$filename --strip-components=$striplevel )
+        if [ "$filename" = "flatpak_app" ]; then
+            echo "Calling flatpak-extract for flatpak app"
+            appid=$(echo "$file##" | cut -f2 -d#)
+            appexe=$(echo "$file##" | cut -f3 -d#)
+            ./flatpak-export.sh $appid $scratchmnt app $appexe
+        elif [ "$filename" = "flatpak_dir" ]; then
+            echo "Calling flatpak-extract for flatpak dir"
+            appid=$(echo "$file##" | cut -f2 -d#)
+            dir=$(echo "$file##" | cut -f3 -d#)
+            ./flatpak-export.sh $appid $scratchmnt dir $dir
         else
-            echo "SKIPPING $filename because it does not exist!"
+            if [ "$striplevel" = "" ]; then
+                striplevel=0
+            fi
+
+            echo "filename: $filename"
+            echo "striplevel: $striplevel"
+            if [ -e "$curdir/containers/$container/$filename" ]; then
+                echo Unpacking $curdir/containers/$container/$filename
+                (cd $scratchmnt && tar xzf $curdir/containers/$container/$filename --strip-components=$striplevel )
+            else
+                echo "SKIPPING $filename because it does not exist!"
+            fi
         fi
     done
 
