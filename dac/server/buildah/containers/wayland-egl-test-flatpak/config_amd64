@@ -2,4 +2,4 @@ cmd='["/app/bin/wayland-egl-test"]'
 cwd="/"
 env='PATH=/usr/sbin:/usr/bin:/sbin:/bin'
 
-files="flatpak_app#com.github.dwrobel.tutorials.wayland-egl-input-test#wayland-egl-test  flatpak_dir#com.github.dwrobel.tutorials.wayland-egl-input-test#/lib64/ld-linux-x86-64.so.2 "
+files="flatpak_app#com.github.dwrobel.tutorials.wayland-egl-input-test#wayland-egl-test"

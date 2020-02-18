@@ -88,7 +88,8 @@ elif [ "$com" = "app_internal" ]; then
     echo "full app path: $realapp"
     copyPart $realapp $destination_path
     libs=$(ldd $realapp | grep "=>" | sort -u | awk '{print($3)}')
-    for lib in $libs
+    ldlinux=$(ldd $realapp | grep ld-linux | awk '{print($1)}')
+    for lib in $libs $ldlinux
     do
         copyPart $lib $destination_path
     done
