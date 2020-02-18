@@ -26,7 +26,7 @@ for LAYER in $LAYER_DIGESTS
 do
     echo layer: $LAYER
     tar -tzf download/blobs/sha256/$LAYER > /dev/null 2>&1
-    if [ $? == 0 ]; then
+    if [ $? = 0 ]; then
         DELETE_LIST=$(tar tzf download/blobs/sha256/$LAYER)
         echo $DELETE_LIST | grep '\.wh\.\.wh\.\.opq' | sed 's/\.wh\.\.wh\.\.opq//' | awk '{print("rm -rf rootfs/"$1"*")}'
         echo $DELETE_LIST | grep '\.wh\.\.wh\.\.opq' | sed 's/\.wh\.\.wh\.\.opq//' | awk '{system("rm -rf rootfs/"$1"*")}'

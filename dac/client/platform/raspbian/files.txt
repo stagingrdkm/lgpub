@@ -1,0 +1,4 @@
+/tmp/wayland-1      /tmp/wayland-1
+/usr/share/X11/xkb  /usr/share/X11/xkb
+/etc/resolv.conf    /etc/resolv.conf
+/usr/share/glvnd/egl_vendor.d /usr/share/glvnd/egl_vendor.d
