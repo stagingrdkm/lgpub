@@ -15,7 +15,11 @@ if [ -z $DAC_APP ]; then
   echo Please provide appname!
   exit
 fi
-export DAC_PLATFORM=$2
+
+if [ -z $DAC_PLATFORM ]; then
+  export DAC_PLATFORM=$2
+fi
+
 if [ -z $DAC_PLATFORM ]; then
   echo No DAC platform set. Using default!
   export DAC_PLATFORM=7218refapp
@@ -37,5 +41,5 @@ ${DAC_ROOT}scripts/run.sh $DAC_PLATFORM &
 trap kill_container SIGKILL SIGINT SIGTERM
 while true
 do
-    sleep 10
+    sleep 1
 done
