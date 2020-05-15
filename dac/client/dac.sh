@@ -29,7 +29,7 @@ echo "DAC_PLATFORM = $DAC_PLATFORM"
 
 export DAC_APP_ROOT=${DAC_ROOT}apps/$DAC_APP
 
-if [ ! -d "$DAC_APP_ROOT" ]; then
+if [ ! -f "$DAC_APP_ROOT/config.json.template" ]; then
   mkdir -p $DAC_APP_ROOT
   cd $DAC_APP_ROOT
   ${DAC_ROOT}scripts/prepare.sh && ${DAC_ROOT}scripts/download.sh $DAC_APP && ${DAC_ROOT}scripts/unpack.sh
