@@ -38,7 +38,7 @@ else
 fi
 ${DAC_ROOT}scripts/run.sh $DAC_PLATFORM &
 
-trap kill_container SIGKILL SIGINT SIGTERM
+trap kill_container SIGINT SIGTERM
 while true
 do
     sleep 1
