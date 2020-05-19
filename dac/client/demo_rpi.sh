@@ -3,4 +3,4 @@
 # make sure our window gets the focus
 systemctl stop appmanager
 
-./dac.sh $1 rpi
+$(dirname $0)/./dac.sh $1 rpi

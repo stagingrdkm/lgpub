@@ -1,10 +1,10 @@
 #!/bin/sh
-export DAC_ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"/
+export DAC_ROOT="$( cd "$( dirname "$0")" >/dev/null 2>&1 && pwd )"/
 echo "DAC_ROOT = $DAC_ROOT"
 
 . $DAC_ROOT/dac.config
 
-function kill_container()
+kill_container()
 {
   $DAC_ROOT/scripts/kill.sh
   exit
@@ -36,10 +36,6 @@ if [ ! -f "$DAC_APP_ROOT/config.json.template" ]; then
 else
   cd $DAC_APP_ROOT
 fi
-${DAC_ROOT}scripts/run.sh $DAC_PLATFORM &
-
 trap kill_container SIGINT SIGTERM
-while true
-do
-    sleep 1
-done
+${DAC_ROOT}scripts/run.sh $DAC_PLATFORM &
+wait $!

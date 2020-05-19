@@ -5,4 +5,4 @@ systemctl stop jsapp
 
 export PATH=$PATH:/tmp/client
 
-./dac.sh $1 eos
+$(dirname $0)/./dac.sh $1 eos

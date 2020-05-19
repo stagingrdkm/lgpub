@@ -15,4 +15,4 @@ rm /tmp/westeros-dac
 rm /tmp/westeros-dac.lock
 westeros --renderer /usr/lib/libwesteros_render_gl.so.0.0.0 --display westeros-dac &> /dev/null &
 
-./dac.sh $1 xi6
+$(dirname $0)/./dac.sh $1 xi6
