@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. ./scripts/functions.sh
+. ${DAC_ROOT}scripts/functions.sh
 
 # possible tags: wayland-egl-test, flutter, you.i
 PACKAGE=flutter
@@ -15,12 +15,12 @@ if [ -z "$CONFIG" ]; then
 fi
 echo Downloading from: $CONFIG
 
-if [ ! -e ./scripts/$CONFIG.conf ]; then
-    echo "Unknown config: ./scripts/$CONFIG.conf"
+if [ ! -e ${DAC_ROOT}scripts/$CONFIG.conf ]; then
+    echo "Unknown config: ${DAC_ROOT}scripts/$CONFIG.conf"
     exit 0
 fi
 
-. ./scripts/$CONFIG.conf
+. ${DAC_ROOT}scripts/$CONFIG.conf
 
 if [ $# -eq 2 ]; then
     TAG=$2
@@ -118,4 +118,3 @@ done
 # cleanup old info
 rm download/manifest.*
 rm -f config.json config.json.template
-

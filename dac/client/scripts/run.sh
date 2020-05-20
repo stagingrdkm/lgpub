@@ -1,17 +1,17 @@
 #!/bin/sh
 
-. ./scripts/functions.sh
+. ${DAC_ROOT}scripts/functions.sh
 
 echo "Generate config"
-./scripts/gen_config.sh $1
+${DAC_ROOT}scripts/gen_config.sh $1
 
 echo "Fix platform permissions"
-./platform/$1/fix_platform.sh
+${DAC_ROOT}platform/$1/fix_platform.sh
 
 RUN_ARGS=""
 if [ -f rootfs.sqsh.verity ]; then
     echo Detected verity image!
-    ./scripts/verity_mount.sh
+    ${DAC_ROOT}scripts/verity_mount.sh
 else
     # --no-pivot needed for rootfs on ramfs
     RUN_ARGS="--no-pivot"

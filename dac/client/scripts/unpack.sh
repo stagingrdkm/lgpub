@@ -1,8 +1,9 @@
 #!/bin/sh
 
-. ./scripts/functions.sh
+. ${DAC_ROOT}scripts/functions.sh
 
 # cleanup old rootfs
+
 rm -rf rootfs 
 mkdir -p rootfs 
 rm -f rootfs.sqsh.verity* verity.conf
@@ -63,7 +64,7 @@ generateList()
 
 # generate the config.json.template
 # using cmd, entrypoint, env, volumes, workingdir, user information from OCI config file
-cp ./scripts/config.json.template config.json.template
+cp ${DAC_ROOT}scripts/config.json.template config.json.template
 
 ARCH=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.architecture' 2> /dev/null)
 OS=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.os' 2> /dev/null)
@@ -125,4 +126,3 @@ echo "CONFIG_USER $USER"
 echo "CONFIG_GROUP $GROUP"
 TEMP=$(sed 's/#CONFIG_USER#/%s/' config.json.template)
 printf "$TEMP" "\"uid\": $USER, \"gid\": $GROUP" > config.json.template
-
