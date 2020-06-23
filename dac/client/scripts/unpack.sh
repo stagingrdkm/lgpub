@@ -12,6 +12,11 @@ rm -f rootfs.sqsh.verity* verity.conf
 arch=$(getOCIArch)
 echo arch=$arch
 MANIFEST_DIGEST=$(cat download/index.json  | jq ".manifests[] | select(.platform.architecture==\"$arch\") | .digest" | sed 's/^"//' | sed 's/"$//' | cut -d: -f 2)
+if [ -z $MANIFEST_DIGEST ]; then
+  echo "Could not find manifests.digest in the index.json."
+  exit 1
+fi
+
 echo "manifest for ${arch} is ${MANIFEST_DIGEST}"
 
 # parse the config and layer digests
