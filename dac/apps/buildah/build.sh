@@ -85,14 +85,15 @@ do
     buildah config --arch ${arch} $newcontainer
     buildah config --os linux $newcontainer
 
+    if ! buildah login --get-login us.icr.io 2>/dev/null; then
+        buildah login us.icr.io
+    fi
 
     if [ $no_archs -eq 1 ]; then
         echo "Commit container ${container}_${to}"
         buildah commit $newcontainer ${container}:${to}
 
         echo "Pushing single arch container to repo"
-        # push to ibm
-        #buildah login us.icr.io
         buildah push localhost/${container}:${to} docker://us.icr.io/appcontainerstagingrdk/${container}:${to}
     else
         echo "Commit container ${container}_${to}"
