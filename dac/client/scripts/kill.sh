@@ -6,7 +6,7 @@ if [ "$user" != "root" ]; then
     sudo="sudo "
 fi
 
-$sudo killall -9 wayland-egl-test wayland-egl-test-input runc crun flutter-launcher-wayland Auryn
+$sudo killall -9 wayland-egl-test wayland-egl-test-input qt-egl-test runc crun flutter-launcher-wayland Auryn
 sleep 2
 
 if [ -f /usr/bin/crun ]; then
