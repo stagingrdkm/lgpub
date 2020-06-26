@@ -1,0 +1,5 @@
+cmd='["/usr/bin/qt-egl-test"]'
+cwd="/"
+env='PATH=/usr/sbin:/usr/bin:/sbin:/bin'
+
+files="files/qt-egl-test.tar.gz"
