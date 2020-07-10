@@ -1,0 +1,9 @@
+#!/bin/sh -x
+echo "Environment:"
+/bin/cat.busybox /proc/$$/environ
+echo ""
+echo Executing qt-egl-test...
+[ -f /usr/lib/libwayland-egl.so.0 -a -f /usr/lib/libwayland-client.so.0 ] && export LD_PRELOAD=/usr/lib/libwayland-egl.so.0:/usr/lib/libwayland-client.so.0
+qt-egl-test.bin
+
+
