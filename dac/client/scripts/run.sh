@@ -25,7 +25,14 @@ if [ "$user" != "root" ]; then
 fi
 
 echo "Starting container..."
-if [ -f /usr/bin/crun ]; then
+
+if [ -f /etc/WPEFramework/plugins/OCIContainer.json ]; then
+    curl -v --header "Content-Type:application/json" --request POST http://127.0.0.1/jsonrpc --data-raw "{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"org.rdk.OCIContainer.1.startContainer\", \"params\":{\"containerId\":\"test\", \"bundlePath\": \"$DAC_APP_ROOT\" }}"
+    sleep 1000000
+elif [ -f /usr/bin/DobbyTool ]; then
+    DobbyTool -vvv start test .
+    sleep 1000000
+elif [ -f /usr/bin/crun ]; then
     $sudo crun run $RUN_ARGS test
 elif [ -f /usr/local/bin/crun ]; then
     $sudo crun run $RUN_ARGS test

@@ -6,13 +6,18 @@ if [ "$user" != "root" ]; then
     sudo="sudo "
 fi
 
-$sudo killall -9 wayland-egl-test wayland-egl-test-input qt-egl-test gtk-egl-test runc crun flutter-launcher-wayland Auryn
-sleep 2
-
-if [ -f /usr/bin/crun ]; then
+if [ -f /etc/WPEFramework/plugins/OCIContainer.json ]; then
+  curl -v --header "Content-Type:application/json" --request POST http://127.0.0.1/jsonrpc --data-raw '{"jsonrpc":"2.0","id":1,"method":"org.rdk.OCIContainer.1.stopContainer", "params":{"containerId":"test"}}'
+elif [ -f /usr/bin/DobbyTool ]; then
+  DobbyTool -vvv stop test
+elif [ -f /usr/bin/crun ]; then
+  $sudo killall -9 wayland-egl-test wayland-egl-test-input qt-egl-test gtk-egl-test runc crun flutter-launcher-wayland Auryn
+  sleep 2
   crun kill -a test
   crun delete test
 else
+  $sudo killall -9 wayland-egl-test wayland-egl-test-input qt-egl-test gtk-egl-test runc crun flutter-launcher-wayland Auryn
+  sleep 2
   runc kill -a test
   runc delete test
 fi
