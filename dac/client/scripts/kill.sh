@@ -7,7 +7,7 @@ if [ "$user" != "root" ]; then
 fi
 
 if [ -f /etc/WPEFramework/plugins/OCIContainer.json ]; then
-  curl -v --header "Content-Type:application/json" --request POST http://127.0.0.1/jsonrpc --data-raw '{"jsonrpc":"2.0","id":1,"method":"org.rdk.OCIContainer.1.stopContainer", "params":{"containerId":"test"}}'
+  curl -v --header "Content-Type:application/json" --request POST http://127.0.0.1:9998/jsonrpc --data-raw '{"jsonrpc":"2.0","id":1,"method":"org.rdk.OCIContainer.1.stopContainer", "params":{"containerId":"test"}}'
 elif [ -f /usr/bin/DobbyTool ]; then
   DobbyTool -vvv stop test
 elif [ -f /usr/bin/crun ]; then
