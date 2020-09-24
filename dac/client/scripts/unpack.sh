@@ -115,14 +115,20 @@ printf "$TEMP" "$CONFIG_MOUNTS" > config.json.template
 
 CONFIG_CWD=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.config.WorkingDir' 2> /dev/null)
 if [ -z "$CONFIG_CWD" ]; then
-    CONFIG_CWD="/"
+    CONFIG_CWD='"/"'
+fi
+if [ "$CONFIG_CWD" = "null" ]; then
+    CONFIG_CWD='"/"'
 fi
 echo "CONFIG_CWD $CONFIG_CWD"
 TEMP=$(sed 's/#CONFIG_CWD#/%s/' config.json.template)
 printf "$TEMP" "$CONFIG_CWD" > config.json.template
 
 CONFIG_USERGROUP=$(cat download/blobs/sha256/$CONFIG_DIGEST | jq '.config.User' | sed 's/\"//g' 2> /dev/null)
-if [ -z "CONFIG_USERGROUP" ]; then
+if [ -z "$CONFIG_USERGROUP" ]; then
+    CONFIG_USERGROUP="0:0"
+fi
+if [ "$CONFIG_USERGROUP" = "null" ]; then
     CONFIG_USERGROUP="0:0"
 fi
 USER=$(echo $CONFIG_USERGROUP | cut -d ':' -f 1)
