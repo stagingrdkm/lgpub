@@ -8,6 +8,11 @@ rm -rf rootfs
 mkdir -p rootfs 
 rm -f rootfs.sqsh.verity* verity.conf
 
+# optional parameter to install and unpack tarball
+if [ -f "$1" ]; then
+        (rm -rf download && mkdir download && cd download && tar xvf $1)
+fi
+
 # get the correct MANIFES_DIGEST
 arch=$(getOCIArch)
 echo arch=$arch
