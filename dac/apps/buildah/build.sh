@@ -57,13 +57,39 @@ do
             striplevel=0
         fi
 
-        echo "filename: $filename"
-        echo "striplevel: $striplevel"
-        if [ -e "$curdir/containers/$container/$filename" ]; then
-            echo Unpacking $curdir/containers/$container/$filename
-            (cd $scratchmnt && tar xzf $curdir/containers/$container/$filename --strip-components=$striplevel )
+        echo "Processing file: ${filename} striplevel: ${striplevel}"
+        file_full_path="$curdir/containers/$container/$filename"
+        if [ -e "${file_full_path}" ]; then
+            mime_type=$(file --mime-type "${file_full_path}" | cut -d ' ' -f2-)
+
+            echo "Unpacking: ${file_full_path} mime-type: ${mime_type}"
+
+            case "${mime_type}" in
+            "application/vnd.debian.binary-package")
+                tmpdir=$(mktemp -d);
+                ar -x --output "${tmpdir}" "${file_full_path}" data.tar.gz && tar zxf "${tmpdir}/data.tar.gz" -C "${scratchmnt}"
+                rm -rf "${tmpdir}"
+            ;;
+            "application/x-tar")
+                tar  xf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
+            ;;
+            "application/gzip")
+                tar zxf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
+            ;;
+            "application/x-bzip2")
+                tar jxf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
+            ;;
+            "application/x-xz")
+                tar Jxf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
+            ;;
+            *)
+                echo "Unsupported mime-type: ${mime_type}"
+                exit 2
+            ;;
+            esac
         else
-            echo "SKIPPING $filename because it does not exist!"
+            echo "Could not find file: ${file_full_path}"
+            exit 1
         fi
     done
 
