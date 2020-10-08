@@ -67,8 +67,11 @@ do
             case "${mime_type}" in
             "application/vnd.debian.binary-package")
                 tmpdir=$(mktemp -d);
-                ar -x --output "${tmpdir}" "${file_full_path}" data.tar.gz && tar zxf "${tmpdir}/data.tar.gz" -C "${scratchmnt}"
+                (cd "${tmpdir}"; ar -x "${file_full_path}" data.tar.gz) && tar zxf "${tmpdir}/data.tar.gz" -C "${scratchmnt}"
                 rm -rf "${tmpdir}"
+            ;;
+            "application/x-rpm")
+                rpm2cpio "${file_full_path}" | cpio -idmv -D "${scratchmnt}"
             ;;
             "application/x-tar")
                 tar  xf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
