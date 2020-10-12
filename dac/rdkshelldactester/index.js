@@ -20,16 +20,20 @@
 // initialization:
 var thunderJS
 
-//var defaultHost = localStorage.getItem('host')
-//var host = prompt('Please inform the IP address of your STB', defaultHost || '192.168.')
-
-//localStorage.setItem('host', host)
+// dirty but just a demo
+// use 7218c or rpi
+var platform = "rpi"
+var dacRepo = "https://raw.githubusercontent.com/stagingrdkm/lntpub/master/bundle"
 
 thunderJS = ThunderJS({
   host: '127.0.0.1',
   port: 50050,
   debug: true
 })
+
+function getDacAppInstallUrl(app) {
+  return dacRepo + "/" + platform + "/" + platform + "-" + app + ".tar.gz";
+}
 
 function reboot() {
   log('Calling: Controller.harakiri')
@@ -42,6 +46,66 @@ function reboot() {
     })
 }
 
+function listApps() {
+  log('Calling: listApps')
+  thunderJS.Packager.getInstalled()
+    .then(function(result) {
+      log('Success', result)
+    })
+    .catch(function(error) {
+      log('Error', error)
+    })
+}
+
+function installDacApp(app) {
+  log('Calling: installDacApp '+app)
+  thunderJS.Packager.install(
+      { "pkgId": "pkg-"+app, "type": "DAC", "url": getDacAppInstallUrl(app) } )
+    .then(function(result) {
+      log('Success', result)
+    })
+    .catch(function(error) {
+      log('Error', error)
+    })
+}
+
+function removeDacApp(app) {
+  log('Calling: installDacApp '+app)
+  thunderJS.Packager.remove(
+      { "pkgId": "pkg-"+app } )
+    .then(function(result) {
+      log('Success', result)
+    })
+    .catch(function(error) {
+      log('Error', error)
+    })
+}
+
+function startDacApp(app) {
+  log('Calling: startDacApp '+app)
+  thunderJS["org.rdk.RDKShell"].launchApplication(
+      { "client": app, "mimeType": "application/dac.native", "uri": "pkg-"+app } )
+    .then(function(result) {
+      log('Success', result)
+    })
+    .catch(function(error) {
+      log('Error', error)
+    })
+}
+
+function stopDacApp(app) {
+  log('Calling: stopDacApp '+app)
+  thunderJS["org.rdk.RDKShell"].kill(
+      { "client": app } )
+    .then(function(result) {
+      log('Success', result)
+    })
+    .catch(function(error) {
+      log('Error', error)
+    })
+}
+
+/* deprecated code 
 function startDacApp(app) {
   log('Calling: startDacApp '+app)
   thunderJS["org.rdk.RDKShell"].launch( 
@@ -65,6 +129,7 @@ function stopDacApp(app) {
       log('Error', error)
     })
 }
+*/
 
 function startWebApp() {
   log('Calling: startWebApp')
@@ -100,5 +165,5 @@ function log(msg, content) {
 
   entry += '<hr class="border-b" />'
 
-  el.innerHTML += entry
+  el.innerHTML = entry
 }

@@ -38,11 +38,35 @@
 
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded-full text-sm"
+            onclick="listApps()">List installed apps</button>
+
+
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded-full text-sm"
+            onclick="installDacApp('wayland-egl-test')">Install wayland-egl-test</button>
+
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded-full text-sm"
+            onclick="removeDacApp('wayland-egl-test')">Remove wayland-egl-test</button>
+
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded-full text-sm"
             onclick="startDacApp('wayland-egl-test')">Start wayland-egl-test</button>
 
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded-full text-sm"
             onclick="stopDacApp('wayland-egl-test')">Stop wayland-egl-test</button>
+
+
+
+
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded-full text-sm"
+            onclick="installDacApp('you.i')">Install you.i</button>
+
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded-full text-sm"
+            onclick="removeDacApp('you.i')">Remove you.i</button>
 
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded-full text-sm"
@@ -52,13 +76,7 @@
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded-full text-sm"
             onclick="stopDacApp('you.i')">Stop you.i</button>
 
-          <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded-full text-sm"
-            onclick="startDacApp('flutter')">Start flutter</button>
 
-          <button
-            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded-full text-sm"
-            onclick="stopDacApp('flutter')">Stop flutter</button>
 
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 m-2 rounded-full text-sm"
@@ -74,7 +92,7 @@
 
         </div>
 
-        <div id="log" class="container mx-auto p-4 my-8 h-64 rounded-sm border border-gray-300 shadow-lg overflow-auto text-sm text=gray-700">
+        <div id="log" class="container mx-auto p-4 my-8 h-auto rounded-sm border border-gray-300 shadow-lg overflow-auto text-sm text=gray-700">
 
         </div>
       </main>
