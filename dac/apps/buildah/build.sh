@@ -74,16 +74,16 @@ do
                 rpm2cpio "${file_full_path}" | cpio -idmv -D "${scratchmnt}"
             ;;
             "application/x-tar")
-                tar  xf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
+                tar --no-same-owner  -xf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
             ;;
             "application/gzip")
-                tar zxf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
+                tar --no-same-owner -zxf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
             ;;
             "application/x-bzip2")
-                tar jxf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
+                tar --no-same-owner -jxf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
             ;;
             "application/x-xz")
-                tar Jxf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
+                tar --no-same-owner -Jxf "${file_full_path}" --strip-components=$striplevel -C "${scratchmnt}"
             ;;
             *)
                 echo "Unsupported mime-type: ${mime_type}"
