@@ -23,7 +23,8 @@ var thunderJS
 // dirty but just a demo
 // use 7218c or rpi
 var platform = "rpi"
-var dacRepo = "https://raw.githubusercontent.com/stagingrdkm/lntpub/master/bundle"
+var dacRepo    = "https://raw.githubusercontent.com/stagingrdkm/lntpub/master/bundle"
+var dacRepoLFS = "https://media.githubusercontent.com/media/stagingrdkm/lntpub/master/bundle"
 
 thunderJS = ThunderJS({
   host: '127.0.0.1',
@@ -31,8 +32,12 @@ thunderJS = ThunderJS({
   debug: true
 })
 
-function getDacAppInstallUrl(app) {
-  return dacRepo + "/" + platform + "/" + platform + "-" + app + ".tar.gz";
+function getDacAppInstallUrl(app, lfs) {
+  if (lfs) {
+    return dacRepoLFS + "/" + platform + "/" + platform + "-" + app + ".tar.gz";
+  } else {
+    return dacRepo + "/" + platform + "/" + platform + "-" + app + ".tar.gz";
+  }
 }
 
 function reboot() {
@@ -57,10 +62,10 @@ function listApps() {
     })
 }
 
-function installDacApp(app) {
+function installDacApp(app, lfs) {
   log('Calling: installDacApp '+app)
   thunderJS.Packager.install(
-      { "pkgId": "pkg-"+app, "type": "DAC", "url": getDacAppInstallUrl(app) } )
+      { "pkgId": "pkg-"+app, "type": "DAC", "url": getDacAppInstallUrl(app, lfs) } )
     .then(function(result) {
       log('Success', result)
     })
