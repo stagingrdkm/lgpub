@@ -14,6 +14,12 @@ if [ -d ${ARCH_BIN} ]; then
   # Allow to find our libs and executables, although do not override these one from the system
   export PATH=$PATH:${ARCH_BIN}/bin
   export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${ARCH_BIN}/lib
+  mount_point=$(df -P ${ARCH_BIN} | tail -1 | awk '{print $6}')
+  mount | grep "on ${mount_point}" | awk '{print $6}' | grep noexec >/dev/null
+  if [ $? -eq 0 ]; then
+    echo WARNING: mountpoint ${mount_point} with noexec, an attempt to remounting with exec...
+    mount ${mount_point} -oremount,exec || exit 2
+  fi
 fi
 
 kill_container()
