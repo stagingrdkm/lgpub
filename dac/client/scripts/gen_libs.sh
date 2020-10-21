@@ -4,11 +4,7 @@ if [ ! -e "$1" ]; then
     exit 0
 fi
 
-
-readelf="eu-readelf"
-if [ ! -e /usr/bin/eu-readelf ]; then
-    readelf="readelf"
-fi
+readelf=$(which eu-readelf || which readelf)
 
 while read p; do
   libname_container=$(echo $p | cut -d' ' -f1)

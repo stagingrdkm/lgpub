@@ -4,6 +4,18 @@ echo "DAC_ROOT = $DAC_ROOT"
 
 . $DAC_ROOT/dac.config
 
+ARCH=$(uname -m)
+
+echo Using architecture: ${ARCH}
+
+ARCH_BIN="$DAC_ROOT/bin/${ARCH}"
+
+if [ -d ${ARCH_BIN} ]; then
+  # Allow to find our libs and executables, although do not override these one from the system
+  export PATH=$PATH:${ARCH_BIN}/bin
+  export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:${ARCH_BIN}/lib
+fi
+
 kill_container()
 {
   $DAC_ROOT/scripts/kill.sh

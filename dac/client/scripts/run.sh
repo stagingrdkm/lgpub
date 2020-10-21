@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 . ${DAC_ROOT}scripts/functions.sh
 
