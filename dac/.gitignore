@@ -1,3 +1,8 @@
+*.ipk
+*.tar
+*.tar*
+*.tar.*
+*.rpm
 client/config.json.template
 client/download/
 client/rootfs/
