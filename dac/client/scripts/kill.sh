@@ -11,12 +11,12 @@ if [ -f /etc/WPEFramework/plugins/OCIContainer.json ]; then
 elif [ -f /usr/bin/DobbyTool ]; then
   DobbyTool -vvv stop test
 elif [ -f /usr/bin/crun ]; then
-  $sudo killall -9 wayland-egl-test wayland-egl-test-input qt-egl-test gtk-egl-test runc crun flutter-launcher-wayland Auryn
+  $sudo killall -9 wayland-egl-test wayland-egl-test-input qt-egl-test gtk-egl-test runc crun flutter-launcher-wayland Auryn flutter-wayland-app
   sleep 2
   crun kill -a test
   crun delete test
 else
-  $sudo killall -9 wayland-egl-test wayland-egl-test-input qt-egl-test gtk-egl-test runc crun flutter-launcher-wayland Auryn
+  $sudo killall -9 wayland-egl-test wayland-egl-test-input qt-egl-test gtk-egl-test runc crun flutter-launcher-wayland Auryn flutter-wayland-app
   sleep 2
   runc kill -a test
   runc delete test

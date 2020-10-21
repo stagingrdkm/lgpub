@@ -1,0 +1,5 @@
+cmd='["flutter-launcher-wayland", "/usr/share/flutter/apps/flutter-wayland-app/data/flutter_assets"]'
+cwd="/"
+env='PATH=/usr/sbin:/usr/bin:/sbin:/bin LD_PRELOAD=/usr/lib/libGLESv2.so.2'
+
+files="files/sysroot.tar.xz files/flutter-engine-engine.ipk files/flutter-engine.ipk files/flutter-launcher-wayland.ipk files/flutter-wayland-app.tar"
