@@ -19,12 +19,7 @@
 
 // initialization:
 var thunderJS
-
-// dirty but just a demo
-// use 7218c or rpi
-var platform = "rpi"
-var dacRepo    = "https://raw.githubusercontent.com/stagingrdkm/lntpub/master/bundle"
-var dacRepoLFS = "https://media.githubusercontent.com/media/stagingrdkm/lntpub/master/bundle"
+var platform
 
 thunderJS = ThunderJS({
   host: '127.0.0.1',
@@ -32,12 +27,49 @@ thunderJS = ThunderJS({
   debug: true
 })
 
-function getDacAppInstallUrl(app, lfs) {
-  if (lfs) {
-    return dacRepoLFS + "/" + platform + "/" + platform + "-" + app + ".tar.gz";
-  } else {
-    return dacRepo + "/" + platform + "/" + platform + "-" + app + ".tar.gz";
+async function retrievePlatformName() {
+  if (platform == null) {
+    platform = await getDeviceName()
+    platform = platform.split('-')[0]
+
+    if (platform == 'raspberrypi') {
+      platform = 'rpi'
+    } else if (platform == 'brcm972180hbc') {
+      platform = '7218c'
+    }
   }
+  return platform
+}
+
+async function getDeviceName() {
+  let result = null
+  try {
+    result = await thunderJS.DeviceInfo.systeminfo()
+  } catch (error) {
+    console.log('Error on systeminfo: ', error)
+  }
+
+  return result == null ? "unknown" : result.devicename
+}
+
+async function getDacAppInstallUrl(app) {
+  await retrievePlatformName()
+
+  let url = ''
+  if (app === 'wayland-egl-test') {
+    url = 'http://rdk-tarballs-binary-storage.s3.eu-central-1.amazonaws.com/com.libertyglobal.app.waylandegltest/3.2.1/rpi3/rdk2020Q4/com.libertyglobal.app.waylandegltest_3.2.1_arm_linux_rpi3_rdk2020Q4.tar.gz'
+  } else if (app === 'you.i') {
+    url = 'http://rdk-tarballs-binary-storage.s3.eu-central-1.amazonaws.com/com.libertyglobal.app.youi/1.2.3/rpi3/rdk2020Q4/com.libertyglobal.app.youi_1.2.3_arm_linux_rpi3_rdk2020Q4.tar.gz'
+  } else if (app === 'flutter') {
+    url = 'http://rdk-tarballs-binary-storage.s3.eu-central-1.amazonaws.com/com.libertyglobal.app.flutter/0.0.1/rpi3/rdk2020Q4/com.libertyglobal.app.flutter_0.0.1_arm_linux_rpi3_rdk2020Q4.tar.gz'
+  }
+
+  if (platform === '7218c') {
+    // TODO: temporary hack
+    url = url.replace(/rpi3/g, '7218c')
+  }
+
+  return url
 }
 
 function reboot() {
@@ -62,10 +94,10 @@ function listApps() {
     })
 }
 
-function installDacApp(app, lfs) {
+async function installDacApp(app, lfs) {
   log('Calling: installDacApp '+app)
   thunderJS.Packager.install(
-      { "pkgId": "pkg-"+app, "type": "DAC", "url": getDacAppInstallUrl(app, lfs) } )
+      { "pkgId": "pkg-"+app, "type": "DAC", "url": await getDacAppInstallUrl(app) } )
     .then(function(result) {
       log('Success', result)
     })
@@ -110,36 +142,10 @@ function stopDacApp(app) {
     })
 }
 
-/* deprecated code 
-function startDacApp(app) {
-  log('Calling: startDacApp '+app)
-  thunderJS["org.rdk.RDKShell"].launch( 
-      { "callsign": app, "uri": "/home/root/dac/apps/"+app, "type": "DACApplication"} )
-    .then(function(result) {
-      log('Success', result)
-    })
-    .catch(function(error) {
-      log('Error', error)
-    })
-}
-
-function stopDacApp(app) {
-  log('Calling: stopDacApp '+app)
-  thunderJS["org.rdk.RDKShell"].destroy( 
-      { "callsign": app } )
-    .then(function(result) {
-      log('Success', result)
-    })
-    .catch(function(error) {
-      log('Error', error)
-    })
-}
-*/
-
 function startWebApp() {
   log('Calling: startWebApp')
   thunderJS["org.rdk.RDKShell"].launch( 
-      { "callsign": "WebTest", "uri": "http://www.google.com", "type": "WebKitBrowser"} )
+      { "callsign": "WebTest", "uri": "http://www.google.com", "type": "HtmlApp"} )
     .then(function(result) {
       log('Success', result)
     })
