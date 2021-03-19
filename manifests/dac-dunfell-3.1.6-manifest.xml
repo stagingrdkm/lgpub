@@ -5,8 +5,9 @@
   Usage:
   $ repo init -u https://github.com/stagingrdkm/lgpub/ -m manifests/dac-dunfell-3.1.6-manifest.xml
   $ repo sync -v
+  $ . ./oe-init-build-env
   $ cp ../.repo/manifests/manifests/bblayers.conf conf/
-  # on CentOS switch default gcc to 7.x
+  # on CentOS-7 switch default gcc to 7.x
   $ [ -f /opt/rh/devtoolset-7/enable ] && source /opt/rh/devtoolset-7/enable
   $ echo 'MACHINE="raspberrypi4"' >> conf/local.conf
 -->
