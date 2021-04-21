@@ -26,7 +26,6 @@ from UnitTests.test_thunder_device_info_plugin import *
 from UnitTests.test_thunder_display_info_plugin import *
 from UnitTests.test_thunder_monitor_plugin import *
 from UnitTests.test_thunder_ocdm_plugin import *
-from UnitTests.test_thunder_oci_container_plugin import *
 from UnitTests.test_thunder_player_info_plugin import *
 from UnitTests.test_thunder_security_agent_plugin import *
 from UnitTests.test_thunder_trace_control_plugin import *
@@ -44,7 +43,6 @@ if __name__ == "__main__":
 #    SUITE.addTest(loader.loadTestsFromTestCase(TestThunderDisplayInfoWSAPI))
     SUITE.addTest(loader.loadTestsFromTestCase(TestThunderMonitorWSAPI))
 #    SUITE.addTest(loader.loadTestsFromTestCase(TestThunderOcdmWSAPI))
-#    SUITE.addTest(loader.loadTestsFromTestCase(TestThunderOciWSAPI))
 #    SUITE.addTest(loader.loadTestsFromTestCase(TestThunderPlayerInfoWSAPI))
 #    SUITE.addTest(loader.loadTestsFromTestCase(TestThunderSecurityAgentWSAPI))
     SUITE.addTest(loader.loadTestsFromTestCase(TestThunderTraceControlWSAPI))
