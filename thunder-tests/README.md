@@ -10,8 +10,8 @@ This test suite covering Thunder Framework (aka Metrological WPEFramework) and p
 
 1. Clone the test suite to your local setup.
 ```
-git clone ssh://git@bitbucket.upc.biz:7999/onemt/wsapi-test-scripts.git
-cd ./wsapi-test-scripts/
+git clone git@github.com:stagingrdkm/lgpub.git
+cd ./thunder-tests/
 ```
 
 2. Install docker:
