@@ -1,0 +1,84 @@
+{
+    "Controller"   : {
+        "callsign" : "Controller",
+        "classname" : "Controller",
+        "state": "activated"
+    },
+    "DeviceInfo"   : {
+        "callsign" : "DeviceInfo",
+        "classname" : "DeviceInfo",
+        "autostart": true,
+        "state": "activated",
+        "locator": "libWPEFrameworkDeviceInfo.so"
+    },
+    "Monitor"      : {
+        "callsign" : "Monitor",
+        "classname" : "Monitor",
+        "autostart": true,
+        "state": "activated",
+        "locator": "libWPEFrameworkMonitor.so"
+    },
+    "TraceControl" : {
+        "callsign" : "TraceControl",
+        "classname" : "TraceControl",
+        "autostart": true,
+        "state": "activated",
+        "locator": "libWPEFrameworkTraceControl.so"
+    },
+    "HtmlApp": {
+        "callsign": "HtmlApp",
+        "classname": "WebKitBrowser",
+        "autostart": false,
+        "state": "deactivated",
+        "locator": "libWPEFrameworkWebKitBrowser.so"
+    },
+    "LightningApp": {
+        "callsign": "LightningApp",
+        "classname": "WebKitBrowser",
+        "autostart": false,
+        "state": "deactivated",
+        "locator": "libWPEFrameworkWebKitBrowser.so"
+    },
+    "ResidentApp": {
+        "callsign": "ResidentApp",
+        "classname": "WebKitBrowser",
+        "autostart": false,
+        "state": "deactivated",
+        "locator": "libWPEFrameworkWebKitBrowser.so"
+    },
+    "SearchAndDiscoveryApp": {
+        "callsign": "SearchAndDiscoveryApp",
+        "classname": "WebKitBrowser",
+        "autostart": false,
+        "state": "deactivated",
+        "locator": "libWPEFrameworkWebKitBrowser.so"
+    },
+    "WebKitBrowser": {
+        "callsign": "WebKitBrowser",
+        "classname": "WebKitBrowser",
+        "autostart": false,
+        "state": "deactivated",
+        "locator": "libWPEFrameworkWebKitBrowser.so"
+    },
+    "org.rdk.RDKShell": {
+        "callsign": "org.rdk.RDKShell",
+        "classname": "RDKShell",
+        "autostart": true,
+        "state": "activated",
+        "locator": "libWPEFrameworkRDKShell.so"
+    },
+    "org.rdk.TextToSpeech": {
+        "callsign": "org.rdk.TextToSpeech",
+        "classname": "TextToSpeech",
+        "autostart": true,
+        "state": "activated",
+        "locator": "libWPEFrameworkTextToSpeech.so"
+    },
+    "LocationSync": {
+        "callsign": "LocationSync",
+        "classname": "LocationSync",
+        "autostart": true,
+        "state": "activated",
+        "locator": "libWPEFrameworkLocationSync.so"
+    }
+}
