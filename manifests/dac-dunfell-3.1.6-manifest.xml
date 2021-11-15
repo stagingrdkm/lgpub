@@ -31,7 +31,8 @@
 
   <project remote="oe-org"
              name="meta-openembedded"
-         revision="dunfell"
+         upstream="dunfell"
+         revision="ca35402be56745e5664394b8ec18d7e2a3b353d1"
              path="meta-openembedded"/>
 
   <project remote="yocto"
