@@ -70,4 +70,9 @@
          revision="master"
              path="meta-dac-sdk"/>
 
+  <project remote="github"
+             name="rdkcmf/meta-rdk-video"
+         revision="rdk-next"
+             path="meta-rdk-video"/>
+
 </manifest>
