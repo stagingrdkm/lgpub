@@ -75,4 +75,9 @@
          revision="rdk-next"
              path="meta-rdk-video"/>
 
+  <project remote="github"
+             name="rdkcmf/meta-rdk-ext"
+         revision="rdk-next"
+             path="meta-rdk-ext"/>
+
 </manifest>
