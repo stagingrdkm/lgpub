@@ -72,7 +72,7 @@
 
   <project remote="github"
              name="stagingrdkm/meta-rdk-flutter"
-         revision="master"
+         revision="main"
              path="meta-rdk-flutter"/>
 
   <project remote="github"
