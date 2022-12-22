@@ -71,6 +71,11 @@
              path="meta-dac-sdk"/>
 
   <project remote="github"
+             name="stagingrdkm/meta-rdk-flutter"
+         revision="master"
+             path="meta-rdk-flutter"/>
+
+  <project remote="github"
              name="rdkcmf/meta-rdk-video"
          revision="rdk-next"
              path="meta-rdk-video"/>
