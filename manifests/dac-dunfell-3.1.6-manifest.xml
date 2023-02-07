@@ -21,8 +21,10 @@
   <remote name="yocto"
          fetch="git://git.yoctoproject.org/"/>
 
-  <default remote="github" revision="master" sync-j="32" />
+  <remote name="cmf" review="https://code.rdkcentral.com/r/"
+          fetch="https://code.rdkcentral.com/r/"/>
 
+  <default remote="github" revision="master" sync-j="32" />
 
   <project remote="github"
              name="dwrobel/poky"
@@ -75,14 +77,29 @@
          revision="main"
              path="meta-rdk-flutter"/>
 
-  <project remote="github"
-             name="rdkcmf/meta-rdk-video"
+  <project remote="cmf"
+             name="rdk/components/generic/rdk-oe/meta-rdk-video"
          revision="rdk-next"
              path="meta-rdk-video"/>
 
-  <project remote="github"
-             name="rdkcmf/meta-rdk-ext"
+  <project remote="cmf"
+             name="rdk/components/generic/rdk-oe/meta-cmf"
+         revision="rdk-next"
+             path="meta-cmf"/>
+
+  <project remote="cmf"
+             name="rdk/components/generic/rdk-oe/meta-rdk"
+         revision="rdk-next"
+             path="meta-rdk"/>
+
+  <project remote="cmf"
+             name="rdk/components/generic/rdk-oe/meta-rdk-ext"
          revision="rdk-next"
              path="meta-rdk-ext"/>
+
+  <project remote="cmf"
+             name="rdk/components/generic/rdk-oe/meta-rdk-cobalt"
+         revision="rdk-next"
+             path="meta-rdk-cobalt"/>
 
 </manifest>
