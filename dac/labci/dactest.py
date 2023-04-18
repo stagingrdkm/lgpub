@@ -1,0 +1,427 @@
+#!/usr/bin/env python3
+#
+# Copyright (c) 2023, Liberty Global Service B.V. all rights reserved.
+#
+# required deps: pip3 install requests colorama websocket-client
+import sys, os
+import json
+import random
+import time
+import requests  # pip3 install requests
+from colorama import Fore, Back, Style, init  # pip3 install colorama
+from websocket import create_connection  # pip3 install websocket-client
+
+ASMS = "http://appstore-metadata-service.labci.ecx.appdev.io"
+MIMETYPE = "application/vnd.rdk-app.dac.native"
+
+# 2008C-STB-DEV
+#   yocto 2.2 - no rialto:
+#     FIRMWARE = "0.1.0-26a2f3c8c634f2194534b553c340feb2fc567870-dbg"
+#   yocto 3.1 - no rialto:
+#     FIRMWARE = "0.1.0-406e1982d1a9ce6359e5a11bb08502b63d51ae47-dbg"
+#   yocto 3.1 - with rialto:
+#     FIRMWARE = "0.1.1-38e90b375c587cd2a378f7c04e1016f9b33ad2f3-dbg"
+#
+# VIP7002W-STB-DEV
+#   yocto 3.1 - with rialto:
+#     FIRMWARE = "0.1.1-53c2928ebfa3011a18f572e2d8e7a56e03cbed02-dbg"
+
+PLATFORM = "2008C-STB-DEV"
+FIRMWARE = "0.1.0-406e1982d1a9ce6359e5a11bb08502b63d51ae47-dbg"
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+
+def log_line(line):
+    global logs
+    logs.append(line)
+    if len(logs) > 10:
+        logs.pop(0)
+
+
+def print_log():
+    global logs
+    for line in logs:
+        print(line)
+
+
+def asms_stb_list_apps():
+    global asms_reachable
+
+    if 'asms_reachable' in globals() and not asms_reachable:
+        return []
+
+    print("Getting apps from ASMS ...")
+    params = {
+        'type': MIMETYPE,
+        'platform': 'arm:v7:linux'
+    }
+    # log_line(Fore.LIGHTBLACK_EX + "SENDING:  " + ASMS + "/apps : "+ json.dumps(params))
+    try:
+        r = requests.get(ASMS + "/apps", params=params, timeout=3)
+        asms_reachable = True
+    except:
+        asms_reachable = False
+        return []
+
+    # log_line(Fore.LIGHTBLACK_EX + "RECEIVED: " + json.dumps(r.json()))
+    apps = r.json()['applications']
+    apps.sort(key=lambda x: x['id'])
+
+    return apps
+
+
+def asms_stb_app_details(id, version):
+    params = {
+        'platformName': PLATFORM,
+        'firmwareVer': FIRMWARE
+    }
+    log_line(Fore.LIGHTBLACK_EX + "SENDING:  " + ASMS + "/apps/" + requests.utils.quote(
+        id + ":" + version) + " : " + json.dumps(params))
+    r = requests.get(ASMS + "/apps/" + requests.utils.quote(id + ":" + version), params=params)
+    log_line(Fore.LIGHTBLACK_EX + "RECEIVED: " + json.dumps(r.json()))
+    return r.json()
+
+
+def asms_stb_app_url(id, version):
+    return asms_stb_app_details(id, version)['header']['url']
+
+
+def asms_maintainer_delete_app(id, version):
+    log_line(Fore.LIGHTBLACK_EX + "SENDING:  DELETE " + ASMS + "/maintainers/" + requests.utils.quote(
+        "lgi-dac") + "/apps/" + requests.utils.quote(id + ":" + version))
+    r = requests.delete(
+        ASMS + "/maintainers/" + requests.utils.quote("lgi-dac") + "/apps/" + requests.utils.quote(id + ":" + version))
+    log_line(Fore.LIGHTBLACK_EX + "RECEIVED: " + str(r.status_code) + " " + r.text)
+
+
+def asms_maintainer_create_app():
+    id = input("id -> ")
+    if id == "":
+        print(Fore.RED + "Bad input")
+        time.sleep(1)
+        return
+    name = input("name (default 'some app') -> ")
+    if name == "":
+        name = "some app"
+    version = input("version (default '1.0.0') -> ")
+    if version == "":
+        version = "1.0.0"
+    ociImageUrl = input("ociImageUrl (default 'docker://registry.lgi.io/dac/doom:latest') -> ")
+    if ociImageUrl == "":
+        ociImageUrl = "docker://registry.lgi.io/dac/doom:latest"
+
+    body = {
+        "header": {
+            "icon": "https://www.chocolate-doom.org/wiki/images/7/77/Chocolate-logo.png",
+            "name": name,
+            "description": name,
+            "type": MIMETYPE,
+            "size": 13000000,
+            "category": "application",
+            "id": id,
+            "version": version,
+            "visible": True,
+            "ociImageUrl": ociImageUrl
+        },
+        "requirements": {
+            "platform": {
+                "architecture": "arm",
+                "variant": "v7",
+                "os": "linux"
+            },
+            "hardware": {
+                "ram": "512M",
+                "dmips": "2000",
+                "persistent": "10M",
+                "cache": "200M"
+            }
+        },
+        "maintainer": {
+            "code": "lgi-dac",
+            "name": "Liberty Global",
+            "address": "Liberty Global B.V., Boeing Avenue 53, 1119 PE Schiphol Rijk, The Netherlands",
+            "homepage": "https://www.libertyglobal.com",
+            "email": "sverkoyen.contractor@libertyglobal.com"
+        },
+        "versions": [
+            {
+                "version": version,
+                "visible": True
+            }
+        ]
+    }
+    log_line(Fore.LIGHTBLACK_EX + "SENDING:  POST " + ASMS + "/maintainers/" + requests.utils.quote(
+        "lgi-dac") + "/apps : " + json.dumps(body))
+    r = requests.post(ASMS + "/maintainers/" + requests.utils.quote("lgi-dac") + "/apps", json=body)
+    log_line(Fore.LIGHTBLACK_EX + "RECEIVED: " + str(r.status_code) + " " + r.text)
+
+
+def do_wscmd(ws, cmd, log=True):
+    cmd['id'] = random.randint(1, 1000000)
+    cmd['jsonrpc'] = "2.0"
+    cmdstring = json.dumps(cmd)
+    if log:
+        log_line(Fore.LIGHTBLACK_EX + "SENDING:  " + cmdstring)
+    ws.send(cmdstring)
+    result = ws.recv()
+    if log:
+        log_line(Fore.LIGHTBLACK_EX + "RECEIVED: " + result)
+    result = json.loads(result)
+    if 'id' not in result or result['id'] != cmd['id']:
+        print(Fore.RED + "Bad reqid when waiting for ws result")
+        return None
+    if 'result' not in result:
+        return None
+    else:
+        return result['result']
+
+
+def lisa_list_installed_apps(ws_thunder):
+    result = do_wscmd(ws_thunder, {"method": "LISA.1.getList"}, log=False)
+    return result['apps'] if 'apps' in result else []
+
+
+def lisa_progress(ws_thunder, handle):
+    cmd = {"method": "LISA.1.getProgress", "params":
+        {"handle": handle}
+           }
+    return do_wscmd(ws_thunder, cmd, False)
+
+
+def lisa_install_app(ws_thunder, id, version, url):
+    ## fix the url
+    # url = url.replace("rdk-tarballs-binary-storage.s3.eu-central-1.amazonaws.com", "appstore-caching-service.labci.ecx.appdev.io")
+    # url = url.replace("rdk-tarballs-binary-storage.s3.eu-central-1.amazonaws.com", "localhost:81/common-service/appstore-caching-service")
+    ## fix the _ -> -
+    # url = url.replace("_","-")
+
+    cmd = {"method": "LISA.1.install", "params":
+        {"id": id, "type": MIMETYPE, "version": version,
+         "url": url, "appName": "name", "category": "cat"
+         }
+           }
+    handle = do_wscmd(ws_thunder, cmd)
+    if handle != "":
+        progress = lisa_progress(ws_thunder, handle)
+        while progress != None:
+            print("--> %d%%" % progress)
+            time.sleep(0.5)
+            progress = lisa_progress(ws_thunder, handle)
+
+
+def lisa_install_app_manual(ws_thunder):
+    id = input("id -> ")
+    if id == "":
+        print(Fore.RED + "Bad input")
+        time.sleep(1)
+        return
+    name = input("name (default 'some app') -> ")
+    if name == "":
+        name = "some app"
+    version = input("version (default '1.0.0') -> ")
+    if version == "":
+        version = "1.0.0"
+    url = input("url -> ")
+    if url == "":
+        print(Fore.RED + "Bad input")
+        time.sleep(1)
+        return
+    cmd = {"method": "LISA.1.install", "params":
+        {"id": id, "type": MIMETYPE, "version": version,
+         "url": url, "appName": name, "category": "cat"
+         }
+           }
+    handle = do_wscmd(ws_thunder, cmd)
+    if handle != "":
+        progress = lisa_progress(ws_thunder, handle)
+        while progress is not None:
+            print("--> %d%%" % progress)
+            time.sleep(0.5)
+            progress = lisa_progress(ws_thunder, handle)
+
+
+def lisa_uninstall_app(ws_thunder, id, version):
+    cmd = {"method": "LISA.1.uninstall", "params":
+        {"id": id, "type": MIMETYPE, "version": version,
+         "uninstallType": "full"}
+           }
+    handle = do_wscmd(ws_thunder, cmd)
+    if handle != "":
+        progress = lisa_progress(ws_thunder, handle)
+        while progress is not None:
+            print("--> %d%%" % progress)
+            time.sleep(0.5)
+            progress = lisa_progress(ws_thunder, handle)
+
+
+def awc_start_app(ws_awc, id):
+    cmd = {"method": "com.libertyglobal.rdk.awc.1.start", "params":
+        {"appId": id, "appMimeType": MIMETYPE}
+           }
+    result = do_wscmd(ws_awc, cmd)
+    return result
+
+
+def awc_opac_app(ws_awc, id):
+    cmd = {"method": "com.libertyglobal.rdk.awc.1.setOpacity", "params":
+        {"appId": id, "opacity": 1.0}
+           }
+    result = do_wscmd(ws_awc, cmd)
+    return result
+
+
+def awc_focus_app(ws_awc, id):
+    cmd = {"method": "com.libertyglobal.rdk.awc.1.setFocus", "params":
+        {"appId": id}
+           }
+    result = do_wscmd(ws_awc, cmd)
+    return result
+
+
+def awc_stop_app(ws_awc, id):
+    cmd = {"method": "com.libertyglobal.rdk.awc.1.stop", "params":
+        {"appId": id, "reason": 2}
+           }
+    result = do_wscmd(ws_awc, cmd)
+    return result
+
+
+def awc_apps_info(ws_awc):
+    result = do_wscmd(ws_awc, {"method": "com.libertyglobal.rdk.awc.1.getApplicationsInfo"}, log=False)
+    return result['appInfo'] if 'appInfo' in result else []
+
+
+def which_app(apps, cmd):
+    if len(cmd) <= 1:
+        return None
+    try:
+        idx = int(cmd[1:])
+    except (TypeError, ValueError):
+        print(Fore.RED + "Bad input")
+        return None
+    if not 0 <= idx < len(apps):
+        print(Fore.RED + "Bad input")
+        return None
+    return apps[idx]
+
+
+def print_menu(apps):
+    global asms_reachable
+    clear()
+    err_asms = (Fore.LIGHTRED_EX + "!! ASMS NOT REACHABLE !!") if not asms_reachable else ""
+    print(Fore.LIGHTYELLOW_EX + f"Apps (A=ASMS app, I=installed, R=running) {err_asms} : ")
+    cnt = 0
+    for app in apps:
+        prefix = ("A" if app['asms'] else ".")
+        prefix += ("I" if app['installed'] else ".")
+        prefix += ("R" if app['running'] else ".")
+        prefix += " "
+        print(prefix + str(cnt).ljust(3) + " : " + (app['id'] + " " + app['version']).ljust(40) + " = " + app['name'])
+        cnt += 1
+
+    print_log()
+    print(
+        Fore.LIGHTYELLOW_EX + "R  : refresh               " + Fore.LIGHTRED_EX + " Q  : quit     " + Fore.LIGHTBLUE_EX +
+        "C : clear log")
+    install_from_asms = ""
+    if asms_reachable:
+        print(Fore.LIGHTYELLOW_EX + f"A  : add new app to ASMS    Dx : remove app x from ASMS")
+        install_from_asms = "Ix : install app from ASMS  "
+    print(Fore.LIGHTYELLOW_EX + f"{install_from_asms}X : install from URL        Ux : uninstall app from STB")
+    print(Fore.LIGHTYELLOW_EX + f"Sx : start app on STB       Tx : stop app on STB")
+    return input("Your wish? --> ").upper()
+
+
+def get_apps():
+    global ws_awc, ws_thunder
+    apps = asms_stb_list_apps()
+    for app in apps:
+        app['installed'] = False
+        app['running'] = False
+        app['asms'] = True
+
+    installed_apps = lisa_list_installed_apps(ws_thunder)
+    for app in installed_apps:
+        found = False
+        for asms_app in apps:
+            if asms_app['id'] == app['id']:
+                asms_app['installed'] = True
+                found = True
+                break
+        if not found:
+            if 'installed' in app:
+                for installed_version in app['installed']:
+                    new_app = {'id': app['id'], 'version': installed_version['version'],
+                               'name': installed_version['appName'], 'installed': True, 'asms': False, 'running': False}
+                    apps.append(new_app)
+
+    running_apps = awc_apps_info(ws_awc)
+    for running_app in running_apps:
+        for app in apps:
+            if running_app['appId'] == app['id']:
+                appstate = running_app['appState'] if 'appState' in running_app else "No"
+                app['running'] = True if appstate == 'Started' else False
+                break
+
+    return sorted(apps, key=lambda x: (not x['installed'], x['id']))
+
+
+def main():
+    global ws_awc, ws_thunder, logs
+    init(autoreset=True)
+    if len(sys.argv) <= 1:
+        print(Fore.LIGHTYELLOW_EX + "Usage: ")
+        print(Fore.LIGHTYELLOW_EX + "test.py stb_ipaddress")
+        exit(0)
+    stb_ip = sys.argv[1]
+    logs = []
+    ws_thunder = "ws://" + stb_ip + ":9998/jsonrpc"
+    ws_awc = "ws://" + stb_ip + ":8083"
+
+    print("Trying to connect to STB at " + stb_ip)
+    print(Fore.LIGHTRED_EX + "Make sure box listens to thunder and awc ws ports and allows it (iptables)")
+    print("Connecting to Thunder " + ws_thunder + " ...")
+    ws_thunder = create_connection(ws_thunder)
+    print("Connecting to AWC " + ws_awc + " ...")
+    ws_awc = create_connection(ws_awc)
+
+    while True:
+        apps = get_apps()
+
+        cmd = print_menu(apps)
+        app = which_app(apps, cmd)
+
+        if cmd == "R" or cmd == "":
+            continue
+        elif cmd == "Q":
+            print(Fore.LIGHTYELLOW_EX + "See you later...")
+            exit(0)
+        elif cmd[0] == "D" and app:
+            asms_maintainer_delete_app(app['id'], app['version'])
+        elif cmd[0] == "I" and app and app['asms'] and not app['installed']:
+            lisa_install_app(ws_thunder, app['id'], app['version'], asms_stb_app_url(app['id'], app['version']))
+        elif cmd[0] == "X":
+            lisa_install_app_manual(ws_thunder)
+        elif cmd[0] == "S" and app and app['installed'] and not app['running']:
+            awc_start_app(ws_awc, app['id'])
+            print(Fore.LIGHTYELLOW_EX + "Attempted start, waiting a bit before opacity+focus...")
+            time.sleep(5)
+            awc_opac_app(ws_awc, app['id'])
+            awc_focus_app(ws_awc, app['id'])
+        elif cmd[0] == "T" and app and app['running']:
+            awc_stop_app(ws_awc, app['id'])
+        elif cmd[0] == "U" and app and app['installed']:
+            lisa_uninstall_app(ws_thunder, app['id'], app['version'])
+        elif cmd == "A":
+            asms_maintainer_create_app()
+        elif cmd == "C":
+            logs.clear()
+        else:
+            print(Fore.LIGHTYELLOW_EX + "Pardon?")
+            time.sleep(1)
+
+
+if __name__ == "__main__":
+    main()
