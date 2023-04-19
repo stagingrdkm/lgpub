@@ -14,20 +14,17 @@ from websocket import create_connection  # pip3 install websocket-client
 ASMS = "http://appstore-metadata-service.labci.ecx.appdev.io"
 MIMETYPE = "application/vnd.rdk-app.dac.native"
 
-# 2008C-STB-DEV
-#   yocto 2.2 - no rialto:
-#     FIRMWARE = "0.1.0-26a2f3c8c634f2194534b553c340feb2fc567870-dbg"
-#   yocto 3.1 - no rialto:
-#     FIRMWARE = "0.1.0-406e1982d1a9ce6359e5a11bb08502b63d51ae47-dbg"
+# 2008C-STB
 #   yocto 3.1 - with rialto:
-#     FIRMWARE = "0.1.1-38e90b375c587cd2a378f7c04e1016f9b33ad2f3-dbg"
+#     FIRMWARE = "0.1.1-00b7e2b8621a78adc2f1845abafdd89c2969e189-dbg"
 #
-# VIP7002W-STB-DEV
+# VIP7002W
 #   yocto 3.1 - with rialto:
-#     FIRMWARE = "0.1.1-53c2928ebfa3011a18f572e2d8e7a56e03cbed02-dbg"
+#     FIRMWARE = "0.1.1-2ca0e8774ba96c08b78b621afe5991dd4a397e1b-dbg"
 
-PLATFORM = "2008C-STB-DEV"
-FIRMWARE = "0.1.0-406e1982d1a9ce6359e5a11bb08502b63d51ae47-dbg"
+PLATFORM = "2008C-STB"
+FIRMWARE = "0.1.1-00b7e2b8621a78adc2f1845abafdd89c2969e189-dbg"
+
 
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -310,6 +307,8 @@ def which_app(apps, cmd):
 def print_menu(apps):
     global asms_reachable
     clear()
+    if asms_reachable:
+        print(Fore.LIGHTYELLOW_EX + f"PLATFORM {Fore.LIGHTBLUE_EX}{PLATFORM}{Fore.LIGHTYELLOW_EX} - FIRMWARE {Fore.LIGHTBLUE_EX}{FIRMWARE}{Fore.LIGHTYELLOW_EX}")
     err_asms = (Fore.LIGHTRED_EX + "!! ASMS NOT REACHABLE !!") if not asms_reachable else ""
     print(Fore.LIGHTYELLOW_EX + f"Apps (A=ASMS app, I=installed, R=running) {err_asms} : ")
     cnt = 0
