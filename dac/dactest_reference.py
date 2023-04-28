@@ -59,6 +59,12 @@ def lisa_list_installed_apps(ws_thunder):
     return result['apps'] if 'apps' in result else []
 
 
+def lisa_get_metadata_app(ws_thunder, id, version):
+    result = do_wscmd(ws_thunder, {"method": "LISA.1.getMetadata", "params":
+        {"id": id, "type": MIMETYPE, "version": version}}, log=True)
+    return result['auxMetadata'] if 'auxMetadata' in result else []
+
+
 def lisa_progress(ws_thunder, handle):
     cmd = {"method": "LISA.1.getProgress", "params":
         {"handle": handle}
@@ -205,7 +211,7 @@ def print_menu(apps, rdkshell_apps):
     print(
         Fore.LIGHTYELLOW_EX + "R  : refresh               " + Fore.LIGHTRED_EX + "Q  : quit     " + Fore.LIGHTBLUE_EX + "C : clear log")
     print(Fore.LIGHTYELLOW_EX + "I  : install app onto STB  Ux : uninstall app from STB")
-    print(Fore.LIGHTYELLOW_EX + "Sx : start app on STB      Tx : stop app on STB")
+    print(Fore.LIGHTYELLOW_EX + "Sx : start app on STB      Tx : stop app on STB        Mx : metadata of app")
     return input("Your wish? --> ").upper()
 
 
@@ -260,6 +266,13 @@ def main():
             rdkshell_focus_app(ws_thunder, RESIDENT_APP_ID)
         elif cmd[0] == "U" and id:
             lisa_uninstall_app(ws_thunder, id, version)
+        elif cmd[0] == "M" and app:
+            metadata = lisa_get_metadata_app(ws_thunder, id, version)
+            for x in metadata:
+                print(Fore.LIGHTMAGENTA_EX + x['key'] + " = " + x['value'])
+            if len(metadata) == 0:
+                print(Fore.LIGHTRED_EX + "No metadata present...")
+            input("Press [ENTER] to continue...")
         elif cmd == "C":
             logs.clear()
         else:

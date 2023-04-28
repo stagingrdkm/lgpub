@@ -179,6 +179,10 @@ def lisa_list_installed_apps(ws_thunder):
     result = do_wscmd(ws_thunder, {"method": "LISA.1.getList"}, log=False)
     return result['apps'] if 'apps' in result else []
 
+def lisa_get_metadata_app(ws_thunder, id, version):
+    result = do_wscmd(ws_thunder, {"method": "LISA.1.getMetadata", "params":
+        {"id": id, "type": MIMETYPE, "version": version}}, log=True)
+    return result['auxMetadata'] if 'auxMetadata' in result else []
 
 def lisa_progress(ws_thunder, handle):
     cmd = {"method": "LISA.1.getProgress", "params":
@@ -329,7 +333,7 @@ def print_menu(apps):
         print(Fore.LIGHTYELLOW_EX + f"A  : add new app to ASMS    Dx : remove app x from ASMS")
         install_from_asms = "Ix : install app from ASMS  "
     print(Fore.LIGHTYELLOW_EX + f"{install_from_asms}X : install from URL        Ux : uninstall app from STB")
-    print(Fore.LIGHTYELLOW_EX + f"Sx : start app on STB       Tx : stop app on STB")
+    print(Fore.LIGHTYELLOW_EX + f"Sx : start app on STB       Tx : stop app on STB        Mx : metadata of app")
     return input("Your wish? --> ").upper()
 
 
@@ -415,6 +419,13 @@ def main():
             lisa_uninstall_app(ws_thunder, app['id'], app['version'])
         elif cmd == "A":
             asms_maintainer_create_app()
+        elif cmd[0] == "M" and app:
+            metadata = lisa_get_metadata_app(ws_thunder, app['id'], app['version'])
+            for x in metadata:
+                print(Fore.LIGHTMAGENTA_EX + x['key'] + " = " + x['value'])
+            if len(metadata) == 0:
+                print(Fore.LIGHTRED_EX + "No metadata present...")
+            input("Press [ENTER] to continue...")
         elif cmd == "C":
             logs.clear()
         else:
