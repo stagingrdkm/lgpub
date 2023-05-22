@@ -179,10 +179,12 @@ def lisa_list_installed_apps(ws_thunder):
     result = do_wscmd(ws_thunder, {"method": "LISA.1.getList"}, log=False)
     return result['apps'] if 'apps' in result else []
 
+
 def lisa_get_metadata_app(ws_thunder, id, version):
     result = do_wscmd(ws_thunder, {"method": "LISA.1.getMetadata", "params":
         {"id": id, "type": MIMETYPE, "version": version}}, log=True)
     return result['auxMetadata'] if 'auxMetadata' in result else []
+
 
 def lisa_progress(ws_thunder, handle):
     cmd = {"method": "LISA.1.getProgress", "params":
@@ -244,9 +246,14 @@ def lisa_install_app_manual(ws_thunder):
 
 
 def lisa_uninstall_app(ws_thunder, id, version):
+    uninstallType = input("FULL (F) or  UPGRADE(U)? -> ").upper()
+    if uninstallType != "F" and uninstallType != "U":
+        print(Fore.RED + "Bad input")
+        time.sleep(1)
+        return
     cmd = {"method": "LISA.1.uninstall", "params":
         {"id": id, "type": MIMETYPE, "version": version,
-         "uninstallType": "full"}
+         "uninstallType": ("full" if uninstallType == "F" else "upgrade")}
            }
     handle = do_wscmd(ws_thunder, cmd)
     if handle != "":
@@ -256,6 +263,22 @@ def lisa_uninstall_app(ws_thunder, id, version):
             time.sleep(0.5)
             progress = lisa_progress(ws_thunder, handle)
 
+
+def lisa_uninstall_app_orphan(ws_thunder, id):
+    # when previously an "upgrade" uninstall was done, the data dir of the dac app
+    # remains + some records in the DB
+    # this happens to facilitate the upgrade of an app: afterwards you can install the
+    # new version and then it has retained its persisted data
+    # the function below is meant to remove this "orphaned" data dir + DB record, in case
+    # you want to clean it up
+    cmd = {"method": "LISA.1.uninstall", "params": {"id": id, "type": MIMETYPE, "uninstallType": "full"}}
+    handle = do_wscmd(ws_thunder, cmd)
+    if handle != "":
+        progress = lisa_progress(ws_thunder, handle)
+        while progress is not None:
+            print("--> %d%%" % progress)
+            time.sleep(0.5)
+            progress = lisa_progress(ws_thunder, handle)
 
 def awc_start_app(ws_awc, id):
     cmd = {"method": "com.libertyglobal.rdk.awc.1.start", "params":
@@ -314,12 +337,13 @@ def print_menu(apps):
     if asms_reachable:
         print(Fore.LIGHTYELLOW_EX + f"PLATFORM {Fore.LIGHTBLUE_EX}{PLATFORM}{Fore.LIGHTYELLOW_EX} - FIRMWARE {Fore.LIGHTBLUE_EX}{FIRMWARE}{Fore.LIGHTYELLOW_EX}")
     err_asms = (Fore.LIGHTRED_EX + "!! ASMS NOT REACHABLE !!") if not asms_reachable else ""
-    print(Fore.LIGHTYELLOW_EX + f"Apps (A=ASMS app, I=installed, R=running) {err_asms} : ")
+    print(Fore.LIGHTYELLOW_EX + f"Apps (A=ASMS app, I=installed, R=running, O=orphan) {err_asms} : ")
     cnt = 0
     for app in apps:
         prefix = ("A" if app['asms'] else ".")
         prefix += ("I" if app['installed'] else ".")
         prefix += ("R" if app['running'] else ".")
+        prefix += ("O" if app['orphan'] else ".")
         prefix += " "
         print(prefix + str(cnt).ljust(3) + " : " + (app['id'] + " " + app['version']).ljust(40) + " = " + app['name'])
         cnt += 1
@@ -344,31 +368,39 @@ def get_apps():
         app['installed'] = False
         app['running'] = False
         app['asms'] = True
+        app['orphan'] = False
 
     installed_apps = lisa_list_installed_apps(ws_thunder)
     for app in installed_apps:
         found = False
-        for asms_app in apps:
-            if asms_app['id'] == app['id']:
-                asms_app['installed'] = True
-                found = True
-                break
-        if not found:
-            if 'installed' in app:
+        if 'installed' in app:
+            for asms_app in apps:
+                if asms_app['id'] == app['id']:
+                    for installed_version in app['installed']:
+                        if installed_version['version'] == asms_app['version']:
+                            asms_app['installed'] = True
+                            found = True
+                            break
+            if not found:
                 for installed_version in app['installed']:
                     new_app = {'id': app['id'], 'version': installed_version['version'],
-                               'name': installed_version['appName'], 'installed': True, 'asms': False, 'running': False}
+                               'name': installed_version['appName'], 'installed': True, 'asms': False, 'running': False, 'orphan': False}
                     apps.append(new_app)
+        else:
+            new_app = {'id': app['id'], 'version': '',
+                       'name': '', 'installed': False, 'asms': False, 'running': False,
+                       'orphan': True}
+            apps.append(new_app)
 
     running_apps = awc_apps_info(ws_awc)
     for running_app in running_apps:
         for app in apps:
-            if running_app['appId'] == app['id']:
+            if running_app['appId'] == app['id'] and running_app['appVersion'] == app['version']:
                 appstate = running_app['appState'] if 'appState' in running_app else "No"
                 app['running'] = True if appstate == 'Started' else False
                 break
 
-    return sorted(apps, key=lambda x: (not x['installed'], x['id']))
+    return sorted(apps, key=lambda x: (x['orphan'], not x['installed'], x['id']))
 
 
 def main():
@@ -417,6 +449,8 @@ def main():
             awc_stop_app(ws_awc, app['id'])
         elif cmd[0] == "U" and app and app['installed']:
             lisa_uninstall_app(ws_thunder, app['id'], app['version'])
+        elif cmd[0] == "U" and app and app['orphan']:
+            lisa_uninstall_app_orphan(ws_thunder, app['id'])
         elif cmd == "A":
             asms_maintainer_create_app()
         elif cmd[0] == "M" and app:
