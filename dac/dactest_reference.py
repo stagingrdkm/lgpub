@@ -12,8 +12,10 @@ import time
 from colorama import Fore, init
 from websocket import create_connection
 
-MIMETYPE = "application/vnd.rdk-app.dac.native"
-# MIMETYPE = "application/dac.native"
+# LGI ONEMW uses "application/vnd.rdk-app.dac.native"
+# but RDKShell,Rdkservices, Refapp use "application/dac.native""
+# see here https://github.com/rdkcentral/RDKShell/blob/611b68c488bd8f34d4f358781c83d09472b42128/application.h#L25
+MIMETYPE = "application/dac.native"
 RESIDENT_APP_ID = "residentapp"
 
 
