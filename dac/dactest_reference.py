@@ -55,7 +55,8 @@ def do_wscmd(ws, cmd, log=True):
 
 
 def lisa_list_installed_apps(ws_thunder):
-    result = do_wscmd(ws_thunder, {"method": "LISA.1.getList"}, log=True)
+    result = do_wscmd(ws_thunder, {"method": "LISA.1.getList", "params":
+        {"type": MIMETYPE}}, log=True)
     return result['apps'] if 'apps' in result else []
 
 
@@ -104,10 +105,36 @@ def lisa_install_app(ws_thunder):
 
 
 def lisa_uninstall_app(ws_thunder, id, version):
+    if not version:
+        lisa_uninstall_app_orphan(ws_thunder, id)
+        return
+
+    uninstallType = input("FULL (F) or  UPGRADE(U)? -> ").upper()
+    if uninstallType != "F" and uninstallType != "U":
+        print(Fore.RED + "Bad input")
+        time.sleep(1)
+        return
     cmd = {"method": "LISA.1.uninstall", "params":
         {"id": id, "type": MIMETYPE, "version": version,
-         "uninstallType": "full"}
+         "uninstallType": ("full" if uninstallType == "F" else "upgrade")}
            }
+    handle = do_wscmd(ws_thunder, cmd)
+    if handle != "":
+        progress = lisa_progress(ws_thunder, handle)
+        while progress is not None:
+            print("--> %d%%" % progress)
+            time.sleep(0.5)
+            progress = lisa_progress(ws_thunder, handle)
+
+
+def lisa_uninstall_app_orphan(ws_thunder, id):
+    # when previously an "upgrade" uninstall was done, the data dir of the dac app
+    # remains + some records in the DB
+    # this happens to facilitate the upgrade of an app: afterwards you can install the
+    # new version and then it has retained its persisted data
+    # the function below is meant to remove this "orphaned" data dir + DB record, in case
+    # you want to clean it up
+    cmd = {"method": "LISA.1.uninstall", "params": {"id": id, "type": MIMETYPE, "uninstallType": "full"}}
     handle = do_wscmd(ws_thunder, cmd)
     if handle != "":
         progress = lisa_progress(ws_thunder, handle)
@@ -193,7 +220,7 @@ def which_app(apps, cmd):
 
 def print_menu(apps, rdkshell_apps):
     clear()
-    print(Fore.LIGHTYELLOW_EX + "Installed apps (!=running) : ")
+    print(Fore.LIGHTYELLOW_EX + "Installed apps (!=running, O=orphan) : ")
     cnt = 0
     for app in apps:
         id = app['id']
@@ -205,7 +232,8 @@ def print_menu(apps, rdkshell_apps):
         version = installed_app['version'] if 'version' in installed_app else ""
         name = installed_app['appName'] if 'appName' in installed_app else ""
         prefix = ("!" if is_app_running(id, rdkshell_apps) else " ")
-        print(prefix + str(cnt).ljust(3) + " : " + (id + " " + version).ljust(40) + " = " + name)
+        prefix += (" " if version else "O")
+        print(prefix + " " + str(cnt).ljust(3) + " : " + (id + " " + version).ljust(40) + " = " + name)
         cnt += 1
     print_log()
     print(
