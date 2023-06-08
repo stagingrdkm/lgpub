@@ -15,15 +15,20 @@ ASMS = "http://appstore-metadata-service.labci.ecx.appdev.io"
 MIMETYPE = "application/vnd.rdk-app.dac.native"
 
 # 2008C-STB
-#   yocto 3.1 - with rialto:
+#   yocto 3.1 - with /tmp/rialto-0 path:
 #     FIRMWARE = "0.1.1-00b7e2b8621a78adc2f1845abafdd89c2969e189-dbg"
+#   yocto 3.1 - with /var/run/rialto/{id} path:
+#     FIRMWARE = "0.1.2-3dc2c997ea95ccf4107acc4e4526d4e3fed7b4e4-dbg"
+
 #
 # VIP7002W
-#   yocto 3.1 - with rialto:
+#   yocto 3.1 - with /tmp/rialto-0 path:
 #     FIRMWARE = "0.1.1-2ca0e8774ba96c08b78b621afe5991dd4a397e1b-dbg"
+#   yocto 3.1 - with /var/run/rialto/{id} path:
+#     FIRMWARE = "0.1.2-911ef4b6f2833999b15cbd3255d468dcf0e15e63-dbg"
 
-PLATFORM = "2008C-STB"
-FIRMWARE = "0.1.1-00b7e2b8621a78adc2f1845abafdd89c2969e189-dbg"
+PLATFORM = "VIP7002W"
+FIRMWARE = "0.1.1-2ca0e8774ba96c08b78b621afe5991dd4a397e1b-dbg"
 
 
 def clear():
