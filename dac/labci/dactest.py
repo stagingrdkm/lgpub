@@ -13,21 +13,25 @@ from colorama import Fore, init  # pip3 install colorama
 import websocket  # pip3 install websocket-client
 
 # ####### CONFIG SECTION , change config here
-ASMS_PLATFORM = "VIP7002W"
-ASMS_FIRMWARE = "0.1.1-2ca0e8774ba96c08b78b621afe5991dd4a397e1b-dbg"
+ASMS_PLATFORM = "" ## if not set then default below is used
+ASMS_FIRMWARE = "" ## if not set then default below is used
 MAX_LOG_LINES = 10
 MAX_CHARS_PER_LOG_LINE = 512
 # #################################################
 
 # ONEMW ########
-MIMETYPE = "application/vnd.rdk-app.dac.native"
-ASMS_MAINTAINER = "lgi-dac"
-ASMS_URL = "http://appstore-metadata-service.labci.ecx.appdev.io"
+DEFAULT_ASMS_PLATFORM_ONEMW = "VIP7002W"
+DEFAULT_ASMS_FIRMWARE_ONEMW = "0.1.1-2ca0e8774ba96c08b78b621afe5991dd4a397e1b-dbg"
+MIMETYPE_ONEMW = "application/vnd.rdk-app.dac.native"
+ASMS_MAINTAINER_ONEMW = "lgi-dac"
+ASMS_URL_ONEMW = "http://appstore-metadata-service.labci.ecx.appdev.io"
 # Swagger http://appstore-metadata-service.labci.ecx.appdev.io/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
 
 # RDK ##########
-MIMETYPE_RDK = "application/dac.native"
 RESIDENT_APP_ID = "residentapp"
+DEFAULT_ASMS_PLATFORM_RDK = "rpi3"
+DEFAULT_ASMS_FIRMWARE_RDK = "1.0.0-2b0e9ede88821f9c76f263ac7fef29739968dabd-dbg"
+MIMETYPE_RDK = "application/dac.native"
 ASMS_MAINTAINER_RDK = "rdk"
 ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
 # Swagger http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
@@ -38,13 +42,20 @@ ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
 #     FIRMWARE = "0.1.1-00b7e2b8621a78adc2f1845abafdd89c2969e189-dbg"
 #   yocto 3.1 - with /var/run/rialto/{id} path:
 #     FIRMWARE = "0.1.2-3dc2c997ea95ccf4107acc4e4526d4e3fed7b4e4-dbg"
-
 #
 # VIP7002W
 #   yocto 3.1 - with /tmp/rialto-0 path:
 #     FIRMWARE = "0.1.1-2ca0e8774ba96c08b78b621afe5991dd4a397e1b-dbg"
 #   yocto 3.1 - with /var/run/rialto/{id} path:
 #     FIRMWARE = "0.1.2-911ef4b6f2833999b15cbd3255d468dcf0e15e63-dbg"
+
+# RDK PLATFORMS AND FIRMWARES
+# 7218c
+#   yocto 3.1 - with /tmp/rialto-0 path:
+#     FIRMWARE = "1.0.0-7c9925ad68b829d64db1abfdb6f556e35f3ab662-dbg"
+# rpi3
+#   yocto 3.1 - with /tmp/rialto-0 path:
+#     FIRMWARE = "1.0.0-2b0e9ede88821f9c76f263ac7fef29739968dabd-dbg"
 
 class DacTool:
     def __init__(self, stb_ip):
@@ -56,6 +67,8 @@ class DacTool:
         self.mimetype = ''
         self.asms_url = ''
         self.asms_maintainer = ''
+        self.asms_platform = ''
+        self.asms_firmware_version = ''
 
     @staticmethod
     def clear():
@@ -101,8 +114,8 @@ class DacTool:
 
     def asms_stb_app_details(self, id, version):
         params = {
-            'platformName': ASMS_PLATFORM,
-            'firmwareVer': ASMS_FIRMWARE
+            'platformName': self.asms_platform,
+            'firmwareVer': self.asms_firmware_version
         }
         self.log_line(Fore.LIGHTBLACK_EX + "SENDING:  " + self.asms_url + "/apps/" + requests.utils.quote(
             id + ":" + version) + " : " + json.dumps(params))
@@ -413,10 +426,10 @@ class DacTool:
         self.clear()
         if self.asms_reachable:
             print(
-                Fore.LIGHTYELLOW_EX + f"PLATFORM {Fore.LIGHTBLUE_EX}{ASMS_PLATFORM}{Fore.LIGHTYELLOW_EX} - FIRMWARE {Fore.LIGHTBLUE_EX}{ASMS_FIRMWARE}{Fore.LIGHTYELLOW_EX}")
+                Fore.LIGHTYELLOW_EX + f"PLATFORM {Fore.LIGHTBLUE_EX}{self.asms_platform}{Fore.LIGHTYELLOW_EX} - FIRMWARE {Fore.LIGHTBLUE_EX}{self.asms_firmware_version}{Fore.LIGHTYELLOW_EX}")
         err_asms = (Fore.LIGHTRED_EX + "!! ASMS NOT REACHABLE !!") if not self.asms_reachable else ""
         mode = Fore.LIGHTYELLOW_EX + "Mode " + Fore.LIGHTBLUE_EX + (
-            "ONEMW AWC " if self.ws_awc else "RDKSHELL ") + Fore.LIGHTYELLOW_EX
+            "ONEMW (AWC) " if self.ws_awc else "RDK (RDKShell) ") + Fore.LIGHTYELLOW_EX
         print(Fore.LIGHTYELLOW_EX + f"{mode}Apps (A=ASMS app, I=installed, R=running, O=orphan) {err_asms} : ")
         cnt = 0
         for app in apps:
@@ -492,14 +505,18 @@ class DacTool:
         try:
             print("Connecting to AWC " + self.ws_awc + " ...")
             self.ws_awc = websocket.create_connection(self.ws_awc)
-            self.mimetype = MIMETYPE
-            self.asms_url = ASMS_URL
-            self.asms_maintainer = ASMS_MAINTAINER
+            self.mimetype = MIMETYPE_ONEMW
+            self.asms_url = ASMS_URL_ONEMW
+            self.asms_maintainer = ASMS_MAINTAINER_ONEMW
+            self.asms_platform = ASMS_PLATFORM if len(ASMS_PLATFORM) > 0 else DEFAULT_ASMS_PLATFORM_ONEMW
+            self.asms_firmware_version = DEFAULT_ASMS_FIRMWARE_ONEMW if len(ASMS_FIRMWARE) > 0 else DEFAULT_ASMS_FIRMWARE_ONEMW
         except ConnectionRefusedError:
             print("Could not connect to AWC, using RDKShell instead !")
             self.mimetype = MIMETYPE_RDK
             self.asms_url = ASMS_URL_RDK
             self.asms_maintainer = ASMS_MAINTAINER_RDK
+            self.asms_platform = ASMS_PLATFORM if len(ASMS_PLATFORM) > 0 else DEFAULT_ASMS_PLATFORM_RDK
+            self.asms_firmware_version = ASMS_FIRMWARE if len(ASMS_FIRMWARE) > 0 else DEFAULT_ASMS_FIRMWARE_RDK
             self.ws_awc = None
 
         while True:
