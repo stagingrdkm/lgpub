@@ -265,7 +265,9 @@ class DacTool:
         self.lisa_do_operation_and_wait_on_progress(cmd)
 
     def lisa_uninstall_app(self, id, version):
-        uninstallType = input("FULL (F) or  UPGRADE(U)? -> ").upper()
+        uninstallType = input("FULL (F) or  UPGRADE(U)?  (default F) -> ").upper()
+        if uninstallType == "":
+            uninstallType = "F"
         if uninstallType != "F" and uninstallType != "U":
             print(Fore.RED + "Bad input")
             time.sleep(1)
