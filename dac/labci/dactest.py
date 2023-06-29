@@ -511,7 +511,7 @@ class DacTool:
             self.asms_url = ASMS_URL_ONEMW
             self.asms_maintainer = ASMS_MAINTAINER_ONEMW
             self.asms_platform = ASMS_PLATFORM if len(ASMS_PLATFORM) > 0 else DEFAULT_ASMS_PLATFORM_ONEMW
-            self.asms_firmware_version = DEFAULT_ASMS_FIRMWARE_ONEMW if len(ASMS_FIRMWARE) > 0 else DEFAULT_ASMS_FIRMWARE_ONEMW
+            self.asms_firmware_version = ASMS_FIRMWARE if len(ASMS_FIRMWARE) > 0 else DEFAULT_ASMS_FIRMWARE_ONEMW
         except ConnectionRefusedError:
             print("Could not connect to AWC, using RDKShell instead !")
             self.mimetype = MIMETYPE_RDK
