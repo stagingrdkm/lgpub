@@ -9,12 +9,12 @@ fi
 API_VERSION=$1
 REL_TYPE=$2
 
-function make_tarball () {
-	HASH=$(cat $1.json $1_libs.json | sha1sum | cut -d' ' -f1)
-	echo HASH=$HASH
+make_tarball () {
+	HASH=$(cat "$1".json "$1"_libs.json | sha1sum | cut -d' ' -f1)
+	echo HASH="$HASH"
 	TARBALL_NAME="$1_$2-$HASH-$3_dac_configs.tgz"
-	echo TARBALL_NAME=$TARBALL_NAME
-    tar czvf $TARBALL_NAME $1.json $1_libs.json
+	echo TARBALL_NAME="$TARBALL_NAME"
+    tar czvf "$TARBALL_NAME" "$1".json "$1"_libs.json
 }
 
 # all .json files in the current directory excluding *_libs.json
@@ -24,5 +24,5 @@ echo "Generating tarballs... "
 for file in $files; do
   filename=$(basename "$file" .json)
   echo "  for $filename..."
-  make_tarball $filename $API_VERSION $REL_TYPE
+  make_tarball "$filename" "$API_VERSION" "$REL_TYPE"
 done
