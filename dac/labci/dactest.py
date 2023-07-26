@@ -40,14 +40,14 @@ ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
 # 2008C-STB
 #   yocto 3.1 - with /tmp/rialto-0 path:
 #     FIRMWARE = "0.1.1-00b7e2b8621a78adc2f1845abafdd89c2969e189-dbg"
-#   yocto 3.1 - with /var/run/rialto/{id} path:
-#     FIRMWARE = "0.1.2-3dc2c997ea95ccf4107acc4e4526d4e3fed7b4e4-dbg"
+#   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
+#     FIRMWARE = "0.1.3-837c064a511bcc637a9410f6064868c3311ed3f4-dbg"
 #
 # VIP7002W
 #   yocto 3.1 - with /tmp/rialto-0 path:
 #     FIRMWARE = "0.1.1-2ca0e8774ba96c08b78b621afe5991dd4a397e1b-dbg"
-#   yocto 3.1 - with /var/run/rialto/{id} path:
-#     FIRMWARE = "0.1.2-911ef4b6f2833999b15cbd3255d468dcf0e15e63-dbg"
+#   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
+#     FIRMWARE = "0.1.3-70bb2a370ec7f7e3a1c4a95c6f51924dc55712cf-dbg"
 
 # RDK PLATFORMS AND FIRMWARES
 # 7218c
@@ -199,7 +199,7 @@ class DacTool:
         if log:
             self.log_line(Fore.LIGHTBLACK_EX + "SENDING:  " + cmdstring)
         ws.send(cmdstring)
-        result = ws.recv()
+        result_string = result = ws.recv()
         if log:
             self.log_line(Fore.LIGHTBLACK_EX + "RECEIVED: " + result)
         result = json.loads(result)
@@ -208,6 +208,10 @@ class DacTool:
             return None
         elif 'error' in result and throwonerror:
             raise Exception('Error: '+ json.dumps(result['error']))
+        elif 'error' in result:
+            # in case of LISA.1.getProgress, an error is expected at the end, so ignore in that case
+            if cmd['method'] != 'LISA.1.getProgress':
+                self.log_line(Fore.LIGHTRED_EX + "RECEIVED: " + result_string)
         elif 'result' not in result:
             return None
         else:
@@ -215,12 +219,12 @@ class DacTool:
 
     def lisa_list_installed_apps(self):
         result = self.do_wscmd(self.ws_thunder, {"method": "LISA.1.getList"}, log=False)
-        return result['apps'] if 'apps' in result else []
+        return result['apps'] if result and 'apps' in result else []
 
     def lisa_get_metadata_app(self, id, version):
         result = self.do_wscmd(self.ws_thunder, {"method": "LISA.1.getMetadata", "params":
             {"id": id, "type": self.mimetype, "version": version}}, log=True)
-        return result['auxMetadata'] if 'auxMetadata' in result else []
+        return result['auxMetadata'] if result and 'auxMetadata' in result else []
 
     def lisa_progress(self, handle):
         cmd = {'method': 'LISA.1.getProgress', 'params': {'handle': handle}}
@@ -408,7 +412,7 @@ class DacTool:
 
     def rdkshell_apps_info(self):
         result = self.do_wscmd(self.ws_thunder, {"method": "org.rdk.RDKShell.1.getClients"}, log=True)
-        return result['clients'] if 'clients' in result else []
+        return result['clients'] if result and 'clients' in result else []
 
     @staticmethod
     def which_app(apps, cmd):
