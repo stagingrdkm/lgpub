@@ -50,12 +50,18 @@ ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
 #     FIRMWARE = "0.1.3-70bb2a370ec7f7e3a1c4a95c6f51924dc55712cf-dbg"
 
 # RDK PLATFORMS AND FIRMWARES
+# ap222
+#   yocto 3.1:
+#     FIRMWARE = "1.0.0-f30f19623bac428f771501c2c141c4c8d54cf5d2-dbg"
 # 7218c
-#   yocto 3.1 - with /tmp/rialto-0 path:
+#   yocto 3.1:
 #     FIRMWARE = "1.0.0-7c9925ad68b829d64db1abfdb6f556e35f3ab662-dbg"
 # rpi3
-#   yocto 3.1 - with /tmp/rialto-0 path:
+#   yocto 3.1:
 #     FIRMWARE = "1.0.0-2b0e9ede88821f9c76f263ac7fef29739968dabd-dbg"
+# rpi4
+#   yocto 3.1:
+#     FIRMWARE = "1.0.0-e40ed603c620d644716cdf3e23fd6589b018e2d4-dbg"
 
 class DacTool:
     def __init__(self, stb_ip):
