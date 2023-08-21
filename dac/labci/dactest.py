@@ -21,7 +21,7 @@ MAX_CHARS_PER_LOG_LINE = 512
 
 # ONEMW ########
 DEFAULT_ASMS_PLATFORM_ONEMW = "VIP7002W"
-DEFAULT_ASMS_FIRMWARE_ONEMW = "0.1.1-2ca0e8774ba96c08b78b621afe5991dd4a397e1b-dbg"
+DEFAULT_ASMS_FIRMWARE_ONEMW = "0.1.3-70bb2a370ec7f7e3a1c4a95c6f51924dc55712cf-dbg"
 MIMETYPE_ONEMW = "application/vnd.rdk-app.dac.native"
 ASMS_MAINTAINER_ONEMW = "lgi-dac"
 ASMS_URL_ONEMW = "http://appstore-metadata-service.labci.ecx.appdev.io"
@@ -53,6 +53,9 @@ ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
 # ap222
 #   yocto 3.1:
 #     FIRMWARE = "1.0.0-f30f19623bac428f771501c2c141c4c8d54cf5d2-dbg"
+# ah212
+#   yocto 3.1:
+#     FIRMWARE = "1.0.0-c28420f07fb916c4768e8e9b69237bd5ad52a853-dbg"
 # 7218c
 #   yocto 3.1:
 #     FIRMWARE = "1.0.0-7c9925ad68b829d64db1abfdb6f556e35f3ab662-dbg"
@@ -62,6 +65,9 @@ ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
 # rpi4
 #   yocto 3.1:
 #     FIRMWARE = "1.0.0-e40ed603c620d644716cdf3e23fd6589b018e2d4-dbg"
+# rtd1319
+#   yocto 3.1:
+#     FIRMWARE = "1.0.0-eb1702c91beb42c6f70cc79e83c681132df44e3c-dbg"
 
 class DacTool:
     def __init__(self, stb_ip):
@@ -152,13 +158,16 @@ class DacTool:
         version = input("version (default '1.0.0') -> ")
         if version == "":
             version = "1.0.0"
-        ociImageUrl = input("ociImageUrl (default 'docker://registry.lgi.io/dac/doom:latest') -> ")
+        ociImageUrl = input("ociImageUrl (default 'docker://public.ecr.aws/a0v6o9z7/chocolate-doom:latest') -> ")
         if ociImageUrl == "":
-            ociImageUrl = "docker://registry.lgi.io/dac/doom:latest"
+            ociImageUrl = "docker://public.ecr.aws/a0v6o9z7/chocolate-doom:latest"
+        icon = input("icon (default 'https://upload.wikimedia.org/wikipedia/en/5/57/Doom_cover_art.jpg') -> ")
+        if icon == "":
+            icon = "https://upload.wikimedia.org/wikipedia/en/5/57/Doom_cover_art.jpg"
 
         body = {
             "header": {
-                "icon": "https://www.chocolate-doom.org/wiki/images/7/77/Chocolate-logo.png",
+                "icon": icon,
                 "name": name,
                 "description": name,
                 "type": self.mimetype,
