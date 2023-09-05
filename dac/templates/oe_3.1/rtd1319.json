@@ -57,7 +57,32 @@
                     "rbind",
                     "nosuid",
                     "nodev",
-                    "ro"
+                    "ro",
+                    "X-mount.mkdir"
+                ]
+            },
+            {
+                "source": "/etc/ssl/certs",
+                "destination": "/etc/ssl/certs",
+                "type": "bind",
+                "options": [
+                    "rbind",
+                    "nosuid",
+                    "nodev",
+                    "ro",
+                    "X-mount.mkdir"
+                ]
+            },
+            {
+                "source": "/usr/share/ca-certificates",
+                "destination": "/usr/share/ca-certificates",
+                "type": "bind",
+                "options": [
+                    "rbind",
+                    "nosuid",
+                    "nodev",
+                    "ro",
+                    "X-mount.mkdir"
                 ]
             },
             {
