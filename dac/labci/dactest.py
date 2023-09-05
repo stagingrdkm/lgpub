@@ -67,8 +67,10 @@ ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
 #     FIRMWARE = "1.0.0-e40ed603c620d644716cdf3e23fd6589b018e2d4-dbg"
 # rtd1319
 #   yocto 3.1:
-#     FIRMWARE = "1.0.0-eb1702c91beb42c6f70cc79e83c681132df44e3c-dbg"
-
+#     FIRMWARE = "1.0.0-8086eb020563d0575723f4e35ce6ce886114027a-dbg"
+# m393
+#   yocto 3.1:
+#     FIRMWARE = "1.0.0-fc903e741c42506cc027903dbb028246ee399aa8-dbg"
 class DacTool:
     def __init__(self, stb_ip):
         self.asms_reachable = None
