@@ -11,10 +11,13 @@ import time
 import requests  # pip3 install requests
 from colorama import Fore, init  # pip3 install colorama
 import websocket  # pip3 install websocket-client
+from requests.auth import HTTPBasicAuth
 
 # ####### CONFIG SECTION , change config here
 ASMS_PLATFORM = "" ## if not set then default below is used
 ASMS_FIRMWARE = "" ## if not set then default below is used
+ASMS_USERNAME = ""
+ASMS_PASSWORD = ""
 MAX_LOG_LINES = 10
 MAX_CHARS_PER_LOG_LINE = 512
 # #################################################
@@ -35,6 +38,9 @@ MIMETYPE_RDK = "application/dac.native"
 ASMS_MAINTAINER_RDK = "rdk"
 ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
 # Swagger http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
+#The same ASMS but with basic auth:
+#ASMS_URL_RDK = "https://asms.default.consult-red.net"
+# Swagger https://asms.default.consult-red.net/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
 
 # ONEMW PLATFORMS AND FIRMWARES
 # 2008C-STB
@@ -114,11 +120,15 @@ class DacTool:
         }
         self.log_line(Fore.LIGHTBLACK_EX + "SENDING:  " + self.asms_url + "/apps : "+ json.dumps(params))
         try:
-            r = requests.get(self.asms_url + "/apps", params=params, timeout=3)
+            r = requests.get(self.asms_url + "/apps", params=params, timeout=3, auth=HTTPBasicAuth(ASMS_USERNAME, ASMS_PASSWORD))
             self.asms_reachable = True
         except requests.exceptions.RequestException:
             self.asms_reachable = False
             return []
+
+        if r.status_code == 401:
+            print(Fore.LIGHTRED_EX + "Not authorized to access ASMS, please set correct ASMS_USERNAME and ASMS_PASSWORD")
+            exit(-2)
 
         self.log_line(Fore.LIGHTBLACK_EX + "RECEIVED: " + json.dumps(r.json()))
         apps = r.json()['applications']
@@ -133,7 +143,7 @@ class DacTool:
         }
         self.log_line(Fore.LIGHTBLACK_EX + "SENDING:  " + self.asms_url + "/apps/" + requests.utils.quote(
             id + ":" + version) + " : " + json.dumps(params))
-        r = requests.get(self.asms_url + "/apps/" + requests.utils.quote(id + ":" + version), params=params)
+        r = requests.get(self.asms_url + "/apps/" + requests.utils.quote(id + ":" + version), params=params, auth=HTTPBasicAuth(ASMS_USERNAME, ASMS_PASSWORD))
         self.log_line(Fore.LIGHTBLACK_EX + "RECEIVED: " + json.dumps(r.json()))
         return r.json()
 
@@ -145,7 +155,7 @@ class DacTool:
             self.asms_maintainer) + "/apps/" + requests.utils.quote(id + ":" + version))
         r = requests.delete(
             self.asms_url + "/maintainers/" + requests.utils.quote(
-                self.asms_maintainer) + "/apps/" + requests.utils.quote(id + ":" + version))
+                self.asms_maintainer) + "/apps/" + requests.utils.quote(id + ":" + version), auth=HTTPBasicAuth(ASMS_USERNAME, ASMS_PASSWORD))
         self.log_line(Fore.LIGHTBLACK_EX + "RECEIVED: " + str(r.status_code) + " " + r.text)
 
     def asms_maintainer_create_app(self):
@@ -206,7 +216,7 @@ class DacTool:
         self.log_line(Fore.LIGHTBLACK_EX + "SENDING:  POST " + self.asms_url + "/maintainers/" + requests.utils.quote(
             self.asms_maintainer) + "/apps : " + json.dumps(body))
         r = requests.post(self.asms_url + "/maintainers/" + requests.utils.quote(self.asms_maintainer) + "/apps",
-                          json=body)
+                          json=body, auth=HTTPBasicAuth(ASMS_USERNAME, ASMS_PASSWORD))
         self.log_line(Fore.LIGHTBLACK_EX + "RECEIVED: " + str(r.status_code) + " " + r.text)
 
     def do_wscmd(self, ws, cmd, log=True, throwonerror=False):
