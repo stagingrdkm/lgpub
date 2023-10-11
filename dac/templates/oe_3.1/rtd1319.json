@@ -94,7 +94,14 @@
                     "rw",
                     "X-dobby.optional"
                 ]
-            }],
+            },
+            {
+                "destination": "/tmp/westeros",
+                "options": [
+                    "X-mount.no"
+                ]
+            }
+        ],
         "envvar": [
             "LD_PRELOAD=/usr/lib/libwayland-client.so.0:/usr/lib/libwayland-egl.so.0",
             "RIALTO_SOCKET_PATH=/tmp/rialto-0"

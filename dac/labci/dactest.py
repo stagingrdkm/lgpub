@@ -33,7 +33,7 @@ ASMS_URL_ONEMW = "http://appstore-metadata-service.labci.ecx.appdev.io"
 # RDK ##########
 RESIDENT_APP_ID = "residentapp"
 DEFAULT_ASMS_PLATFORM_RDK = "rpi3"
-DEFAULT_ASMS_FIRMWARE_RDK = "1.0.0-2b0e9ede88821f9c76f263ac7fef29739968dabd-dbg"
+DEFAULT_ASMS_FIRMWARE_RDK = "1.0.0-f4b0603d7d93dfa10ed932ddb0f324d334bc40f9-dbg"
 MIMETYPE_RDK = "application/dac.native"
 ASMS_MAINTAINER_RDK = "rdk"
 ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
@@ -56,27 +56,27 @@ ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
 #     FIRMWARE = "0.1.3-70bb2a370ec7f7e3a1c4a95c6f51924dc55712cf-dbg"
 
 # RDK PLATFORMS AND FIRMWARES
-# ap222
-#   yocto 3.1:
-#     FIRMWARE = "1.0.0-f30f19623bac428f771501c2c141c4c8d54cf5d2-dbg"
-# ah212
-#   yocto 3.1:
-#     FIRMWARE = "1.0.0-c28420f07fb916c4768e8e9b69237bd5ad52a853-dbg"
 # 7218c
 #   yocto 3.1:
-#     FIRMWARE = "1.0.0-7c9925ad68b829d64db1abfdb6f556e35f3ab662-dbg"
-# rpi3
+#     FIRMWARE = "1.0.0-54cd2714c76069b5550e7f4b60aafba9bb230c07-dbg"
+# ah212
 #   yocto 3.1:
-#     FIRMWARE = "1.0.0-2b0e9ede88821f9c76f263ac7fef29739968dabd-dbg"
-# rpi4
+#     FIRMWARE = "1.0.0-aaa9510325f054535768497092c973872d44fef3-dbg"
+# ap222
 #   yocto 3.1:
-#     FIRMWARE = "1.0.0-e40ed603c620d644716cdf3e23fd6589b018e2d4-dbg"
-# rtd1319
-#   yocto 3.1:
-#     FIRMWARE = "1.0.0-8086eb020563d0575723f4e35ce6ce886114027a-dbg"
+#     FIRMWARE = "1.0.0-8d58497b284a33438d8c3a6e727caba1ac6ff5c8-dbg"
 # m393
 #   yocto 3.1:
-#     FIRMWARE = "1.0.0-fc903e741c42506cc027903dbb028246ee399aa8-dbg"
+#     FIRMWARE = "1.0.0-897cf9072a6a5142b5c99054c8624a7ba0297f9a-dbg"
+# rpi3
+#   yocto 3.1:
+#     FIRMWARE = "1.0.0-f4b0603d7d93dfa10ed932ddb0f324d334bc40f9-dbg"
+# rpi4
+#   yocto 3.1:
+#     FIRMWARE = "1.0.0-e71889dc02521bfdc2f9f38f750b34224184c375-dbg"
+# rtd1319
+#   yocto 3.1:
+#     FIRMWARE = "1.0.0-de43b2c138d739b6fc199deb2282c482935d73af-dbg"
 class DacTool:
     def __init__(self, stb_ip):
         self.asms_reachable = None
