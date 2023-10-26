@@ -176,6 +176,11 @@ class DacTool:
         icon = input("icon (default 'https://upload.wikimedia.org/wikipedia/en/5/57/Doom_cover_art.jpg') -> ")
         if icon == "":
             icon = "https://upload.wikimedia.org/wikipedia/en/5/57/Doom_cover_art.jpg"
+        encryption = input("encryption (default false) -> ")
+        if encryption.lower() == 't' or encryption.lower() == 'y' or encryption.lower() == 'true' or encryption == '1':
+            encryption = True
+        else:
+            encryption = False
 
         body = {
             "header": {
@@ -188,6 +193,7 @@ class DacTool:
                 "id": id,
                 "version": version,
                 "visible": True,
+                "encryption": encryption,
                 "ociImageUrl": ociImageUrl
             },
             "requirements": {
@@ -441,6 +447,15 @@ class DacTool:
         result = self.do_wscmd(self.ws_thunder, {"method": "org.rdk.RDKShell.1.getClients"}, log=True)
         return result['clients'] if result and 'clients' in result else []
 
+    def detect_rdkshell(self):
+        result = self.do_wscmd(self.ws_thunder, {'method': 'Controller.1.status'}, log=False)
+        if not result:
+            return False
+        for item in result:
+            if item.get('callsign') == "org.rdk.RDKShell":
+                return True
+        return False
+
     @staticmethod
     def which_app(apps, cmd):
         if len(cmd) <= 1:
@@ -535,16 +550,16 @@ class DacTool:
         print(Fore.LIGHTRED_EX + "Make sure box listens to thunder and awc ws ports and allows it (iptables)")
         print("Connecting to Thunder " + self.ws_thunder + " ...")
         self.ws_thunder = websocket.create_connection(self.ws_thunder)
-        try:
-            print("Connecting to AWC " + self.ws_awc + " ...")
+        if not self.detect_rdkshell():
+            print("Did not detect RDKShell. Connecting to AWC " + self.ws_awc + " ...")
             self.ws_awc = websocket.create_connection(self.ws_awc)
             self.mimetype = MIMETYPE_ONEMW
             self.asms_url = ASMS_URL_ONEMW
             self.asms_maintainer = ASMS_MAINTAINER_ONEMW
             self.asms_platform = ASMS_PLATFORM if len(ASMS_PLATFORM) > 0 else DEFAULT_ASMS_PLATFORM_ONEMW
             self.asms_firmware_version = ASMS_FIRMWARE if len(ASMS_FIRMWARE) > 0 else DEFAULT_ASMS_FIRMWARE_ONEMW
-        except ConnectionRefusedError:
-            print("Could not connect to AWC, using RDKShell instead !")
+        else:
+            print("Detected RDKShell!")
             self.mimetype = MIMETYPE_RDK
             self.asms_url = ASMS_URL_RDK
             self.asms_maintainer = ASMS_MAINTAINER_RDK
@@ -552,6 +567,7 @@ class DacTool:
             self.asms_firmware_version = ASMS_FIRMWARE if len(ASMS_FIRMWARE) > 0 else DEFAULT_ASMS_FIRMWARE_RDK
             self.ws_awc = None
 
+        time.sleep(0.5)
         while True:
             apps = self.get_apps()
             cmd = self.print_menu(apps)
