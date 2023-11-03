@@ -54,6 +54,10 @@ ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
 #     FIRMWARE = "0.1.1-2ca0e8774ba96c08b78b621afe5991dd4a397e1b-dbg"
 #   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
 #     FIRMWARE = "0.1.3-70bb2a370ec7f7e3a1c4a95c6f51924dc55712cf-dbg"
+#
+# VIP7002W RDK6 WLPL (westeros)
+#   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
+#     FIRMWARE = "0.1.3-8635e2b6afdd5d7a98b759d7a635865eea3ad3f3-dbg"
 
 # RDK PLATFORMS AND FIRMWARES
 # 7218c
