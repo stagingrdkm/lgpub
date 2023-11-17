@@ -20,6 +20,7 @@ ASMS_USERNAME = ""
 ASMS_PASSWORD = ""
 MAX_LOG_LINES = 10
 MAX_CHARS_PER_LOG_LINE = 512
+SKIP_AUTO_DETECT_DAC_CONFIG = False
 # #################################################
 
 # ONEMW ########
@@ -57,7 +58,7 @@ ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
 #
 # VIP7002W RDK6 WLPL (westeros)
 #   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
-#     FIRMWARE = "0.1.3-8635e2b6afdd5d7a98b759d7a635865eea3ad3f3-dbg"
+#     FIRMWARE = "0.1.3-971d695bdfab6fb310e3f493b33bcce35d80a53e-dbg"
 
 # RDK PLATFORMS AND FIRMWARES
 # 7218c
@@ -258,10 +259,26 @@ class DacTool:
         result = self.do_wscmd(self.ws_thunder, {"method": "LISA.1.getList"}, log=False)
         return result['apps'] if result and 'apps' in result else []
 
-    def lisa_get_metadata_app(self, id, version):
+    def lisa_get_metadata_app(self, mimetype, id, version):
         result = self.do_wscmd(self.ws_thunder, {"method": "LISA.1.getMetadata", "params":
-            {"id": id, "type": self.mimetype, "version": version}}, log=True)
+            {"id": id, "type": mimetype, "version": version}}, log=True)
         return result['auxMetadata'] if result and 'auxMetadata' in result else []
+
+    def lisa_get_dac_config(self):
+        result = self.do_wscmd(self.ws_thunder, {"method": "LISA.1.getMetadata", "params":
+            {"id": "lisa.dac.config", "type": "application/LISA", "version": "0"}}, log=False)
+        data = result['auxMetadata'] if result and 'auxMetadata' in result else []
+        dacBundlePlatformNameOverride = None
+        dacBundleFirmwareCompatibilityKey = None
+        asmsUrl = None
+        for entry in data:
+            if entry["key"] == "dacBundlePlatformNameOverride":
+                dacBundlePlatformNameOverride = entry["value"]
+            elif entry["key"] == "dacBundleFirmwareCompatibilityKey":
+                dacBundleFirmwareCompatibilityKey = entry["value"]
+            elif entry["key"] == "asmsUrl":
+                asmsUrl = entry["value"]
+        return dacBundlePlatformNameOverride, dacBundleFirmwareCompatibilityKey, asmsUrl
 
     def lisa_progress(self, handle):
         cmd = {'method': 'LISA.1.getProgress', 'params': {'handle': handle}}
@@ -571,7 +588,19 @@ class DacTool:
             self.asms_firmware_version = ASMS_FIRMWARE if len(ASMS_FIRMWARE) > 0 else DEFAULT_ASMS_FIRMWARE_RDK
             self.ws_awc = None
 
-        time.sleep(0.5)
+        if not SKIP_AUTO_DETECT_DAC_CONFIG:
+            dacBundlePlatformNameOverride, dacBundleFirmwareCompatibilityKey, asmsUrl = self.lisa_get_dac_config()
+            if dacBundlePlatformNameOverride:
+                self.asms_platform = dacBundlePlatformNameOverride
+                print("ASMS_PLATFORM is overriden by LISA: " + Fore.LIGHTRED_EX + self.asms_platform)
+            if dacBundleFirmwareCompatibilityKey:
+                self.asms_firmware_version = dacBundleFirmwareCompatibilityKey
+                print("ASMS_FIRMWARE is overriden by LISA: " + Fore.LIGHTRED_EX + self.asms_firmware_version)
+            if asmsUrl:
+                self.asms_url = asmsUrl
+                print("ASMS_URL is overriden by LISA: " + Fore.LIGHTRED_EX + self.asms_url)
+
+        time.sleep(2)
         while True:
             apps = self.get_apps()
             cmd = self.print_menu(apps)
@@ -599,7 +628,7 @@ class DacTool:
             elif cmd == "A":
                 self.asms_maintainer_create_app()
             elif cmd[0] == "M" and app:
-                metadata = self.lisa_get_metadata_app(app['id'], app['version'])
+                metadata = self.lisa_get_metadata_app(self.mimetype, app['id'], app['version'])
                 for x in metadata:
                     print(Fore.LIGHTMAGENTA_EX + x['key'] + " = " + x['value'])
                 if len(metadata) == 0:
