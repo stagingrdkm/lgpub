@@ -37,8 +37,8 @@ DEFAULT_ASMS_PLATFORM_RDK = "rpi3"
 DEFAULT_ASMS_FIRMWARE_RDK = "1.0.0-f4b0603d7d93dfa10ed932ddb0f324d334bc40f9-dbg"
 MIMETYPE_RDK = "application/dac.native"
 ASMS_MAINTAINER_RDK = "rdk"
-ASMS_URL_RDK = "http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080"
-# Swagger http://asms-api-1852129899.eu-central-1.elb.amazonaws.com:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
+ASMS_URL_RDK = "http://rdkm-asms-external-1156877020.eu-central-1.elb.amazonaws.com:8080"
+# Swagger http://rdkm-asms-external-1156877020.eu-central-1.elb.amazonaws.com:8080/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
 #The same ASMS but with basic auth:
 #ASMS_URL_RDK = "https://asms.default.consult-red.net"
 # Swagger https://asms.default.consult-red.net/swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config
