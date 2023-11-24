@@ -50,6 +50,10 @@ ASMS_URL_RDK = "http://rdkm-asms-external-1156877020.eu-central-1.elb.amazonaws.
 #   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
 #     FIRMWARE = "0.1.3-837c064a511bcc637a9410f6064868c3311ed3f4-dbg"
 #
+# VIP5002W (APOLLO)
+#   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
+#     FIRMWARE = "0.1.3-da1ba3c79dd9345f382ffc451074479253abcf7e-dbg"
+#
 # VIP7002W
 #   yocto 3.1 - with /tmp/rialto-0 path:
 #     FIRMWARE = "0.1.1-2ca0e8774ba96c08b78b621afe5991dd4a397e1b-dbg"
