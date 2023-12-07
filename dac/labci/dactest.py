@@ -8,6 +8,7 @@ import os
 import json
 import random
 import time
+from urllib.parse import urlparse
 import requests  # pip3 install requests
 from colorama import Fore, init  # pip3 install colorama
 import websocket  # pip3 install websocket-client
@@ -576,6 +577,10 @@ class DacTool:
 
         return sorted(apps, key=lambda x: (x['orphan'], not x['installed'], x['id']))
 
+    def is_local_url(self, url):
+        parsed_url = urlparse(url)
+        return parsed_url.hostname in ['127.0.0.1', 'localhost']
+
     def run(self):
         init(autoreset=True)
 
@@ -609,8 +614,11 @@ class DacTool:
                 self.asms_firmware_version = dacBundleFirmwareCompatibilityKey
                 print("ASMS_FIRMWARE is overriden by LISA: " + Fore.LIGHTRED_EX + self.asms_firmware_version)
             if asmsUrl:
-                self.asms_url = asmsUrl
-                print("ASMS_URL is overriden by LISA: " + Fore.LIGHTRED_EX + self.asms_url)
+                if self.is_local_url(asmsUrl):
+                    print(Fore.LIGHTRED_EX + "Ignoring ASMS_URL from LISA because it is a local url that only works ON the box")
+                else:
+                    self.asms_url = asmsUrl
+                    print("ASMS_URL is overriden by LISA: " + Fore.LIGHTRED_EX + self.asms_url)
 
         time.sleep(2)
         while True:
