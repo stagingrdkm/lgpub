@@ -278,19 +278,44 @@ class DacTool:
         return result['auxMetadata'] if result and 'auxMetadata' in result else []
 
     def lisa_get_dac_config(self):
+        global ASMS_USERNAME, ASMS_PASSWORD
         result = self.do_wscmd(self.ws_thunder, {"method": "LISA.1.getMetadata", "params":
             {"id": "lisa.dac.config", "type": "application/LISA", "version": "0"}}, log=False)
         data = result['auxMetadata'] if result and 'auxMetadata' in result else []
         dacBundlePlatformNameOverride = None
         dacBundleFirmwareCompatibilityKey = None
-        asmsUrl = None
+        asmsConfigUrl = None
         for entry in data:
             if entry["key"] == "dacBundlePlatformNameOverride":
                 dacBundlePlatformNameOverride = entry["value"]
             elif entry["key"] == "dacBundleFirmwareCompatibilityKey":
                 dacBundleFirmwareCompatibilityKey = entry["value"]
-            elif entry["key"] == "asmsUrl":
-                asmsUrl = entry["value"]
+            elif entry["key"] == "configUrl":
+                asmsConfigUrl = entry["value"]
+
+        asmsUrl = None
+        if asmsConfigUrl:
+            print("Fetching ASMS config from: " + Fore.LIGHTRED_EX + asmsConfigUrl)
+            # config URL normally provisioned in RDK lisa builds:
+            # "https://280222515084-rdkm-apps-resources.s3.eu-central-1.amazonaws.com/configuration/cpe.json"
+            try:
+                response = requests.get(asmsConfigUrl)
+                if response.status_code == 200:
+                    json_data = response.json()
+                    appstore_catalog = json_data.get("appstore-catalog", {})
+                    asmsUrl = appstore_catalog.get("url", "")
+                    authentication = appstore_catalog.get("authentication", {})
+                    ASMS_USERNAME = authentication.get("user", "")
+                    ASMS_PASSWORD = authentication.get("password", "")
+                    print(f"Got ASMS URL: {Fore.LIGHTYELLOW_EX}{asmsUrl}")
+                    print(f"Got ASMS User: {Fore.LIGHTYELLOW_EX}{ASMS_USERNAME}")
+                    print(f"Got ASMS Password: {Fore.LIGHTYELLOW_EX}{ASMS_PASSWORD}")
+                else:
+                    print(f"Error: {response.status_code} - {response.text}")
+            except requests.RequestException as e:
+                print(f"Request error: {e}")
+                exit(-1)
+
         return dacBundlePlatformNameOverride, dacBundleFirmwareCompatibilityKey, asmsUrl
 
     def lisa_progress(self, handle):
