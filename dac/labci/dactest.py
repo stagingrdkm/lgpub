@@ -50,10 +50,16 @@ ASMS_URL_RDK = "http://rdkm-asms-external-1156877020.eu-central-1.elb.amazonaws.
 #     FIRMWARE = "0.1.1-00b7e2b8621a78adc2f1845abafdd89c2969e189-dbg"
 #   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
 #     FIRMWARE = "0.1.3-837c064a511bcc637a9410f6064868c3311ed3f4-dbg"
+# 2008C-STB WLPL (westeros)
+#   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
+#     FIRMWARE = "0.1.3-89deb912a6897b812afe63f7f5642fa3406ebee0-dbg"
 #
 # EOS-1008C
 #   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
 #     FIRMWARE = "0.1.3-74391b4f070b5a420603322b296fe81d2cb7dab9-dbg"
+# EOS-1008C WLPL (westeros)
+#   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
+#     FIRMWARE = "0.1.3-9734234d3fcefe01f9f65fbd6fe79c49778c450c-dbg"
 #
 # DCX960 (EOS)
 #   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
@@ -62,21 +68,26 @@ ASMS_URL_RDK = "http://rdkm-asms-external-1156877020.eu-central-1.elb.amazonaws.
 # VIP5002W (APOLLO)
 #   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
 #     FIRMWARE = "0.1.3-da1ba3c79dd9345f382ffc451074479253abcf7e-dbg"
+# VIP5002W (APOLLO) WLPL (westeros)
+#   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
+#     FIRMWARE = "0.1.3-f69053841eb4ccf70b77e7ab445c5e364bf6108a-dbg"
 #
 # VIP7002W
 #   yocto 3.1 - with /tmp/rialto-0 path:
 #     FIRMWARE = "0.1.1-2ca0e8774ba96c08b78b621afe5991dd4a397e1b-dbg"
 #   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
 #     FIRMWARE = "0.1.3-70bb2a370ec7f7e3a1c4a95c6f51924dc55712cf-dbg"
-#
-# VIP7002W RDK6 WLPL (westeros)
+# VIP7002W WLPL (westeros)
 #   yocto 3.1 - with /var/run/rialto/{id} path and extra rialtoaccess GID:
 #     FIRMWARE = "0.1.3-971d695bdfab6fb310e3f493b33bcce35d80a53e-dbg"
 
 # RDK PLATFORMS AND FIRMWARES
 # 7218c
 #   yocto 3.1:
-#     FIRMWARE = "1.0.0-54cd2714c76069b5550e7f4b60aafba9bb230c07-dbg"
+#     FIRMWARE = "1.0.0-41abf2fba994b2d04baedeca6d5adf097ece9f79-dbg"
+# 72126ott
+#   yocto 3.1:
+#     FIRMWARE = "1.0.0-e7d1057ede4140493e3604ae4d5b2b73d4620a5f-dbg"
 # ah212
 #   yocto 3.1:
 #     FIRMWARE = "1.0.0-aaa9510325f054535768497092c973872d44fef3-dbg"
@@ -85,7 +96,7 @@ ASMS_URL_RDK = "http://rdkm-asms-external-1156877020.eu-central-1.elb.amazonaws.
 #     FIRMWARE = "1.0.0-8d58497b284a33438d8c3a6e727caba1ac6ff5c8-dbg"
 # m393
 #   yocto 3.1:
-#     FIRMWARE = "1.0.0-897cf9072a6a5142b5c99054c8624a7ba0297f9a-dbg"
+#     FIRMWARE = "1.0.0-133c97e6d586132d7986d4f1d3cbb9e167de04c1-dbg"
 # rpi3
 #   yocto 3.1:
 #     FIRMWARE = "1.0.0-f4b0603d7d93dfa10ed932ddb0f324d334bc40f9-dbg"
