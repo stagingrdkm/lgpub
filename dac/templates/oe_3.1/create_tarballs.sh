@@ -14,7 +14,13 @@ make_tarball () {
   #echo HASH="$HASH"
   TARBALL_NAME="$1_$2-$HASH-$3_dac_configs.tgz"
   #echo TARBALL_NAME="$TARBALL_NAME"
-  tar czf "$TARBALL_NAME" "$1".json "$1"_libs.json
+  # Determine the appropriate tar command (gtar or tar)
+  if command -v gtar &> /dev/null; then
+    TAR_CMD="gtar"
+  else
+    TAR_CMD="tar"
+  fi
+  $TAR_CMD -cz --no-xattrs --exclude='._*' -f "$TARBALL_NAME" "$1".json "$1"_libs.json
 }
 
 # all .json files in the current directory excluding *_libs.json

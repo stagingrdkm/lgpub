@@ -2437,24 +2437,6 @@
             "apiversions": [],
             "deps": [
                 "/lib/libc.so.6",
-                "/usr/lib/libcrypto.so.1.1",
-                "/usr/lib/libgio-2.0.so.0",
-                "/usr/lib/libglib-2.0.so.0",
-                "/usr/lib/libgobject-2.0.so.0",
-                "/usr/lib/libgstadaptivedemux-1.0.so.0",
-                "/usr/lib/libgstbase-1.0.so.0",
-                "/usr/lib/libgstpbutils-1.0.so.0",
-                "/usr/lib/libgstreamer-1.0.so.0",
-                "/usr/lib/libgsttag-1.0.so.0",
-                "/usr/lib/libgsturidownloader-1.0.so.0",
-                "/usr/lib/libgstvideo-1.0.so.0"
-            ],
-            "name": "/usr/lib/gstreamer-1.0/libgsthls.so"
-        },
-        {
-            "apiversions": [],
-            "deps": [
-                "/lib/libc.so.6",
                 "/lib/libpthread.so.0",
                 "/usr/lib/libglib-2.0.so.0",
                 "/usr/lib/libgobject-2.0.so.0",
@@ -2668,24 +2650,6 @@
                 "/usr/lib/libgstreamer-1.0.so.0"
             ],
             "name": "/usr/lib/gstreamer-1.0/libgstlevel.so"
-        },
-        {
-            "apiversions": [],
-            "deps": [
-                "/lib/libc.so.6",
-                "/usr/lib/libavcodec.so.58",
-                "/usr/lib/libavfilter.so.7",
-                "/usr/lib/libavformat.so.58",
-                "/usr/lib/libavutil.so.56",
-                "/usr/lib/libglib-2.0.so.0",
-                "/usr/lib/libgobject-2.0.so.0",
-                "/usr/lib/libgstaudio-1.0.so.0",
-                "/usr/lib/libgstbase-1.0.so.0",
-                "/usr/lib/libgstpbutils-1.0.so.0",
-                "/usr/lib/libgstreamer-1.0.so.0",
-                "/usr/lib/libgstvideo-1.0.so.0"
-            ],
-            "name": "/usr/lib/gstreamer-1.0/libgstlibav.so"
         },
         {
             "apiversions": [],
@@ -5291,6 +5255,13 @@
             "deps": [
                 "/lib/libc.so.6"
             ],
+            "name": "/usr/lib/libRDKMfrLib.so.0"
+        },
+        {
+            "apiversions": [],
+            "deps": [
+                "/lib/libc.so.6"
+            ],
             "name": "/usr/lib/libRDKMfrLib.so.0.0.0"
         },
         {
@@ -5537,7 +5508,7 @@
                 "/lib/libc.so.6",
                 "/lib/libgcc_s.so.1"
             ],
-            "name": "/usr/lib/libUsageEnvironment.so.0"
+            "name": "/usr/lib/libUsageEnvironment.so.1"
         },
         {
             "apiversions": [],
@@ -5545,7 +5516,7 @@
                 "/lib/libc.so.6",
                 "/lib/libgcc_s.so.1"
             ],
-            "name": "/usr/lib/libUsageEnvironment.so.0.0.0"
+            "name": "/usr/lib/libUsageEnvironment.so.1.0.0"
         },
         {
             "apiversions": [],
@@ -7707,26 +7678,6 @@
             "name": "/usr/lib/libasound.so.2.0.0"
         },
         {
-            "apiversions": [
-                "LIBASSUAN_1.0"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/usr/lib/libgpg-error.so.0"
-            ],
-            "name": "/usr/lib/libassuan.so.0"
-        },
-        {
-            "apiversions": [
-                "LIBASSUAN_1.0"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/usr/lib/libgpg-error.so.0"
-            ],
-            "name": "/usr/lib/libassuan.so.0.8.3"
-        },
-        {
             "apiversions": [],
             "deps": [
                 "/lib/libc.so.6",
@@ -7939,150 +7890,6 @@
             "name": "/usr/lib/libavahi-core.so.7.0.2"
         },
         {
-            "apiversions": [
-                "LIBAVCODEC_58"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0",
-                "/lib/libz.so.1",
-                "/usr/lib/libavutil.so.56",
-                "/usr/lib/liblzma.so.5",
-                "/usr/lib/libswresample.so.3",
-                "/usr/lib/libtheoradec.so.1",
-                "/usr/lib/libtheoraenc.so.1"
-            ],
-            "name": "/usr/lib/libavcodec.so.58"
-        },
-        {
-            "apiversions": [
-                "LIBAVCODEC_58"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0",
-                "/lib/libz.so.1",
-                "/usr/lib/libavutil.so.56",
-                "/usr/lib/liblzma.so.5",
-                "/usr/lib/libswresample.so.3",
-                "/usr/lib/libtheoradec.so.1",
-                "/usr/lib/libtheoraenc.so.1"
-            ],
-            "name": "/usr/lib/libavcodec.so.58.54.100"
-        },
-        {
-            "apiversions": [
-                "LIBAVFILTER_7"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0",
-                "/usr/lib/libavcodec.so.58",
-                "/usr/lib/libavformat.so.58",
-                "/usr/lib/libavresample.so.4",
-                "/usr/lib/libavutil.so.56",
-                "/usr/lib/libswresample.so.3",
-                "/usr/lib/libswscale.so.5"
-            ],
-            "name": "/usr/lib/libavfilter.so.7"
-        },
-        {
-            "apiversions": [
-                "LIBAVFILTER_7"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0",
-                "/usr/lib/libavcodec.so.58",
-                "/usr/lib/libavformat.so.58",
-                "/usr/lib/libavresample.so.4",
-                "/usr/lib/libavutil.so.56",
-                "/usr/lib/libswresample.so.3",
-                "/usr/lib/libswscale.so.5"
-            ],
-            "name": "/usr/lib/libavfilter.so.7.57.100"
-        },
-        {
-            "apiversions": [
-                "LIBAVFORMAT_58"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0",
-                "/lib/libz.so.1",
-                "/usr/lib/libavcodec.so.58",
-                "/usr/lib/libavutil.so.56",
-                "/usr/lib/libbz2.so.1"
-            ],
-            "name": "/usr/lib/libavformat.so.58"
-        },
-        {
-            "apiversions": [
-                "LIBAVFORMAT_58"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0",
-                "/lib/libz.so.1",
-                "/usr/lib/libavcodec.so.58",
-                "/usr/lib/libavutil.so.56",
-                "/usr/lib/libbz2.so.1"
-            ],
-            "name": "/usr/lib/libavformat.so.58.29.100"
-        },
-        {
-            "apiversions": [
-                "LIBAVRESAMPLE_4"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0",
-                "/usr/lib/libavutil.so.56"
-            ],
-            "name": "/usr/lib/libavresample.so.4"
-        },
-        {
-            "apiversions": [
-                "LIBAVRESAMPLE_4"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0",
-                "/usr/lib/libavutil.so.56"
-            ],
-            "name": "/usr/lib/libavresample.so.4.0.0"
-        },
-        {
-            "apiversions": [
-                "LIBAVUTIL_56"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0"
-            ],
-            "name": "/usr/lib/libavutil.so.56"
-        },
-        {
-            "apiversions": [
-                "LIBAVUTIL_56"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0"
-            ],
-            "name": "/usr/lib/libavutil.so.56.31.100"
-        },
-        {
             "apiversions": [],
             "deps": [
                 "/lib/libc.so.6",
@@ -8181,6 +7988,24 @@
         {
             "apiversions": [],
             "deps": [
+                "/lib/ld-linux-armhf.so.3",
+                "/lib/libc.so.6",
+                "/lib/libdl.so.2",
+                "/lib/libgcc_s.so.1",
+                "/lib/libm.so.6",
+                "/lib/libpthread.so.0",
+                "/lib/librt.so.1",
+                "/usr/lib/libnexus.so",
+                "/usr/lib/libnxclient.so",
+                "/usr/lib/libstdc++.so.6",
+                "/usr/lib/libv3dcompiler.so",
+                "/usr/lib/libv3dplatform.so"
+            ],
+            "name": "/usr/lib/libbcmvulkan_icd.so"
+        },
+        {
+            "apiversions": [],
+            "deps": [
                 "/lib/libc.so.6",
                 "/usr/lib/libcrypto.so.1.1",
                 "/usr/lib/libssl.so.1.1"
@@ -8203,6 +8028,18 @@
                 "/lib/libc.so.6"
             ],
             "name": "/usr/lib/libbip_client.so"
+        },
+        {
+            "apiversions": [],
+            "deps": [
+                "/lib/libc.so.6",
+                "/lib/libgcc_s.so.1",
+                "/usr/lib/libBasicUsageEnvironment.so.0",
+                "/usr/lib/libUsageEnvironment.so.1",
+                "/usr/lib/libgroupsock.so.1",
+                "/usr/lib/libliveMedia.so.17"
+            ],
+            "name": "/usr/lib/libblive_ext.so"
         },
         {
             "apiversions": [],
@@ -8839,18 +8676,6 @@
             "apiversions": [],
             "deps": [
                 "/lib/libc.so.6",
-                "/lib/libz.so.1",
-                "/usr/lib/libcrypto.so.1.1",
-                "/usr/lib/libcurl.so.4",
-                "/usr/lib/libdrmrootfs.so",
-                "/usr/lib/libssl.so.1.1"
-            ],
-            "name": "/usr/lib/libcmndrmprdy.so"
-        },
-        {
-            "apiversions": [],
-            "deps": [
-                "/lib/libc.so.6",
                 "/lib/libgcc_s.so.1",
                 "/lib/libm.so.6",
                 "/lib/libpthread.so.0",
@@ -9242,6 +9067,7 @@
                 "/usr/lib/libprdyhttp.so",
                 "/usr/lib/libsrai.so",
                 "/usr/lib/libssl.so.1.1",
+                "/usr/lib/libunified_drm.so",
                 "/usr/lib/libwidevine_ce_cdm_shared.so",
                 "/usr/lib/libwidevine_tl.so"
             ],
@@ -10030,32 +9856,6 @@
             "name": "/usr/lib/libgpg-error.so.0.28.0"
         },
         {
-            "apiversions": [
-                "GPGME_1.1",
-                "GPGME_1.0"
-            ],
-            "deps": [
-                "/lib/ld-linux-armhf.so.3",
-                "/lib/libc.so.6",
-                "/usr/lib/libassuan.so.0",
-                "/usr/lib/libgpg-error.so.0"
-            ],
-            "name": "/usr/lib/libgpgme.so.11"
-        },
-        {
-            "apiversions": [
-                "GPGME_1.1",
-                "GPGME_1.0"
-            ],
-            "deps": [
-                "/lib/ld-linux-armhf.so.3",
-                "/lib/libc.so.6",
-                "/usr/lib/libassuan.so.0",
-                "/usr/lib/libgpg-error.so.0"
-            ],
-            "name": "/usr/lib/libgpgme.so.11.22.1"
-        },
-        {
             "apiversions": [],
             "deps": [
                 "/lib/libc.so.6",
@@ -10069,7 +9869,7 @@
                 "/lib/libc.so.6",
                 "/lib/libgcc_s.so.1"
             ],
-            "name": "/usr/lib/libgroupsock.so.0"
+            "name": "/usr/lib/libgroupsock.so.1"
         },
         {
             "apiversions": [],
@@ -10077,7 +9877,7 @@
                 "/lib/libc.so.6",
                 "/lib/libgcc_s.so.1"
             ],
-            "name": "/usr/lib/libgroupsock.so.0.0.0"
+            "name": "/usr/lib/libgroupsock.so.1.0.1"
         },
         {
             "apiversions": [],
@@ -11771,7 +11571,7 @@
                 "/lib/libc.so.6",
                 "/lib/libgcc_s.so.1"
             ],
-            "name": "/usr/lib/libliveMedia.so.1"
+            "name": "/usr/lib/libliveMedia.so.17"
         },
         {
             "apiversions": [],
@@ -11779,7 +11579,7 @@
                 "/lib/libc.so.6",
                 "/lib/libgcc_s.so.1"
             ],
-            "name": "/usr/lib/libliveMedia.so.1.2.1"
+            "name": "/usr/lib/libliveMedia.so.17.1.6"
         },
         {
             "apiversions": [],
@@ -12616,6 +12416,7 @@
                 "/usr/lib/libnxclient.so",
                 "/usr/lib/libsrai.so",
                 "/usr/lib/libstdc++.so.6",
+                "/usr/lib/libunified_drm.so",
                 "/usr/lib/libwidevine_tl.so"
             ],
             "name": "/usr/lib/liboemcrypto_tl.so"
@@ -12685,9 +12486,7 @@
             "deps": [
                 "/lib/libc.so.6",
                 "/usr/lib/libarchive.so.13",
-                "/usr/lib/libassuan.so.0",
-                "/usr/lib/libgpg-error.so.0",
-                "/usr/lib/libgpgme.so.11"
+                "/usr/lib/libsolv.so.1"
             ],
             "name": "/usr/lib/libopkg.so.1"
         },
@@ -12696,9 +12495,7 @@
             "deps": [
                 "/lib/libc.so.6",
                 "/usr/lib/libarchive.so.13",
-                "/usr/lib/libassuan.so.0",
-                "/usr/lib/libgpg-error.so.0",
-                "/usr/lib/libgpgme.so.11"
+                "/usr/lib/libsolv.so.1"
             ],
             "name": "/usr/lib/libopkg.so.1.0.0"
         },
@@ -14268,6 +14065,29 @@
             "name": "/usr/lib/libsocinit.so.0.0.0"
         },
         {
+            "apiversions": [
+                "SOLV_1.0",
+                "SOLV_1.1",
+                "SOLV_1.2",
+                "SOLV_1.3"
+            ],
+            "deps": [
+                "/lib/libc.so.6"
+            ],
+            "name": "/usr/lib/libsolv.so.1"
+        },
+        {
+            "apiversions": [
+                "SOLV_1.0"
+            ],
+            "deps": [
+                "/lib/libc.so.6",
+                "/lib/libz.so.1",
+                "/usr/lib/libsolv.so.1"
+            ],
+            "name": "/usr/lib/libsolvext.so.1"
+        },
+        {
             "apiversions": [],
             "deps": [
                 "/lib/libc.so.6",
@@ -14469,54 +14289,6 @@
                 "/usr/lib/libstdc++.so.6"
             ],
             "name": "/usr/lib/libsubtec.so"
-        },
-        {
-            "apiversions": [
-                "LIBSWRESAMPLE_3"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0",
-                "/usr/lib/libavutil.so.56"
-            ],
-            "name": "/usr/lib/libswresample.so.3"
-        },
-        {
-            "apiversions": [
-                "LIBSWRESAMPLE_3"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0",
-                "/usr/lib/libavutil.so.56"
-            ],
-            "name": "/usr/lib/libswresample.so.3.5.100"
-        },
-        {
-            "apiversions": [
-                "LIBSWSCALE_5"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0",
-                "/usr/lib/libavutil.so.56"
-            ],
-            "name": "/usr/lib/libswscale.so.5"
-        },
-        {
-            "apiversions": [
-                "LIBSWSCALE_5"
-            ],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libm.so.6",
-                "/lib/libpthread.so.0",
-                "/usr/lib/libavutil.so.56"
-            ],
-            "name": "/usr/lib/libswscale.so.5.5.100"
         },
         {
             "apiversions": [],
@@ -14982,6 +14754,13 @@
                 "/usr/lib/libyajl.so.2"
             ],
             "name": "/usr/lib/libuinput.so.0.0.0"
+        },
+        {
+            "apiversions": [],
+            "deps": [
+                "/lib/libc.so.6"
+            ],
+            "name": "/usr/lib/libunified_drm.so"
         },
         {
             "apiversions": [],
@@ -15606,7 +15385,8 @@
                 "/usr/lib/libcrypto.so.1.1",
                 "/usr/lib/libdrmrootfs.so",
                 "/usr/lib/libsrai.so",
-                "/usr/lib/libssl.so.1.1"
+                "/usr/lib/libssl.so.1.1",
+                "/usr/lib/libunified_drm.so"
             ],
             "name": "/usr/lib/libwidevine_tl.so"
         },
@@ -16338,14 +16118,6 @@
             "apiversions": [],
             "deps": [
                 "/lib/libc.so.6",
-                "/usr/lib/libcrashlog.so.0"
-            ],
-            "name": "/usr/lib/mod_proxy.so"
-        },
-        {
-            "apiversions": [],
-            "deps": [
-                "/lib/libc.so.6",
                 "/usr/lib/libcrashlog.so.0",
                 "/usr/lib/libpcre.so.1"
             ],
@@ -16830,15 +16602,6 @@
                 "/usr/lib/libcrypto.so.1.1"
             ],
             "name": "/usr/lib/pkcs11-spy.so"
-        },
-        {
-            "apiversions": [],
-            "deps": [
-                "/lib/libc.so.6",
-                "/lib/libgcc_s.so.1",
-                "/usr/lib/libstdc++.so.6"
-            ],
-            "name": "/usr/lib/plugins/dobby/libDeviceMapperPlugin.so.1"
         },
         {
             "apiversions": [],
@@ -17950,6 +17713,21 @@
                 "/usr/lib/libtelemetry_msgsender.so.0"
             ],
             "name": "/usr/lib/wpeframework/plugins/libWPEFrameworkSystemServices.so"
+        },
+        {
+            "apiversions": [],
+            "deps": [
+                "/lib/libc.so.6",
+                "/lib/libgcc_s.so.1",
+                "/usr/lib/libIARMBus.so.0",
+                "/usr/lib/libWPEFrameworkCore.so.4",
+                "/usr/lib/libWPEFrameworkPlugins.so.4",
+                "/usr/lib/libbreakpadwrapper.so.0",
+                "/usr/lib/librbus.so.0",
+                "/usr/lib/libstdc++.so.6",
+                "/usr/lib/libtelemetry_msgsender.so.0"
+            ],
+            "name": "/usr/lib/wpeframework/plugins/libWPEFrameworkTelemetry.so"
         },
         {
             "apiversions": [],
