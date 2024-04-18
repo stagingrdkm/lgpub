@@ -145,7 +145,8 @@ class DacTool:
         print("Getting apps from ASMS ...")
         params = {
             'type': self.mimetype,
-            'platform': 'arm:v7:linux'
+            'platform': 'arm:v7:linux',
+            'limit': 100
         }
         self.log_line(Fore.LIGHTBLACK_EX + "SENDING:  " + self.asms_url + "/apps : "+ json.dumps(params))
         try:
