@@ -1,0 +1,398 @@
+{
+    "platformName": "rtd1319_reference",
+    "os": "linux",
+    "arch": {
+        "arch": "arm",
+        "variant": "v7"
+    },
+    "rdk": {
+        "version": "2020Q4",
+        "supportedFeatures": [
+            "Controller",
+            "DeviceInfo",
+            "Monitor",
+            "OCDM",
+            "TraceControl",
+            "WifiManager",
+            "com.comcast.CoPilot",
+            "com.comcast.DeviceProvisioning",
+            "com.comcast.FrameRate",
+            "com.comcast.HdcpProfile",
+            "com.comcast.HdmiInput",
+            "com.comcast.StateObserver",
+            "com.comcast.StorageManager",
+            "org.rdk.ActivityMonitor",
+            "org.rdk.DeviceDiagnostics",
+            "org.rdk.DisplaySettings",
+            "org.rdk.FrontPanel",
+            "org.rdk.HomeNetworking",
+            "org.rdk.LoggingPreferences",
+            "org.rdk.Network",
+            "org.rdk.OCIContainer",
+            "org.rdk.Proxies",
+            "org.rdk.SleepTimer",
+            "org.rdk.TTSResource",
+            "org.rdk.TTSSettings",
+            "org.rdk.Timer",
+            "org.rdk.UserPreferences",
+            "org.rdk.Warehouse"
+        ]
+    },
+    "hardware": {
+        "graphics": true
+    },
+    "storage": {
+        "persistent": {
+            "storageDir": "/tmp/data",
+            "maxSize": "100M"
+        }
+    },
+    "gpu": {
+        "extraMounts": [
+            {
+                "source": "/usr/share/X11/xkb",
+                "destination": "/usr/share/X11/xkb",
+                "type": "bind",
+                "options": [
+                    "rbind",
+                    "nosuid",
+                    "nodev",
+                    "ro",
+                    "X-mount.mkdir"
+                ]
+            },
+            {
+                "source": "/etc/ssl/certs",
+                "destination": "/etc/ssl/certs",
+                "type": "bind",
+                "options": [
+                    "rbind",
+                    "nosuid",
+                    "nodev",
+                    "ro",
+                    "X-mount.mkdir"
+                ]
+            },
+            {
+                "source": "/usr/share/ca-certificates",
+                "destination": "/usr/share/ca-certificates",
+                "type": "bind",
+                "options": [
+                    "rbind",
+                    "nosuid",
+                    "nodev",
+                    "ro",
+                    "X-mount.mkdir"
+                ]
+            },
+            {
+                "source": "/tmp/{id}",
+                "destination": "/tmp/rialto-0",
+                "type": "bind",
+                "options": [
+                    "rbind",
+                    "rw",
+                    "X-dobby.optional"
+                ]
+            },
+            {
+                "destination": "/tmp/westeros",
+                "options": [
+                    "X-mount.no"
+                ]
+            }
+        ],
+        "envvar": [
+            "LD_PRELOAD=/usr/lib/libwayland-client.so.0:/usr/lib/libwayland-egl.so.0",
+            "RIALTO_SOCKET_PATH=/tmp/rialto-0"
+        ],
+        "devs": [
+            {
+                "path": "/dev/dri/card0", 
+                "major": 226, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 0
+            }, 
+            {
+                "path": "/dev/fb0", 
+                "major": 29, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 0
+            }, 
+            {
+                "path": "/dev/tee0", 
+                "major": 249, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 0
+            }, 
+            {
+                "path": "/dev/teepriv0", 
+                "major": 249, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 16
+            }, 
+            {
+                "path": "/dev/ion", 
+                "major": 10, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 126
+            },
+            {
+                "path": "/dev/ion_rtk",
+                "major": 10,
+                "type": "c",
+                "access": "rw",
+                "minor": 116
+            },
+            {
+                "path": "/dev/mali0", 
+                "major": 10, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 110
+            }, 
+            {
+                "path": "/dev/vpu", 
+                "major": 10, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 112
+            }, 
+            {
+                "path": "/dev/rpc0", 
+                "major": 246, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 0
+            }, 
+            {
+                "path": "/dev/rpc1", 
+                "major": 246, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 1
+            }, 
+            {
+                "path": "/dev/rpc2", 
+                "major": 246, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 2
+            }, 
+            {
+                "path": "/dev/rpc3", 
+                "major": 246, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 3
+            }, 
+            {
+                "path": "/dev/rpc4", 
+                "major": 246, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 4
+            }, 
+            {
+                "path": "/dev/rpc5", 
+                "major": 246, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 5
+            }, 
+            {
+                "path": "/dev/rpc6", 
+                "major": 246, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 6
+            }, 
+            {
+                "path": "/dev/rpc7", 
+                "major": 246, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 7
+            }, 
+            {
+                "path": "/dev/rpc_mem", 
+                "major": 10, 
+                "type": "c",
+                "access": "rw", 
+                "minor": 124
+            }, 
+            {
+                "path": "/dev/rpc100", 
+                "major": 246, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 100
+            }, 
+            {
+                "path": "/dev/null", 
+                "major": 1, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 3
+            }, 
+            {
+                "path": "/dev/buflock", 
+                "major": 243, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 0
+            }, 
+            {
+                "path": "/dev/snd/pcmC0D0p", 
+                "major": 116, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 2
+            }, 
+            {
+                "path": "/dev/snd/pcmC0D7c", 
+                "major": 116, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 11
+            }, 
+            {
+                "path": "/dev/snd/controlC0", 
+                "major": 116, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 14
+            }, 
+            {
+                "path": "/dev/snd/pcmC0D0c", 
+                "major": 116, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 3
+            }, 
+            {
+                "path": "/dev/snd/pcmC0D1c", 
+                "major": 116, 
+                "type": "c",
+                "access": "rw",
+                "minor": 5
+            }, 
+            {
+                "path": "/dev/snd/pcmC0D2c", 
+                "major": 116, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 6
+            }, 
+            {
+                "path": "/dev/snd/pcmC0D3c", 
+                "major": 116, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 7
+            }, 
+            {
+                "path": "/dev/snd/pcmC0D4c", 
+                "major": 116, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 8
+            }, 
+            {
+                "path": "/dev/snd/pcmC0D5c", 
+                "major": 116, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 9
+            }, 
+            {
+                "path": "/dev/snd/pcmC0D6c", 
+                "major": 116, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 0
+            }, 
+            {
+                "path": "/dev/snd/timer", 
+                "major": 116, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 33
+            }, 
+            {
+                "path": "/dev/shm/sem.localstore", 
+                "major": 0, 
+                "type": "c", 
+                "access": "rw",
+                "minor": 16
+            }
+        ],
+        "gfxLibs": [
+            {
+                "src": "/usr/lib/libEGL.so",
+                "dst": "/usr/lib/libEGL.so"
+            },
+            {
+                "src": "/usr/lib/libEGL.so",
+                "dst": "/usr/lib/libEGL.so.1"
+            },
+            {
+                "src": "/usr/lib/libGLESv2.so",
+                "dst": "/usr/lib/libGLESv2.so"
+            },
+            {
+                "src": "/usr/lib/libGLESv2.so",
+                "dst": "/usr/lib/libGLESv2.so.2"
+            },
+	    {
+                "src": "/usr/lib/libwayland-egl.so",
+                "dst": "/usr/lib/libwayland-egl.so"
+            },
+            {
+                "src": "/usr/lib/libwayland-egl.so",
+                "dst": "/usr/lib/libwayland-egl.so.0"
+            },
+            {
+                "src": "/usr/lib/libwayland-egl.so",
+                "dst": "/usr/lib/libwayland-egl.so.1"
+            },
+            {
+                "src": "/usr/lib/libessos.so.0",
+                "dst": "/usr/lib/libessos.so.0"
+            }
+        ]
+    },
+    "mounts": [],
+    "network": {
+        "options": [
+            "nat",
+            "open",
+            "private"
+        ]
+    },
+    "envvar": [
+        "XDG_RUNTIME_DIR=/tmp"
+    ],
+    "resourceLimits": [
+        {
+            "type": "RLIMIT_NPROC",
+            "hard": 300,
+            "soft": 300
+        },
+        {
+            "type": "RLIMIT_RTPRIO",
+            "hard": 6,
+            "soft": 6
+        }
+    ],
+    "disableUserNamespacing": true,
+    "logging": {
+        "mode": "file",
+        "logDir": "/var/log"
+    }
+}
