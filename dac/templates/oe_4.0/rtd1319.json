@@ -108,228 +108,396 @@
         ],
         "devs": [
             {
-                "path": "/dev/dri/card0", 
-                "major": 226, 
-                "type": "c", 
+                "path": "/dev/dri/card0",
+                "major": 226,
+                "type": "c",
                 "access": "rw",
                 "minor": 0
-            }, 
+            },
             {
-                "path": "/dev/fb0", 
-                "major": 29, 
-                "type": "c", 
+                "path": "/dev/tee0",
+                "major": 251,
+                "type": "c",
                 "access": "rw",
                 "minor": 0
-            }, 
+            },
             {
-                "path": "/dev/tee0", 
-                "major": 249, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 0
-            }, 
-            {
-                "path": "/dev/teepriv0", 
-                "major": 249, 
-                "type": "c", 
+                "path": "/dev/teepriv0",
+                "major": 251,
+                "type": "c",
                 "access": "rw",
                 "minor": 16
-            }, 
+            },
             {
-                "path": "/dev/ion", 
-                "major": 10, 
-                "type": "c", 
+                "path": "/dev/mali0",
+                "major": 10,
+                "type": "c",
+                "access": "rw",
+                "minor": 113
+            },
+            {
+                "path": "/dev/vpu",
+                "major": 10,
+                "type": "c",
+                "access": "rw",
+                "minor": 114
+            },
+            {
+                "path": "/dev/null",
+                "major": 1,
+                "type": "c",
+                "access": "rw",
+                "minor": 3
+            },
+            {
+                "path": "/dev/buflock",
+                "major": 242,
+                "type": "c",
+                "access": "rw",
+                "minor": 0
+            },
+            {
+                "path": "/dev/shm",
+                "major": 0,
+                "type": "c",
+                "access": "rw",
+                "minor": 16
+            },
+            {
+                "path": "/dev/shm/shmem",
+                "major": 0,
+                "type": "c",
+                "access": "rw",
+                "minor": 8
+            },
+            {
+                "path": "/dev/urandom",
+                "major": 1,
+                "type": "c",
+                "access": "rw",
+                "minor": 9
+            },
+            {
+                "path": "/dev/rtk_urpc",
+                "major": 236,
+                "type": "c",
+                "access": "rw",
+                "minor": 0
+            },
+            {
+                "path": "/dev/rtk_heap",
+                "major": 10,
+                "type": "c",
                 "access": "rw",
                 "minor": 126
             },
             {
-                "path": "/dev/ion_rtk",
+                "path": "/dev/rpmsg_ctrl0",
+                "major": 252,
+                "type": "c",
+                "access": "rw",
+                "minor": 0
+            },
+            {
+                "path": "/dev/rpmsg_ctrl1",
+                "major": 252,
+                "type": "c",
+                "access": "rw",
+                "minor": 1
+            },
+            {
+                "path": "/dev/rpc_mem",
                 "major": 10,
                 "type": "c",
                 "access": "rw",
-                "minor": 116
+                "minor": 118
             },
             {
-                "path": "/dev/mali0", 
-                "major": 10, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 110
-            }, 
-            {
-                "path": "/dev/vpu", 
-                "major": 10, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 112
-            }, 
-            {
-                "path": "/dev/rpc0", 
-                "major": 246, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 0
-            }, 
-            {
-                "path": "/dev/rpc1", 
-                "major": 246, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 1
-            }, 
-            {
-                "path": "/dev/rpc2", 
-                "major": 246, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 2
-            }, 
-            {
-                "path": "/dev/rpc3", 
-                "major": 246, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 3
-            }, 
-            {
-                "path": "/dev/rpc4", 
-                "major": 246, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 4
-            }, 
-            {
-                "path": "/dev/rpc5", 
-                "major": 246, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 5
-            }, 
-            {
-                "path": "/dev/rpc6", 
-                "major": 246, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 6
-            }, 
-            {
-                "path": "/dev/rpc7", 
-                "major": 246, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 7
-            }, 
-            {
-                "path": "/dev/rpc_mem", 
-                "major": 10, 
-                "type": "c",
-                "access": "rw", 
-                "minor": 124
-            }, 
-            {
-                "path": "/dev/rpc100", 
-                "major": 246, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 100
-            }, 
-            {
-                "path": "/dev/null", 
-                "major": 1, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 3
-            }, 
-            {
-                "path": "/dev/buflock", 
-                "major": 243, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 0
-            }, 
-            {
-                "path": "/dev/snd/pcmC0D0p", 
-                "major": 116, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 2
-            }, 
-            {
-                "path": "/dev/snd/pcmC0D7c", 
-                "major": 116, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 11
-            }, 
-            {
-                "path": "/dev/snd/controlC0", 
-                "major": 116, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 14
-            }, 
-            {
-                "path": "/dev/snd/pcmC0D0c", 
-                "major": 116, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 3
-            }, 
-            {
-                "path": "/dev/snd/pcmC0D1c", 
-                "major": 116, 
+                "path": "/dev/snd/controlC0",
+                "major": 116,
                 "type": "c",
                 "access": "rw",
-                "minor": 5
-            }, 
+                "minor": 26
+            },
             {
-                "path": "/dev/snd/pcmC0D2c", 
-                "major": 116, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 6
-            }, 
-            {
-                "path": "/dev/snd/pcmC0D3c", 
-                "major": 116, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 7
-            }, 
-            {
-                "path": "/dev/snd/pcmC0D4c", 
-                "major": 116, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 8
-            }, 
-            {
-                "path": "/dev/snd/pcmC0D5c", 
-                "major": 116, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 9
-            }, 
-            {
-                "path": "/dev/snd/pcmC0D6c", 
-                "major": 116, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 0
-            }, 
-            {
-                "path": "/dev/snd/timer", 
-                "major": 116, 
-                "type": "c", 
-                "access": "rw",
-                "minor": 33
-            }, 
-            {
-                "path": "/dev/shm/sem.localstore", 
-                "major": 0, 
-                "type": "c", 
+                "path": "/dev/snd/hwC0D0",
+                "major": 116,
+                "type": "c",
                 "access": "rw",
                 "minor": 16
+            },
+            {
+                "path": "/dev/snd/hwC0D1",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 17
+            },
+            {
+                "path": "/dev/snd/hwC0D2",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 18
+            },
+            {
+                "path": "/dev/snd/hwC0D3",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 19
+            },
+            {
+                "path": "/dev/snd/hwC0D4",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 20
+            },
+            {
+                "path": "/dev/snd/hwC0D5",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 21
+            },
+            {
+                "path": "/dev/snd/hwC0D6",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 22
+            },
+            {
+                "path": "/dev/snd/hwC0D7",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 23
+            },
+            {
+                "path": "/dev/snd/hwC0D8",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 24
+            },
+            {
+                "path": "/dev/snd/hwC0D9",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 25
+            },
+            {
+                "path": "/dev/snd/pcmC0D0c",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 3
+            },
+            {
+                "path": "/dev/snd/pcmC0D0p",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 2
+            },
+            {
+                "path": "/dev/snd/pcmC0D1c",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 5
+            },
+            {
+                "path": "/dev/snd/pcmC0D1p",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 4
+            },
+            {
+                "path": "/dev/snd/pcmC0D2c",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 7
+            },
+            {
+                "path": "/dev/snd/pcmC0D2p",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 6
+            },
+            {
+                "path": "/dev/snd/pcmC0D3c",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 9
+            },
+            {
+                "path": "/dev/snd/pcmC0D3p",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 8
+            },
+            {
+                "path": "/dev/snd/pcmC0D4c",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 10
+            },
+            {
+                "path": "/dev/snd/pcmC0D5c",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 11
+            },
+            {
+                "path": "/dev/snd/pcmC0D6c",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 12
+            },
+            {
+                "path": "/dev/snd/pcmC0D7c",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 13
+            },
+            {
+                "path": "/dev/snd/pcmC0D8c",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 14
+            },
+            {
+                "path": "/dev/snd/pcmC0D9c",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 15
+            },
+            {
+                "path": "/dev/snd/timer",
+                "major": 116,
+                "type": "c",
+                "access": "rw",
+                "minor": 33
+            },
+            {
+                "path": "/dev/dma_heap/ao_u1p5_non-ve_secure6",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 5
+            },
+            {
+                "path": "/dev/dma_heap/audio_u1p5_non-ve_secure1",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 8
+            },
+            {
+                "path": "/dev/dma_heap/linux,default_cma",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 14
+            },
+            {
+                "path": "/dev/dma_heap/metadata_non-sc-ve_secure7",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 11
+            },
+            {
+                "path": "/dev/dma_heap/ota_u1p5_non-ve_secure8",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 0
+            },
+            {
+                "path": "/dev/dma_heap/ota_u1p5_non-ve_secure8_uncached",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 1
+            },
+            {
+                "path": "/dev/dma_heap/system",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 12
+            },
+            {
+                "path": "/dev/dma_heap/system-uncached",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 13
+            },
+            {
+                "path": "/dev/dma_heap/tp_non-vc-ac-ve_secure2",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 2
+            },
+            {
+                "path": "/dev/dma_heap/video_u1p5_non-ve_secure5",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 6
+            },
+            {
+                "path": "/dev/dma_heap/video_u1p5_non-ve_secure5_uncached",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 7
+            },
+            {
+                "path": "/dev/dma_heap/vo_non-vc-ac-ve",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 9
+            },
+            {
+                "path": "/dev/dma_heap/vo_non-vc-ac-ve_uncached",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 10
+            },
+            {
+                "path": "/dev/dma_heap/vo_non-ve",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 3
+            },
+            {
+                "path": "/dev/dma_heap/vo_non-ve_uncached",
+                "major": 248,
+                "type": "c",
+                "access": "rw",
+                "minor": 4
             }
         ],
         "gfxLibs": [
