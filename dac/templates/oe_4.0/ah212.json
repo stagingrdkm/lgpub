@@ -139,7 +139,7 @@
                 "minor": 0,
                 "access": "rw",
                 "dynamic": true
-             }
+            }
         ],
         "gfxLibs": [
             {
