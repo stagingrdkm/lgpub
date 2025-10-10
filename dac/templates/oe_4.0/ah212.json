@@ -124,7 +124,7 @@
                 "access": "rw",
                 "dynamic": true
             },
-	    {
+	        {
                 "type": "c",
                 "path": "/dev/dma_heap/system-uncached",
                 "major": 248,
