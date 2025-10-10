@@ -123,6 +123,22 @@
                 "minor": 127,
                 "access": "rw",
                 "dynamic": true
+            },
+	        {
+                "type": "c",
+                "path": "/dev/dma_heap/system-uncached",
+                "major": 248,
+                "minor": 6,
+                "access": "rw",
+                "dynamic": true
+            },
+            {
+                "type": "c",
+                "path": "/dev/dma_heap/heap-gfx",
+                "major": 248,
+                "minor": 0,
+                "access": "rw",
+                "dynamic": true
             }
         ],
         "gfxLibs": [
